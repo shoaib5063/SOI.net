@@ -1,4 +1,4 @@
-﻿@page "/"
+@page "/"
 @inject AppStateService AppState
 
 <PageTitle>Stories of Inclusion | Making Education Accessible for Every Child</PageTitle>
@@ -30,14 +30,52 @@
           <p>Primary Grade Levels</p>
         </div>
         <div class="stat-item">
-          <h3>BRAC 2025</h3>
-          <p>National Changemaker Award</p>
+          <h3>BRAC 2026</h3>
+          <p>National Fellowship Winner</p>
         </div>
       </div>
     </div>
 
     <div class="hero-media-card">
-      <img src="./assets/images/hero.jpg" alt="An inclusive classroom in Bangladesh with happy primary students" class="hero-img" />
+      <img src="./assets/images/hero-team.jpg?v=2" alt="Stories of Inclusion team and school students" class="hero-img" />
+    </div>
+  </div>
+</section>
+
+<!-- Our Team Section (The Changemakers - Directly below Hero Banner) -->
+<section class="section-pad team-section-landing" aria-labelledby="landing-team-heading">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-label">@(AppState.CurrentLanguage == "bn" ? "আমাদের নিবেদিত দল" : "The Changemakers")</span>
+      <h2 id="landing-team-heading" class="section-title">@(AppState.CurrentLanguage == "bn" ? "আমাদের মূল দল" : "Meet the Team Behind the Mission")</h2>
+      <p class="section-desc">
+        @(AppState.CurrentLanguage == "bn"
+          ? "তরুণ স্বপ্নদ্রষ্টা, শিক্ষাবিদ এবং সক্রিয় কর্মীদের একটি দল যারা বাংলাদেশে সবার জন্য অন্তর্ভুক্তিমূলক ও আনন্দময় শিক্ষা নিশ্চিত করতে কাজ করছেন।"
+          : "Young innovators, educators, and changemakers working tirelessly to build inclusive learning spaces and accessible education across Bangladesh.")
+      </p>
+    </div>
+
+    <div class="team-grid">
+      @foreach (var member in FeaturedTeamMembers)
+      {
+        <article class="team-card">
+          <div class="team-avatar-badge" aria-hidden="true">@member.Initials</div>
+          <div class="team-info">
+            <h4>@member.Name</h4>
+            <p>@member.Role</p>
+            <small style="color:var(--text-muted); line-height:1.5; display:block; margin-top:4px;">@member.Bio</small>
+          </div>
+        </article>
+      }
+    </div>
+
+    <div style="text-align:center; margin-top:36px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+      <NavLink href="team" class="btn btn-outline-primary">
+        @(AppState.CurrentLanguage == "bn" ? "সকল সদস্যদের প্রোফাইল ও বিস্তারিত দেখুন →" : "View Full Team & Executive Board →")
+      </NavLink>
+      <NavLink href="contact" class="btn btn-primary">
+        @(AppState.CurrentLanguage == "bn" ? "আমাদের সাথে যুক্ত হোন" : "Join Our Volunteer Team")
+      </NavLink>
     </div>
   </div>
 </section>
@@ -214,13 +252,13 @@
   </div>
 </section>
 
-<!-- Recognition Section (BRAC 2025) -->
+<!-- Recognition Section (BRAC 2026) -->
 <section class="section-pad award-section">
   <div class="container award-grid">
     <div class="award-content">
-      <span class="badge-winner">Winner: Amra Notun Young Changemakers' Award 2025</span>
+      <span class="badge-winner">Winner: BRAC Amra Notun Young Social Entrepreneurs' Fellowship 2026</span>
       <h2 class="award-title">Recognized for National Impact</h2>
-      <p class="award-by">Conferred by BRAC Carnival of Change</p>
+      <p class="award-by">Conferred by BRAC Bangladesh</p>
       <p style="color:#CBD5E1; font-size:1.15rem; line-height:1.7; margin-bottom:24px;">
         Awarded to Stories of Inclusion in recognition of our pioneering work in creating accessible audiobooks and advocating for children with disabilities across Bangladesh.
       </p>
@@ -228,9 +266,10 @@
     </div>
 
     <div class="award-img-wrap">
-      <img src="./assets/images/award.jpg" alt="Team Stories of Inclusion receiving the award from BRAC" class="award-img" />
+      <img src="./assets/images/award-fellowship.jpg?v=2" alt="Team Stories of Inclusion receiving the BRAC Amra Notun Young Social Entrepreneurs Fellowship 2026 Award" class="award-img" />
     </div>
   </div>
 </section>
+
 
 

@@ -1,4 +1,4 @@
-﻿namespace StoriesOfInclusion.Services
+namespace StoriesOfInclusion.Services
 {
     public enum AppRole
     {
@@ -114,6 +114,7 @@
                 "navAudiobooks" => isBn ? "অডিওবুক" : "Audiobooks",
                 "navAwards" => isBn ? "স্বীকৃতি" : "Recognition",
                 "navTeam" => isBn ? "আমাদের দল" : "Our Team",
+                "navStore" => isBn ? "স্টোর" : "Store",
                 "navJoin" => isBn ? "যুক্ত হোন" : "Join Us",
                 "skipLink" => isBn ? "মূল কন্টেন্টে সরাসরি যান" : "Skip to main content",
                 "a11yBarTitle" => isBn ? "অ্যাক্সেসিবিলিটি টুলবার" : "Accessibility Toolbar",
@@ -125,6 +126,9 @@
                 "heroSubtitle" => isBn ? "দৃষ্টিপ্রতিবন্ধী ও বিশেষ চাহিদাসম্পন্ন শিশুদের জন্য বাংলাদেশের প্রথম বিনামূল্যে প্রাথমিক শিক্ষামূলক অডিওবুক এবং অন্তর্ভুক্তিমূলক শিক্ষণ প্ল্যাটফর্ম।" : "Pioneering Bangladesh's first free, accessible audiobook and inclusive learning platform for primary students with disabilities and diverse learning needs.",
                 "heroCtaPrimary" => isBn ? "অডিওবুক শুনুন" : "Explore Audiobooks",
                 "heroCtaSecondary" => isBn ? "আমাদের সাথে যুক্ত হোন" : "Support Our Mission",
+                "homeBreadcrumb" => isBn ? "নীড়পাতা" : "Home",
+                "storeHeroTitle" => isBn ? "ইনক্লুসিভ এডুকেশন স্টোর" : "Stories of Inclusion Store",
+                "storeHeroDesc" => isBn ? "বই, স্পর্শমূলক শিক্ষণ কিট ও সচেতনতামূলক সামগ্রী। প্রতিটি ক্রয়ের ১০০% অর্থ সরাসরি ব্যয় হয় সুবিধাবঞ্চিত ও প্রতিবন্ধী শিশুদের বিনামূল্যে অডিওবুক ও শিক্ষণ সহায়তায়।" : "Tactile books, sensory learning kits, and awareness merchandise. 100% of proceeds directly fund free audiobooks and school inclusion kits across Bangladesh.",
                 _ => key
             };
         }

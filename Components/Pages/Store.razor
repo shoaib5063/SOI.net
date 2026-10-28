@@ -1,0 +1,547 @@
+@page "/store"
+@inject AppStateService AppState
+
+<PageTitle>@(AppState.CurrentLanguage == "bn" ? "ইনক্লুসিভ স্টোর ও সামগ্রী | স্টোরিজ অফ ইনক্লুশন" : "Inclusive Store & Merchandise | Stories of Inclusion")</PageTitle>
+
+<!-- Hero Section -->
+<section class="page-hero" aria-labelledby="store-hero-title">
+  <div class="container">
+    <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+      <ol class="breadcrumb-list">
+        <li><NavLink href="">@AppState.T("homeBreadcrumb")</NavLink></li>
+        <li class="breadcrumb-separator" aria-hidden="true">/</li>
+        <li aria-current="page">@AppState.T("navStore")</li>
+      </ol>
+    </nav>
+    <div class="sdg-badge-wrap" style="margin-bottom:14px;">
+      <span aria-hidden="true">🛍️</span>
+      <span>@(AppState.CurrentLanguage == "bn" ? "সামাজিক উদ্যোগ • ১০০% অলাভজনক" : "Social Enterprise • 100% Non-Profit")</span>
+    </div>
+    <h1 id="store-hero-title" class="page-hero-title">@AppState.T("storeHeroTitle")</h1>
+    <p class="page-hero-desc">@AppState.T("storeHeroDesc")</p>
+  </div>
+</section>
+
+<!-- Impact Value Highlights -->
+<section class="store-highlights-bar">
+  <div class="container">
+    <div class="store-highlights-grid">
+      <div class="highlight-item">
+        <span class="highlight-icon" aria-hidden="true">🌱</span>
+        <div>
+          <h4>@(AppState.CurrentLanguage == "bn" ? "১০০% সামাজিক অনুদান" : "100% Social Reinvestment")</h4>
+          <p>@(AppState.CurrentLanguage == "bn" ? "লব্ধ অর্থ ব্যয় হয় শিশুদের বিনামূল্যে অডিওবুক রেকর্ডিং ও ব্রেইল কিট প্রদানে।" : "All proceeds fund free primary audiobooks and school inclusion kits.")</p>
+        </div>
+      </div>
+      <div class="highlight-item">
+        <span class="highlight-icon" aria-hidden="true">✋</span>
+        <div>
+          <h4>@(AppState.CurrentLanguage == "bn" ? "স্পর্শমূলক ও সমন্বিত নকশা" : "Tactile & Universal Design")</h4>
+          <p>@(AppState.CurrentLanguage == "bn" ? "ব্রেইল সংকেত, উঁচু রেখা এবং সহজ পাঠ্য হরফে তৈরি বিশেষ শিক্ষণ সামগ্রী।" : "Engineered with braille dots, embossed textures & high contrast.")</p>
+        </div>
+      </div>
+      <div class="highlight-item">
+        <span class="highlight-icon" aria-hidden="true">🚚</span>
+        <div>
+          <h4>@(AppState.CurrentLanguage == "bn" ? "সারা বাংলাদেশে ডেলিভারি" : "Nationwide Delivery (64 Districts)")</h4>
+          <p>@(AppState.CurrentLanguage == "bn" ? "ঢাকা ও জেলা শহরগুলোতে ক্যাশ অন ডেলিভারি এবং বিকাশ/নগদে সুবিধাজনক পেমেন্ট।" : "Cash on delivery, bKash & secure shipping across all Bangladesh.")</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Store Catalog Section -->
+<section class="section-pad store-catalog-section">
+  <div class="container">
+
+    <!-- Store Controls: Filter Pills, Search Bar, Sort & Cart Trigger -->
+    <div class="store-toolbar-card">
+      
+      <!-- Category Pills -->
+      <div class="category-pills" role="tablist" aria-label="Product Categories">
+        <button type="button" 
+                class="category-pill-btn @(SelectedCategory == "all" ? "active" : "")" 
+                @onclick="@(() => SelectedCategory = "all")">
+          <span>@(AppState.CurrentLanguage == "bn" ? "সকল সামগ্রী" : "All Items")</span>
+          <span class="pill-count">@Products.Count</span>
+        </button>
+        <button type="button" 
+                class="category-pill-btn @(SelectedCategory == "books" ? "active" : "")" 
+                @onclick="@(() => SelectedCategory = "books")">
+          <span aria-hidden="true">📖</span>
+          <span>@(AppState.CurrentLanguage == "bn" ? "বই ও ব্রেইল" : "Books & Braille")</span>
+        </button>
+        <button type="button" 
+                class="category-pill-btn @(SelectedCategory == "kits" ? "active" : "")" 
+                @onclick="@(() => SelectedCategory = "kits")">
+          <span aria-hidden="true">🧩</span>
+          <span>@(AppState.CurrentLanguage == "bn" ? "শিখন কিট" : "Learning Kits")</span>
+        </button>
+        <button type="button" 
+                class="category-pill-btn @(SelectedCategory == "merch" ? "active" : "")" 
+                @onclick="@(() => SelectedCategory = "merch")">
+          <span aria-hidden="true">👕</span>
+          <span>@(AppState.CurrentLanguage == "bn" ? "সচেতনতামূলক মার্চেন্ডাইজ" : "Awareness Merch")</span>
+        </button>
+        <button type="button" 
+                class="category-pill-btn @(SelectedCategory == "sponsor" ? "active" : "")" 
+                @onclick="@(() => SelectedCategory = "sponsor")">
+          <span aria-hidden="true">🎓</span>
+          <span>@(AppState.CurrentLanguage == "bn" ? "শিক্ষার্থী স্পন্সর" : "Sponsor a Student")</span>
+        </button>
+      </div>
+
+      <!-- Action Row: Search, Sort, Cart Status -->
+      <div class="store-action-row">
+        <!-- Search Input -->
+        <div class="store-search-wrap">
+          <span class="search-icon" aria-hidden="true">🔍</span>
+          <input type="search" 
+                 class="store-search-input" 
+                 placeholder="@(AppState.CurrentLanguage == "bn" ? "পণ্য বা বই খুঁজুন..." : "Search products, kits, storybooks...")"
+                 @bind="SearchQuery" 
+                 @bind:event="oninput" 
+                 aria-label="Search Store Products" />
+          @if (!string.IsNullOrEmpty(SearchQuery))
+          {
+            <button type="button" class="search-clear-btn" @onclick="@(() => SearchQuery = string.Empty)" aria-label="Clear search">✕</button>
+          }
+        </div>
+
+        <!-- Sort Select -->
+        <div class="store-sort-wrap">
+          <label for="store-sort-select" class="sr-only">Sort By</label>
+          <select id="store-sort-select" class="store-sort-select" @bind="SortOption">
+            <option value="featured">@(AppState.CurrentLanguage == "bn" ? "জনপ্রিয় / প্রস্তাবিত" : "Sort: Featured")</option>
+            <option value="price-low">@(AppState.CurrentLanguage == "bn" ? "দাম: কম থেকে বেশি" : "Price: Low to High")</option>
+            <option value="price-high">@(AppState.CurrentLanguage == "bn" ? "দাম: বেশি থেকে কম" : "Price: High to Low")</option>
+          </select>
+        </div>
+
+        <!-- Cart Quick Pill Button -->
+        <button type="button" 
+                class="store-cart-trigger-btn @(CartTotalCount > 0 ? "has-items" : "")" 
+                @onclick="ToggleCart" 
+                aria-label="View Shopping Bag (@CartTotalCount items)">
+          <span class="cart-icon" aria-hidden="true">🛍️</span>
+          <span class="cart-label">@(AppState.CurrentLanguage == "bn" ? "ব্যাগ" : "Bag")</span>
+          <span class="cart-badge-count">@CartTotalCount</span>
+          @if (CartTotalCount > 0)
+          {
+            <span class="cart-subtotal-peek">৳@CartSubtotal</span>
+          }
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Product Grid -->
+    <div class="store-products-grid">
+      @if (!FilteredProducts.Any())
+      {
+        <div class="store-empty-state">
+          <div style="font-size:3.5rem; margin-bottom:14px;" aria-hidden="true">🔍</div>
+          <h3>@(AppState.CurrentLanguage == "bn" ? "কোন পণ্য পাওয়া যায়নি" : "No Matching Products Found")</h3>
+          <p style="color:var(--text-muted); margin-bottom:18px;">
+            @(AppState.CurrentLanguage == "bn" ? "অন্য কোনো শব্দ দিয়ে সার্চ করে দেখুন বা ফিল্টার রিসেট করুন।" : "Try adjusting your search query or reset the category filters.")
+          </p>
+          <button type="button" class="btn btn-outline-primary" @onclick="@(() => { SelectedCategory = "all"; SearchQuery = string.Empty; })">
+            @(AppState.CurrentLanguage == "bn" ? "সকল পণ্য দেখুন" : "View All Items")
+          </button>
+        </div>
+      }
+      else
+      {
+        @foreach (var product in FilteredProducts)
+        {
+          <article class="store-product-card">
+            
+            <!-- Card Thumbnail with Gradient & Category Badge -->
+            <div class="product-visual-head" style="background:@product.ImageGradient;">
+              <span class="product-badge">
+                @(AppState.CurrentLanguage == "bn" ? product.BadgeTextBn : product.BadgeTextEn)
+              </span>
+              <div class="product-icon-display" aria-hidden="true">
+                @product.IconEmoji
+              </div>
+            </div>
+
+            <!-- Card Content -->
+            <div class="product-body">
+              <span class="product-category-tag">
+                @(AppState.CurrentLanguage == "bn" ? product.CategoryLabelBn : product.CategoryLabelEn)
+              </span>
+
+              <h3 class="product-title">
+                @(AppState.CurrentLanguage == "bn" ? product.TitleBn : product.TitleEn)
+              </h3>
+
+              <p class="product-desc">
+                @(AppState.CurrentLanguage == "bn" ? product.DescriptionBn : product.DescriptionEn)
+              </p>
+
+              <!-- Social Impact Note -->
+              <div class="product-impact-badge">
+                <span class="impact-star" aria-hidden="true">✨</span>
+                <span>@(AppState.CurrentLanguage == "bn" ? product.ImpactNoteBn : product.ImpactNoteEn)</span>
+              </div>
+
+              <!-- Price & Action Cluster -->
+              <div class="product-footer">
+                <div class="product-pricing">
+                  <span class="price-bdt">৳@product.PriceBdt</span>
+                  <span class="price-usd">~$@product.PriceUsd USD</span>
+                </div>
+
+                <div class="product-card-actions">
+                  <button type="button" 
+                          class="btn-product-quick" 
+                          @onclick="() => OpenQuickView(product)" 
+                          title="Quick view product specifications" 
+                          aria-label="Quick view details for @(AppState.CurrentLanguage == "bn" ? product.TitleBn : product.TitleEn)">
+                    <span aria-hidden="true">👁️</span>
+                  </button>
+
+                  <button type="button" 
+                          class="btn btn-primary btn-add-cart" 
+                          @onclick="() => AddToCart(product)"
+                          aria-label="Add @(AppState.CurrentLanguage == "bn" ? product.TitleBn : product.TitleEn) to Bag">
+                    <span aria-hidden="true">＋</span>
+                    <span>@(AppState.CurrentLanguage == "bn" ? "অর্ডার করুন" : "Add to Bag")</span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+          </article>
+        }
+      }
+    </div>
+
+  </div>
+</section>
+
+<!-- Impact & Mission Transparency Section -->
+<section class="section-pad store-impact-section">
+  <div class="container">
+    <div class="section-head text-center">
+      <span class="section-label">@(AppState.CurrentLanguage == "bn" ? "স্বচ্ছতা ও টেকসই লক্ষ্য" : "Transparency & Direct Impact")</span>
+      <h2 class="section-title">@(AppState.CurrentLanguage == "bn" ? "আপনার ক্রয়ের অর্থ কীভাবে শিক্ষা নিশ্চিত করে?" : "How Your Purchase Changes Lives")</h2>
+      <p class="section-desc" style="max-width:720px; margin:0 auto;">
+        @(AppState.CurrentLanguage == "bn"
+          ? "স্টোরিজ অফ ইনক্লুশন একটি জাতীয় পুরস্কারপ্রাপ্ত অলাভজনক উদ্যোগ। বাণিজ্যিক মুনাফার পরিবর্তে প্রতিটি সামগ্রী সরাসরি একটি শিশুর শিক্ষার অধিকার প্রতিষ্ঠা করে।"
+          : "Stories of Inclusion is a BRAC-recognized non-profit social initiative. Rather than corporate profit, every taka directly manufactures inclusive tools for underprivileged students.")
+      </p>
+    </div>
+
+    <div class="store-impact-calc-grid">
+      <div class="impact-calc-card">
+        <div class="calc-number">৳৪৫০</div>
+        <h4>@(AppState.CurrentLanguage == "bn" ? "১টি স্পর্শ গল্পবই" : "1 Tactile Storybook")</h4>
+        <p>@(AppState.CurrentLanguage == "bn" ? "দৃষ্টিপ্রতিবন্ধী ও ডিসলেক্সিক শিশুর জন্য আঙুল দিয়ে অনুভবের প্রথম পাঠ নিশ্চিত করে।" : "Guarantees sensory-based tactile reading for a blind or dyslexic child in primary school.")</p>
+      </div>
+
+      <div class="impact-calc-card">
+        <div class="calc-number">৳৬৫০</div>
+        <h4>@(AppState.CurrentLanguage == "bn" ? "১টি অফলাইন অডিও পেনড্রাইভ" : "1 Offline Audio USB Kit")</h4>
+        <p>@(AppState.CurrentLanguage == "bn" ? "প্রত্যন্ত এলাকার শিশুকে ইন্টারনেট ছাড়াই সম্পূর্ণ প্রাথমিক পাঠ্যক্রম শোনার সুযোগ দেয়।" : "Empowers off-grid children to listen to 60+ curated lessons without requiring internet connectivity.")</p>
+      </div>
+
+      <div class="impact-calc-card">
+        <div class="calc-number">৳১,২০০</div>
+        <h4>@(AppState.CurrentLanguage == "bn" ? "পূর্ণ বার্ষিক স্কুল কিট স্পন্সর" : "Full Annual School Sponsorship")</h4>
+        <p>@(AppState.CurrentLanguage == "bn" ? "একজন শিশুর জন্য বই, ব্রেইল স্লেট ও অডিও সামগ্রী বিতরণ এবং অগ্রগতি রিপোর্ট প্রদান।" : "Directly hands a complete accessible kit to an underprivileged student with full tracking reports.")</p>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:36px;">
+      <NavLink href="contact" class="btn btn-outline-primary">
+        @(AppState.CurrentLanguage == "bn" ? "প্রাতিষ্ঠানিক বা বাল্ক অর্ডারের জন্য যোগাযোগ করুন →" : "Contact for Institutional or School Bulk Orders →")
+      </NavLink>
+    </div>
+  </div>
+</section>
+
+<!-- Frequently Asked Questions -->
+<section class="section-pad store-faq-section">
+  <div class="container" style="max-width:840px;">
+    <div class="section-head text-center">
+      <span class="section-label">FAQ</span>
+      <h2 class="section-title">@(AppState.CurrentLanguage == "bn" ? "ডেলিভারি ও অর্ডার সংক্রান্ত তথ্যাদি" : "Orders, Delivery & Accessibility FAQs")</h2>
+    </div>
+
+    <div class="faq-list">
+      <article class="faq-item">
+        <h3>@(AppState.CurrentLanguage == "bn" ? "১. ডেলিভারি কতদিনের মধ্যে পৌঁছাবে?" : "1. How long does nationwide delivery take?")</h3>
+        <p>@(AppState.CurrentLanguage == "bn" ? "ঢাকার ভেতরে সাধারণত ২৪ থেকে ৪৮ ঘণ্টার মধ্যে এবং ঢাকার বাইরে সারা বাংলাদেশে ৩ থেকে ৫ কার্যদিবসের মধ্যে কুরিয়ার সার্ভিসের মাধ্যমে ডেলিভারি করা হয়।" : "Inside Dhaka, orders arrive within 24 to 48 hours. For all other districts in Bangladesh, delivery takes 3 to 5 business days via standard reliable couriers.")</p>
+      </article>
+
+      <article class="faq-item">
+        <h3>@(AppState.CurrentLanguage == "bn" ? "২. কী কী পেমেন্ট পদ্ধতি গ্রহণ করা হয়?" : "2. Which payment methods are accepted?")</h3>
+        <p>@(AppState.CurrentLanguage == "bn" ? "আমরা বিকাশ, নগদ, রকেট, ব্যাংক ট্রান্সফার এবং সারা বাংলাদেশে ক্যাশ অন ডেলিভারি (সিওডি) গ্রহণ করি।" : "We accept bKash, Nagad, Rocket, Bank Transfer, as well as Cash on Delivery (COD) across all districts.")</p>
+      </article>
+
+      <article class="faq-item">
+        <h3>@(AppState.CurrentLanguage == "bn" ? "৩. স্কুল বা প্রতিষ্ঠানের জন্য কি বাল্ক অর্ডার করা যাবে?" : "3. Can schools or NGOs order in bulk?")</h3>
+        <p>@(AppState.CurrentLanguage == "bn" ? "হ্যাঁ, যেকোনো স্কুল, এনজিও বা সামাজিক প্রতিষ্ঠান অন্তর্ভুক্তিমূলক ক্যাম্পেইনের জন্য আমাদের সাথে সরাসরি যোগাযোগ করে বিশেষ বাল্ক ডিসকাউন্টে সামগ্রী সংগ্রহ করতে পারবেন।" : "Yes! We partner with schools, foundations, and CSR programs to deliver customized tactile kits and materials at non-profit discounted rates.")</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Quick View Modal -->
+@if (SelectedProductModal != null)
+{
+  <div class="store-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-product-title">
+    <div class="store-modal-card">
+      <div class="modal-header">
+        <div>
+          <span class="product-badge" style="display:inline-block; margin-bottom:6px;">
+            @(AppState.CurrentLanguage == "bn" ? SelectedProductModal.BadgeTextBn : SelectedProductModal.BadgeTextEn)
+          </span>
+          <h2 id="modal-product-title" class="modal-title">
+            @(AppState.CurrentLanguage == "bn" ? SelectedProductModal.TitleBn : SelectedProductModal.TitleEn)
+          </h2>
+        </div>
+        <button type="button" class="modal-close-btn" @onclick="CloseQuickView" aria-label="Close modal">×</button>
+      </div>
+
+      <div class="modal-product-preview" style="background:@SelectedProductModal.ImageGradient;">
+        <span style="font-size:4rem;" aria-hidden="true">@SelectedProductModal.IconEmoji</span>
+      </div>
+
+      <p style="font-size:1.05rem; line-height:1.7; margin-bottom:18px; color:var(--text-main);">
+        @(AppState.CurrentLanguage == "bn" ? SelectedProductModal.DescriptionBn : SelectedProductModal.DescriptionEn)
+      </p>
+
+      <h4 style="margin-bottom:10px; font-size:0.95rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--color-accent-teal);">
+        @(AppState.CurrentLanguage == "bn" ? "প্রধান বৈশিষ্ট্য ও অ্যাক্সেসিবিলিটি স্পেসিফিকেশন:" : "Key Features & Accessible Specifications:")
+      </h4>
+      <ul class="features-checklist">
+        @if (AppState.CurrentLanguage == "bn")
+        {
+          @foreach (var feat in SelectedProductModal.FeaturesBn)
+          {
+            <li><span aria-hidden="true">✓</span> @feat</li>
+          }
+        }
+        else
+        {
+          @foreach (var feat in SelectedProductModal.FeaturesEn)
+          {
+            <li><span aria-hidden="true">✓</span> @feat</li>
+          }
+        }
+      </ul>
+
+      <div class="modal-impact-callout">
+        <strong>✨ @(AppState.CurrentLanguage == "bn" ? "সামাজিক প্রভাব:" : "Direct Social Impact:")</strong>
+        <span>@(AppState.CurrentLanguage == "bn" ? SelectedProductModal.ImpactNoteBn : SelectedProductModal.ImpactNoteEn)</span>
+      </div>
+
+      <div class="modal-footer-row">
+        <div class="product-pricing">
+          <span class="price-bdt" style="font-size:1.5rem;">৳@SelectedProductModal.PriceBdt</span>
+          <span class="price-usd">~$@SelectedProductModal.PriceUsd USD</span>
+        </div>
+
+        <div style="display:flex; gap:10px;">
+          <button type="button" class="btn btn-outline-white" style="color:var(--color-navy-dark); border-color:var(--border-color);" @onclick="CloseQuickView">
+            @(AppState.CurrentLanguage == "bn" ? "বন্ধ করুন" : "Close")
+          </button>
+          <button type="button" class="btn btn-primary" @onclick="() => { AddToCart(SelectedProductModal); CloseQuickView(); }">
+            <span aria-hidden="true">🛍️</span>
+            <span>@(AppState.CurrentLanguage == "bn" ? "ব্যাগে যোগ করুন" : "Add to Bag")</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Cart & Order Drawer/Modal -->
+@if (IsCartOpen)
+{
+  <div class="store-cart-drawer-backdrop" @onclick="CloseCart" role="dialog" aria-modal="true" aria-labelledby="cart-drawer-title">
+    <div class="store-cart-drawer" @onclick:stopPropagation>
+      
+      <!-- Drawer Header -->
+      <div class="cart-drawer-header">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span style="font-size:1.4rem;" aria-hidden="true">🛍️</span>
+          <h2 id="cart-drawer-title" style="margin:0; font-size:1.25rem;">
+            @(AppState.CurrentLanguage == "bn" ? "আপনার শপিং ব্যাগ" : "Your Shopping Bag")
+          </h2>
+          <span class="cart-badge-count">@CartTotalCount</span>
+        </div>
+        <button type="button" class="modal-close-btn" @onclick="CloseCart" aria-label="Close cart">×</button>
+      </div>
+
+      <!-- Drawer Content -->
+      <div class="cart-drawer-body">
+        
+        @if (IsOrderSubmitted && CompletedOrder != null)
+        {
+          <!-- Order Confirmation Screen -->
+          <div class="order-success-card">
+            <div style="font-size:3.5rem; margin-bottom:12px;" aria-hidden="true">🎉</div>
+            <h3 style="color:var(--color-success); font-size:1.35rem; margin-bottom:8px;">
+              @(AppState.CurrentLanguage == "bn" ? "অর্ডারটি সফলভাবে জমা হয়েছে!" : "Order Submitted Successfully!")
+            </h3>
+            <p style="color:var(--text-muted); line-height:1.6; margin-bottom:16px;">
+              @(AppState.CurrentLanguage == "bn" 
+                ? $"ধন্যবাদ {CompletedOrder.FullName}! আপনার ট্র্যাকিং আইডি #{CompletedOrder.OrderId}। শীঘ্রই আমাদের প্রতিনিধি আপনার {CompletedOrder.Phone} নম্বরে ফোন বা হোয়াটসঅ্যাপে নিশ্চিত করবেন।" 
+                : $"Thank you, {CompletedOrder.FullName}! Your order tracking ID is #{CompletedOrder.OrderId}. Our representative will contact {CompletedOrder.Phone} via call/WhatsApp to confirm dispatch.")
+            </p>
+
+            <div class="order-summary-box">
+              <div class="summary-line">
+                <span>@(AppState.CurrentLanguage == "bn" ? "মোট আইটেম:" : "Items Total:")</span>
+                <strong>@CompletedOrder.Items.Sum(i => i.Quantity)</strong>
+              </div>
+              <div class="summary-line">
+                <span>@(AppState.CurrentLanguage == "bn" ? "ডেলিভারি ফি:" : "Delivery Courier Fee:")</span>
+                <strong>৳@CompletedOrder.DeliveryFee</strong>
+              </div>
+              <div class="summary-line total">
+                <span>@(AppState.CurrentLanguage == "bn" ? "সর্বমোট প্রদেয়:" : "Grand Total:")</span>
+                <strong style="color:var(--color-accent-teal);">৳@CompletedOrder.GrandTotal</strong>
+              </div>
+            </div>
+
+            <div style="margin-top:20px; display:flex; gap:10px; flex-direction:column;">
+              <button type="button" class="btn btn-primary" @onclick="ResetOrder">
+                @(AppState.CurrentLanguage == "bn" ? "আরও সামগ্রী দেখুন" : "Continue Shopping")
+              </button>
+            </div>
+          </div>
+        }
+        else if (!Cart.Any())
+        {
+          <!-- Empty Cart State -->
+          <div class="empty-cart-view">
+            <div style="font-size:3.5rem; margin-bottom:12px;" aria-hidden="true">🛒</div>
+            <h3>@(AppState.CurrentLanguage == "bn" ? "আপনার ব্যাগ বর্তমানে খালি" : "Your Shopping Bag is Empty")</h3>
+            <p style="color:var(--text-muted); margin-bottom:20px;">
+              @(AppState.CurrentLanguage == "bn" ? "আমাদের অন্তর্ভুক্তিমূলক বই বা মার্চেন্ডাইজ ব্যাগে যোগ করে অর্ডার সম্পন্ন করুন।" : "Explore our inclusive storybooks, braille kits, or awareness merchandise to get started.")
+            </p>
+            <button type="button" class="btn btn-primary" @onclick="CloseCart">
+              @(AppState.CurrentLanguage == "bn" ? "সামগ্রী দেখুন" : "Browse Products")
+            </button>
+          </div>
+        }
+        else
+        {
+          <!-- Cart Items List -->
+          <div class="cart-items-list">
+            @foreach (var item in Cart)
+            {
+              <div class="cart-item-row">
+                <div class="cart-item-avatar" style="background:@item.Product.ImageGradient;">
+                  <span aria-hidden="true">@item.Product.IconEmoji</span>
+                </div>
+                <div class="cart-item-info">
+                  <h4>@(AppState.CurrentLanguage == "bn" ? item.Product.TitleBn : item.Product.TitleEn)</h4>
+                  <div class="cart-item-price">৳@item.Product.PriceBdt each</div>
+                  
+                  <div class="cart-qty-controls">
+                    <button type="button" class="qty-btn" @onclick="() => UpdateQuantity(item.Product.Id, -1)" aria-label="Decrease quantity">-</button>
+                    <span class="qty-display">@item.Quantity</span>
+                    <button type="button" class="qty-btn" @onclick="() => UpdateQuantity(item.Product.Id, 1)" aria-label="Increase quantity">+</button>
+                    <button type="button" class="remove-btn" @onclick="() => RemoveFromCart(item.Product.Id)" aria-label="Remove item">
+                      <span aria-hidden="true">🗑️</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="cart-item-subtotal">
+                  ৳@item.SubtotalBdt
+                </div>
+              </div>
+            }
+          </div>
+
+          <!-- Checkout Form -->
+          <div class="checkout-form-card">
+            <h3 style="font-size:1.15rem; margin-bottom:14px; border-bottom:1px solid var(--border-color); padding-bottom:8px;">
+              @(AppState.CurrentLanguage == "bn" ? "ডেলিভারি ও অর্ডার তথ্য" : "Delivery & Contact Details")
+            </h3>
+
+            <div class="form-group" style="margin-bottom:12px;">
+              <label for="order-fullname">@(AppState.CurrentLanguage == "bn" ? "আপনার পূর্ণ নাম *" : "Full Name *")</label>
+              <input type="text" id="order-fullname" class="form-control" @bind="OrderForm.FullName" placeholder="e.g. Tanvir Ahmed" required />
+            </div>
+
+            <div class="form-group" style="margin-bottom:12px;">
+              <label for="order-phone">@(AppState.CurrentLanguage == "bn" ? "মোবাইল নম্বর (বিকাশ / হোয়াটসঅ্যাপ) *" : "Phone / WhatsApp (bKash/Nagad) *")</label>
+              <input type="tel" id="order-phone" class="form-control" @bind="OrderForm.Phone" placeholder="017xxxxxxxx" required />
+            </div>
+
+            <div class="form-group" style="margin-bottom:12px;">
+              <label for="order-city">@(AppState.CurrentLanguage == "bn" ? "জেলা / শহর" : "Delivery City / District")</label>
+              <select id="order-city" class="form-control" @bind="OrderForm.City">
+                <option value="Dhaka">Dhaka (ঢাকা - ৳60)</option>
+                <option value="Chittagong">Chittagong (চট্টগ্রাম - ৳120)</option>
+                <option value="Sylhet">Sylhet (সিলেট - ৳120)</option>
+                <option value="Rajshahi">Rajshahi (রাজশাহী - ৳120)</option>
+                <option value="Khulna">Khulna (খুলনা - ৳120)</option>
+                <option value="Barisal">Barisal (বরিশাল - ৳120)</option>
+                <option value="Rangpur">Rangpur (রংপুর - ৳120)</option>
+                <option value="Mymensingh">Mymensingh (ময়মনসিংহ - ৳120)</option>
+                <option value="Other">Other 64 Districts (অন্যান্য জেলা - ৳120)</option>
+              </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom:12px;">
+              <label for="order-address">@(AppState.CurrentLanguage == "bn" ? "বিস্তারিত ঠিকানা (বাসা/রোড/থানা)" : "Full Delivery Address (House/Road/Area)")</label>
+              <textarea id="order-address" class="form-control" rows="2" @bind="OrderForm.FullAddress" placeholder="e.g. House 12, Road 4, Dhanmondi, Dhaka"></textarea>
+            </div>
+
+            <div class="form-group" style="margin-bottom:14px;">
+              <label for="order-payment">@(AppState.CurrentLanguage == "bn" ? "পেমেন্ট মাধ্যম" : "Preferred Payment Method")</label>
+              <select id="order-payment" class="form-control" @bind="OrderForm.PaymentMethod">
+                <option value="CashOnDelivery">@(AppState.CurrentLanguage == "bn" ? "ক্যাশ অন ডেলিভারি (পণ্য পেয়ে মূল্য পরিশোধ)" : "Cash on Delivery (COD)")</option>
+                <option value="bKash">bKash (বিকাশ মার্চেন্ট / পার্সোনাল)</option>
+                <option value="Nagad">Nagad (নগদ)</option>
+                <option value="Bank">Bank Transfer (ব্যাংক ট্রান্সফার)</option>
+              </select>
+            </div>
+
+            <!-- Cost Summary Breakdown -->
+            <div class="cart-bill-summary">
+              <div class="bill-row">
+                <span>@(AppState.CurrentLanguage == "bn" ? "উপমোট (আইটেমসমূহ):" : "Subtotal:")</span>
+                <span>৳@CartSubtotal</span>
+              </div>
+              <div class="bill-row">
+                <span>@(AppState.CurrentLanguage == "bn" ? "কুরিয়ার ডেলিভারি ফি:" : "Courier Shipping:")</span>
+                <span>৳@DeliveryFee</span>
+              </div>
+              <div class="bill-row grand-total">
+                <span>@(AppState.CurrentLanguage == "bn" ? "সর্বমোট প্রদেয়:" : "Grand Total:")</span>
+                <span>৳@GrandTotal</span>
+              </div>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-submit-order" @onclick="SubmitOrder">
+              <span>@(AppState.CurrentLanguage == "bn" ? "অর্ডার নিশ্চিত করুন" : "Confirm & Place Order")</span>
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        }
+
+      </div>
+
+    </div>
+  </div>
+}
+
+<!-- Floating Notification Toast -->
+@if (!string.IsNullOrEmpty(ToastMessage))
+{
+  <div class="store-toast" role="status" aria-live="polite">
+    <span class="toast-check" aria-hidden="true">✓</span>
+    <span>@ToastMessage</span>
+  </div>
+}

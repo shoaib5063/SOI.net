@@ -1,4 +1,4 @@
-﻿@inject AppStateService AppState
+@inject AppStateService AppState
 
 <header class="site-header" role="banner">
   <div class="nav-container">
@@ -6,7 +6,7 @@
     <!-- Left: Brand Logo & Title -->
     <NavLink href="" class="brand" Match="NavLinkMatch.All">
       <div class="brand-logo-wrapper">
-        <img src="./assets/images/logo.png" alt="Stories of Inclusion" class="brand-logo-img" />
+        <img src="./assets/images/logo.png" alt="Stories of Inclusion" class="brand-logo-img" width="48" height="48" />
       </div>
       <div class="brand-text-block">
         <span class="brand-title">@AppState.T("brandName")</span>
@@ -45,6 +45,11 @@
         <li class="nav-item">
           <NavLink href="team" class="nav-link" @onclick="CloseMobileMenu">
             <span class="nav-link-text">@AppState.T("navTeam")</span>
+          </NavLink>
+        </li>
+        <li class="nav-item">
+          <NavLink href="store" class="nav-link" @onclick="CloseMobileMenu">
+            <span class="nav-link-text">@AppState.T("navStore")</span>
           </NavLink>
         </li>
       </ul>

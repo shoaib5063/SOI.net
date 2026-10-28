@@ -1,4 +1,4 @@
-﻿@inherits LayoutComponentBase
+@inherits LayoutComponentBase
 @inject AppStateService AppState
 
 <div data-theme="@AppState.Theme" style="font-size: @(AppState.FontScalePercent)%; min-height: 100vh; background-color: var(--bg-primary); color: var(--text-main);" class="@(AppState.IsDyslexicFont ? "dyslexic-font" : "") @(AppState.CurrentLanguage == "bn" ? "font-bengali" : "font-english")">
@@ -39,6 +39,7 @@
           <li><NavLink href="activities">@AppState.T("navActivities")</NavLink></li>
           <li><NavLink href="audiobooks">@AppState.T("navAudiobooks")</NavLink></li>
           <li><NavLink href="team">@AppState.T("navTeam")</NavLink></li>
+          <li><NavLink href="store">@AppState.T("navStore")</NavLink></li>
         </ul>
       </div>
 

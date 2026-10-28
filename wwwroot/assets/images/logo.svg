@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%" fill="none" role="img" aria-label="Stories of Inclusion Emblem">
+  <defs>
+    <!-- Vibrant Modern Gradients -->
+    <linearGradient id="soiBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B1938" />
+      <stop offset="100%" stop-color="#162850" />
+    </linearGradient>
+
+    <linearGradient id="soiTealGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2DD4BF" />
+      <stop offset="50%" stop-color="#14B8A6" />
+      <stop offset="100%" stop-color="#0D9488" />
+    </linearGradient>
+
+    <linearGradient id="soiGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE047" />
+      <stop offset="100%" stop-color="#F59E0B" />
+    </linearGradient>
+
+    <linearGradient id="soiCyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#0284C7" />
+    </linearGradient>
+
+    <filter id="soiGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#14B8A6" flood-opacity="0.35" />
+    </filter>
+  </defs>
+
+  <!-- Outer Protective Halo Circle -->
+  <circle cx="60" cy="60" r="58" fill="url(#soiBgGrad)" stroke="url(#soiTealGrad)" stroke-width="2.5" />
+  
+  <!-- Subtle Inner Ring -->
+  <circle cx="60" cy="60" r="52" stroke="rgba(255,255,255,0.12)" stroke-width="1.2" stroke-dasharray="3 3" />
+
+  <!-- Radiating Unity Arc of Helping Hands (Top Circle) -->
+  <g filter="url(#soiGlow)" opacity="0.95">
+    <!-- Center Top Hand Unity Arc -->
+    <path d="M 40 28 C 50 20, 70 20, 80 28" stroke="url(#soiTealGrad)" stroke-width="3" stroke-linecap="round" fill="none" />
+    <circle cx="60" cy="23" r="3.5" fill="url(#soiGoldGrad)" />
+    
+    <!-- Left Hand Branch -->
+    <path d="M 24 45 C 20 35, 28 26, 38 27" stroke="url(#soiCyanGrad)" stroke-width="2.5" stroke-linecap="round" fill="none" />
+    <circle cx="26" cy="33" r="3" fill="#38BDF8" />
+
+    <!-- Right Hand Branch -->
+    <path d="M 96 45 C 100 35, 92 26, 82 27" stroke="url(#soiCyanGrad)" stroke-width="2.5" stroke-linecap="round" fill="none" />
+    <circle cx="94" cy="33" r="3" fill="#38BDF8" />
+  </g>
+
+  <!-- Central Open Book of Accessible Stories (Knowledge & Braille) -->
+  <g id="soi-book">
+    <!-- Left Page -->
+    <path d="M 60 52 C 48 44, 34 47, 28 50 C 26 51, 26 69, 28 68 C 34 65, 48 62, 60 70 Z" 
+          fill="url(#soiTealGrad)" />
+    
+    <!-- Right Page -->
+    <path d="M 60 52 C 72 44, 86 47, 92 50 C 94 51, 94 69, 92 68 C 86 65, 72 62, 60 70 Z" 
+          fill="url(#soiCyanGrad)" />
+
+    <!-- Book Spine Glow Highlight -->
+    <path d="M 60 51 L 60 71" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" />
+
+    <!-- Audio / Braille Waves radiating from Book -->
+    <path d="M 46 42 Q 60 37 74 42" stroke="url(#soiGoldGrad)" stroke-width="2.2" stroke-linecap="round" fill="none" />
+    <circle cx="53" cy="40" r="1.5" fill="#FDE047" />
+    <circle cx="60" cy="38" r="1.8" fill="#FDE047" />
+    <circle cx="67" cy="40" r="1.5" fill="#FDE047" />
+  </g>
+
+  <!-- Diversity & Inclusion People Figures (Bottom Base Arc) -->
+  <g id="soi-figures">
+    <!-- Left Child Figure (Empathy & Learning) -->
+    <circle cx="43" cy="80" r="3.5" fill="#FFFFFF" />
+    <path d="M 43 85 C 38 85, 36 91, 36 98 L 50 98 C 50 91, 48 85, 43 85 Z" fill="#94A3B8" />
+
+    <!-- Center Figure: Reaching for Stars / Disability Inclusion (Guide Cane / Support) -->
+    <circle cx="60" cy="76" r="4.2" fill="url(#soiGoldGrad)" />
+    <!-- Raised Hand of Empowerment -->
+    <path d="M 60 82 C 54 82, 51 88, 51 98 L 69 98 C 69 88, 66 82, 60 82 Z" fill="#FFFFFF" />
+    <path d="M 64 83 Q 73 75 75 70" stroke="url(#soiGoldGrad)" stroke-width="2.2" stroke-linecap="round" />
+
+    <!-- Right Figure: Inclusive Wheelchair User -->
+    <circle cx="77" cy="80" r="3.5" fill="url(#soiTealGrad)" />
+    <!-- Wheelchair Wheel Circle -->
+    <circle cx="77" cy="91" r="5.5" stroke="url(#soiTealGrad)" stroke-width="2" fill="none" />
+    <path d="M 75 85 L 75 92 L 81 92" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+
+  <!-- Supporting Golden Holding Hands Base -->
+  <path d="M 32 99 C 45 106, 75 106, 88 99" stroke="url(#soiGoldGrad)" stroke-width="2.5" stroke-linecap="round" fill="none" />
+</svg>
