@@ -1,0 +1,236 @@
+﻿@page "/"
+@inject AppStateService AppState
+
+<PageTitle>Stories of Inclusion | Making Education Accessible for Every Child</PageTitle>
+
+<!-- Hero Section -->
+<section class="hero-section" aria-labelledby="hero-heading">
+  <div class="container hero-grid">
+    <div class="hero-content">
+      <div class="sdg-badge-wrap">
+        <span aria-hidden="true">🌍</span>
+        <span>@AppState.T("heroBadge")</span>
+      </div>
+      
+      <h1 id="hero-heading" class="hero-title">@AppState.T("heroTitle")</h1>
+      <p class="hero-subtitle">@AppState.T("heroSubtitle")</p>
+
+      <div class="hero-actions">
+        <NavLink href="audiobooks" class="btn btn-primary">@AppState.T("heroCtaPrimary")</NavLink>
+        <NavLink href="contact" class="btn btn-outline-white">@AppState.T("heroCtaSecondary")</NavLink>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-item">
+          <h3>1,700+</h3>
+          <p>Students Reached</p>
+        </div>
+        <div class="stat-item">
+          <h3>Class 1, 2, 4</h3>
+          <p>Primary Grade Levels</p>
+        </div>
+        <div class="stat-item">
+          <h3>BRAC 2025</h3>
+          <p>National Changemaker Award</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-media-card">
+      <img src="./assets/images/hero.jpg" alt="An inclusive classroom in Bangladesh with happy primary students" class="hero-img" />
+    </div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section class="section-pad">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-label">About Our Initiative</span>
+      <h2 class="section-title">Stories That Need to Be Heard</h2>
+      <p class="section-desc">
+        Stories of Inclusion was founded by young changemakers driven by a single purpose: ensuring that every child, regardless of ability, has access to quality education in an inclusive learning environment.
+      </p>
+    </div>
+
+    <div class="mission-vision-grid">
+      <article class="mv-card">
+        <h3>Our Vision</h3>
+        <p>A world where every person, regardless of ability, background, or identity, has equal opportunities to learn and grow in an inclusive education system and society.</p>
+      </article>
+
+      <article class="mv-card">
+        <h3>Our Mission</h3>
+        <p>To eliminate disparities in education (SDG 4.5), build inclusive learning environments (SDG 4.8), and empower marginalized groups (SDG 10.2) in Bangladesh by 2030.</p>
+      </article>
+    </div>
+
+    <div style="text-align:center; margin-top:32px;">
+      <NavLink href="about" class="btn btn-outline-primary">Read Full Origin Story & 6 Pillars →</NavLink>
+    </div>
+  </div>
+</section>
+
+<!-- Three Pillars -->
+<section class="section-pad activities-section">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-label">What We Do</span>
+      <h2 class="section-title">Three Pillars of Real Change</h2>
+    </div>
+
+    <div class="activity-grid">
+      <div class="activity-card">
+        <div class="activity-icon" aria-hidden="true">📢</div>
+        <h3>Building Awareness</h3>
+        <p class="activity-sub">Spreading the message online & offline</p>
+        <p>Reaching over 1,700 primary school children through interactive empathy sessions, and thousands more through the online 'Inclusive Fact Series' on social media.</p>
+      </div>
+
+      <div class="activity-card">
+        <div class="activity-icon" aria-hidden="true">🏫</div>
+        <h3>Advocacy for Inclusive Education</h3>
+        <p class="activity-sub">Engaging schools & policymakers</p>
+        <p>Partnering with school authorities to introduce assistive technology, inclusive classroom practices, and supportive curricula for students with special needs.</p>
+      </div>
+
+      <div class="activity-card">
+        <div class="activity-icon" aria-hidden="true">🎧</div>
+        <h3>Inclusive Audiobook Library</h3>
+        <p class="activity-sub">Bangladesh's 1st primary audio platform</p>
+        <p>Providing free, high-quality audio lessons in Bangla and English for primary Classes 1, 2, and 4 so children with visual challenges never fall behind.</p>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:36px;">
+      <NavLink href="activities" class="btn btn-outline-primary">Explore All Activity Programs →</NavLink>
+    </div>
+  </div>
+</section>
+
+<!-- Audiobooks Showcase -->
+<section class="section-pad">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-label">Inclusive Audio Library</span>
+      <h2 class="section-title">Listen and Learn Anywhere</h2>
+      <p class="section-desc">Crafted specifically for visually impaired primary school learners with full transcripts and clear narration.</p>
+    </div>
+
+        <div class="audiobook-grid">
+      @if (!FeaturedAudiobooks.Any())
+      {
+        <div class="empty-state-card" style="grid-column: 1 / -1; text-align: center; padding: 48px 24px; background: rgba(255,255,255,0.03); border: 2px dashed rgba(255,255,255,0.15); border-radius: 16px; margin: 12px 0;">
+          <div style="font-size: 2.8rem; margin-bottom: 12px;" aria-hidden="true">🎧</div>
+          <h3 style="font-size: 1.35rem; margin-bottom: 8px;">
+            @(AppState.CurrentLanguage == "bn" ? "নতুন অডিওবুক দ্রুত আসছে" : "Educational Audiobooks Coming Soon")
+          </h3>
+          <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto 18px; line-height: 1.6;">
+            @(AppState.CurrentLanguage == "bn" 
+              ? "দৃষ্টিপ্রতিবন্ধী শিক্ষার্থীদের জন্য শিক্ষামূলক ইউটিউব অডিওবুক তৈরি ও রেকর্ডিং চলছে। শীঘ্রই প্রকাশিত হবে।" 
+              : "Our inclusive audio lessons for primary school students are being mastered for direct YouTube streaming. Stay tuned!")
+          </p>
+          <NavLink href="audiobooks" class="btn btn-outline-white" style="color:var(--color-navy-dark); border-color:var(--border-color); font-size:0.875rem;">
+            @(AppState.CurrentLanguage == "bn" ? "অডিওবুক লাইব্রেরী দেখুন →" : "View Audiobooks Library →")
+          </NavLink>
+        </div>
+      }
+      else
+      {
+        @foreach (var book in FeaturedAudiobooks)
+        {
+          <article class="audiobook-card">
+            <div class="audiobook-header">
+              <span class="grade-badge">@book.GradeLevel</span>
+              <h3>@(AppState.CurrentLanguage == "bn" ? book.TitleBn : book.TitleEn)</h3>
+            </div>
+            <div class="audiobook-body">
+              <p style="color:var(--text-muted); font-size:0.875rem; margin-bottom:14px;">
+                Duration: <strong>@FormatDuration(book.DurationSeconds)</strong> • Direct YouTube Audio Player
+              </p>
+
+              <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;">
+                <button type="button" class="btn-play-yt" @onclick="() => PlayAudiobook(book)">
+                  <span aria-hidden="true">▶</span> Play on Page
+                </button>
+
+                <button type="button" @onclick="() => ToggleTranscript(book.Id)" class="btn btn-outline-white" style="color:var(--color-navy-dark); border-color:var(--border-color); font-size:0.875rem;">
+                  @(ExpandedTranscriptBookId == book.Id ? "Hide Transcript" : "Accessible Transcript")
+                </button>
+              </div>
+
+              @if (ExpandedTranscriptBookId == book.Id)
+              {
+                <div class="transcript-box">
+                  <p>@(AppState.CurrentLanguage == "bn" ? book.TranscriptBn : book.TranscriptEn)</p>
+                </div>
+              }
+            </div>
+          </article>
+        }
+      }
+    </div>
+
+    <!-- Embedded YouTube Player Modal (Plays directly on page) -->
+    @if (ActivePlayingBook != null)
+    {
+      <div class="yt-player-modal" role="dialog" aria-modal="true" aria-labelledby="home-yt-player-title">
+        <div class="yt-player-dialog">
+          <div class="modal-header" style="margin-bottom:8px;">
+            <div>
+              <span class="grade-badge" style="margin-bottom:6px; display:inline-block;">@ActivePlayingBook.GradeLevel</span>
+              <h3 id="home-yt-player-title" class="modal-title" style="margin:0;">
+                @(AppState.CurrentLanguage == "bn" ? ActivePlayingBook.TitleBn : ActivePlayingBook.TitleEn)
+              </h3>
+            </div>
+            <button type="button" class="modal-close-btn" @onclick="ClosePlayer" aria-label="Close audio player">×</button>
+          </div>
+
+          <div class="video-container-16-9">
+            <iframe src="@YouTubeHelper.GetEmbedUrl(ActivePlayingBook.YouTubeUrl)" 
+                    title="@ActivePlayingBook.TitleEn" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen>
+            </iframe>
+          </div>
+
+          <div style="margin-top:16px;">
+            <h4 style="margin-bottom:8px;">Accessible Lesson Transcript:</h4>
+            <div class="transcript-box" style="max-height:160px; overflow-y:auto;">
+              <p>@(AppState.CurrentLanguage == "bn" ? ActivePlayingBook.TranscriptBn : ActivePlayingBook.TranscriptEn)</p>
+            </div>
+          </div>
+
+          <div style="text-align:right; margin-top:16px;">
+            <button type="button" class="btn btn-sm btn-primary" @onclick="ClosePlayer">Done / Close Player</button>
+          </div>
+        </div>
+      </div>
+    }
+
+    <div style="text-align:center; margin-top:36px;">
+      <NavLink href="audiobooks" class="btn btn-primary">Browse Full Audio Library & Search →</NavLink>
+    </div>
+  </div>
+</section>
+
+<!-- Recognition Section (BRAC 2025) -->
+<section class="section-pad award-section">
+  <div class="container award-grid">
+    <div class="award-content">
+      <span class="badge-winner">Winner: Amra Notun Young Changemakers' Award 2025</span>
+      <h2 class="award-title">Recognized for National Impact</h2>
+      <p class="award-by">Conferred by BRAC Carnival of Change</p>
+      <p style="color:#CBD5E1; font-size:1.15rem; line-height:1.7; margin-bottom:24px;">
+        Awarded to Stories of Inclusion in recognition of our pioneering work in creating accessible audiobooks and advocating for children with disabilities across Bangladesh.
+      </p>
+      <NavLink href="recognition" class="btn btn-outline-white">View Full Award Story & Metrics →</NavLink>
+    </div>
+
+    <div class="award-img-wrap">
+      <img src="./assets/images/award.jpg" alt="Team Stories of Inclusion receiving the award from BRAC" class="award-img" />
+    </div>
+  </div>
+</section>
+
+

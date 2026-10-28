@@ -1,0 +1,68 @@
+﻿@page "/recognition"
+@inject AppStateService AppState
+
+<PageTitle>Recognition & Awards | Stories of Inclusion</PageTitle>
+
+<section class="page-hero" aria-labelledby="page-title">
+  <div class="container">
+    <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+      <ol class="breadcrumb-list">
+        <li><NavLink href="">@AppState.T("homeBreadcrumb")</NavLink></li>
+        <li class="breadcrumb-separator" aria-hidden="true">/</li>
+        <li aria-current="page">@AppState.T("navAwards")</li>
+      </ol>
+    </nav>
+    <h1 id="page-title" class="page-hero-title">@AppState.T("recognitionHeroTitle")</h1>
+    <p class="page-hero-desc">@AppState.T("recognitionHeroDesc")</p>
+  </div>
+</section>
+
+<section class="section-pad">
+  <div class="container">
+    <div class="award-grid award-card-featured">
+      <div class="award-content">
+        <span class="badge-winner">Winner: Amra Notun Young Changemakers' Award 2025</span>
+        <h2 class="award-title">Recognized for National Impact</h2>
+        <p class="award-by">Conferred by BRAC Carnival of Change</p>
+        <p style="color:#CBD5E1; font-size:1.15rem; line-height:1.8; margin-bottom:20px;">
+          Awarded to Stories of Inclusion in recognition of our pioneering work in creating accessible audiobooks and advocating for children with disabilities across Bangladesh.
+        </p>
+        <p style="color:#94A3B8; font-size:1rem; line-height:1.7;">
+          This prestigious recognition highlights the team's commitment to creating a more inclusive and barrier-free learning environment for children and young people across all districts of Bangladesh.
+        </p>
+      </div>
+
+      <div class="award-img-wrap">
+        <img src="./assets/images/award.jpg" alt="Team Stories of Inclusion receiving the award plaque from BRAC" class="award-img" />
+      </div>
+    </div>
+
+    <!-- Impact Analytics Cards -->
+    <div class="section-head" style="margin-bottom:32px;">
+      <span class="section-label">Honors & Achievements</span>
+      <h2 class="section-title">Project Impact Highlights</h2>
+    </div>
+
+    <div class="recognition-impact-grid">
+      <div class="impact-stat-card">
+        <div class="impact-stat-number">2.9K+</div>
+        <p class="impact-stat-label">Video & Lesson Views</p>
+      </div>
+
+      <div class="impact-stat-card">
+        <div class="impact-stat-number">23.7K+</div>
+        <p class="impact-stat-label">Digital Impressions</p>
+      </div>
+
+      <div class="impact-stat-card">
+        <div class="impact-stat-number">17.9h+</div>
+        <p class="impact-stat-label">Total Watch Hours</p>
+      </div>
+
+      <div class="impact-stat-card">
+        <div class="impact-stat-number">1,700+</div>
+        <p class="impact-stat-label">Students Reached</p>
+      </div>
+    </div>
+  </div>
+</section>

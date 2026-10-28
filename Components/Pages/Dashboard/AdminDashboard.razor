@@ -1,0 +1,404 @@
+﻿@page "/dashboard/admin"
+@rendermode InteractiveServer
+@inject AppStateService AppState
+
+<PageTitle>Staff Admin Dashboard | Stories of Inclusion</PageTitle>
+
+<div class="dash-container">
+  <!-- Sidebar -->
+  <aside class="dash-sidebar" aria-label="Admin Navigation">
+    <div class="dash-user-card">
+      <div class="dash-avatar" style="background:#2563EB;">SA</div>
+      <div>
+        <div class="dash-user-name">Shoaib Ahmed</div>
+        <span class="dash-role-tag" style="background:rgba(37,99,235,0.25); color:#93C5FD;">Staff Admin</span>
+      </div>
+    </div>
+
+    <ul class="dash-nav">
+      <li>
+        <button type="button" class="dash-nav-link @(ActiveTab == "inquiries" ? "active" : "")" @onclick="@(() => ActiveTab = "inquiries")">
+          <span>📥</span> <span>Form Submissions (@Submissions.Count)</span>
+        </button>
+      </li>
+      <li>
+        <button type="button" class="dash-nav-link @(ActiveTab == "portfolios" ? "active" : "")" @onclick="@(() => ActiveTab = "portfolios")">
+          <span>👥</span> <span>Member Approvals (@PendingPortfoliosCount)</span>
+        </button>
+      </li>
+      <li>
+        <button type="button" class="dash-nav-link @(ActiveTab == "audiobooks" ? "active" : "")" @onclick="@(() => ActiveTab = "audiobooks")">
+          <span>🎧</span> <span>Publish Audiobooks (@Audiobooks.Count)</span>
+        </button>
+      </li>
+      <li style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.1); padding-top:10px;">
+        <NavLink href="" class="dash-nav-link">
+          <span>🌐</span> <span>Public Website</span>
+        </NavLink>
+      </li>
+    </ul>
+
+    <div style="margin-top:auto; padding-top:20px; border-top:1px solid rgba(255,255,255,0.15);">
+      <small style="color:#94A3B8;">WCAG 2.1 AA Audit: <strong style="color:#22C55E;">100% Passed</strong></small>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="dash-main" role="main">
+    <div class="dash-header-bar">
+      <div>
+        <h1 class="dash-title">Staff Admin Console</h1>
+        <p style="color:var(--text-muted); font-size:0.95rem;">Review submissions, verify member applications, and publish YouTube-based accessible audiobooks.</p>
+      </div>
+      <div>
+        @if (ActiveTab == "inquiries")
+        {
+          <button type="button" class="btn btn-outline-primary btn-sm" @onclick="ClearContactedSubmissions">
+            🧹 Clear Contacted
+          </button>
+        }
+        else if (ActiveTab == "portfolios")
+        {
+          <button type="button" class="btn btn-primary btn-sm" @onclick="ToggleAddMemberModal">
+            ➕ Add Member Portfolio
+          </button>
+        }
+        else if (ActiveTab == "audiobooks")
+        {
+          <button type="button" class="btn btn-primary btn-sm" @onclick="ToggleAddAudiobookModal">
+            🎧 Publish New Audiobook
+          </button>
+        }
+      </div>
+    </div>
+
+    @if (ShowAlert)
+    {
+      <div class="form-success-alert" style="display:block; margin-bottom:20px;">
+        @AlertMessage
+      </div>
+    }
+
+    <!-- Add Member Modal -->
+    @if (IsAddMemberOpen)
+    {
+      <div class="dash-card" style="border:2px solid var(--color-accent-teal); margin-bottom:24px; background:rgba(20,184,166,0.03);">
+        <div class="dash-card-header">
+          <h3>Add New Member Portfolio</h3>
+          <button type="button" class="btn btn-sm btn-outline-primary" @onclick="ToggleAddMemberModal">Cancel</button>
+        </div>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-bottom:16px;">
+          <div>
+            <label class="form-label">Member Full Name</label>
+            <input type="text" class="form-input" @bind="NewMemberName" placeholder="e.g. Farhana Yasmin" />
+          </div>
+          <div>
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" @bind="NewMemberEmail" placeholder="e.g. farhana@example.com" />
+          </div>
+          <div>
+            <label class="form-label">Role / Specialty</label>
+            <input type="text" class="form-input" @bind="NewMemberTitle" placeholder="e.g. Voice Artist / Educator" />
+          </div>
+        </div>
+        <button type="button" class="btn btn-primary btn-sm" @onclick="CreateMemberPortfolio">Save & Publish</button>
+      </div>
+    }
+
+    <!-- Add Audiobook Modal (YouTube based) -->
+    @if (IsAddAudiobookOpen)
+    {
+      <div class="dash-card" style="border:2px solid #2563EB; margin-bottom:24px; background:rgba(37,99,235,0.03);">
+        <div class="dash-card-header">
+          <h3>Publish New YouTube-Based Primary Audiobook</h3>
+          <button type="button" class="btn btn-sm btn-outline-primary" @onclick="ToggleAddAudiobookModal">Cancel</button>
+        </div>
+        
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:16px; margin-bottom:16px;">
+          <div style="grid-column: 1 / -1;">
+            <label class="form-label">Audiobook Title</label>
+            <input type="text" class="form-input" @bind="NewAudioTitle" placeholder="e.g. আমাদের পরিবেশ (৩য় শ্রেণি)" />
+          </div>
+
+          <div style="grid-column: 1 / -1;">
+            <label class="form-label">YouTube Video Link (Direct Play URL)</label>
+            <input type="url" class="form-input" @bind="NewAudioYouTubeUrl" placeholder="https://www.youtube.com/watch?v=... or https://youtu.be/..." />
+            <small style="color:var(--text-muted);">Audiobooks stream directly from YouTube inside the player without any redirection.</small>
+          </div>
+
+          <div>
+            <label class="form-label">Target Grade Level</label>
+            <select class="form-input" @bind="NewAudioGrade">
+              <option value="Primary Class 1">Primary Class 1</option>
+              <option value="Primary Class 2">Primary Class 2</option>
+              <option value="Primary Class 3">Primary Class 3</option>
+              <option value="Primary Class 4">Primary Class 4</option>
+              <option value="Primary Class 5">Primary Class 5</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Language</label>
+            <select class="form-input" @bind="NewAudioLanguage">
+              <option value="Bangla">বাংলা (Bangla)</option>
+              <option value="English">English</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Duration</label>
+            <input type="text" class="form-input" @bind="NewAudioDuration" placeholder="e.g. 18 mins" />
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-sm" @onclick="CreateAudiobook">Publish Audiobook</button>
+      </div>
+    }
+
+    <!-- Stats -->
+    <div class="dash-stats-grid">
+      <div class="dash-stat-card">
+        <div class="dash-stat-info">
+          <h3>@Submissions.Count</h3>
+          <p>Inbox Inquiries</p>
+        </div>
+        <div class="dash-stat-icon">📩</div>
+      </div>
+
+      <div class="dash-stat-card">
+        <div class="dash-stat-info">
+          <h3>@PendingPortfoliosCount</h3>
+          <p>Pending Verifications</p>
+        </div>
+        <div class="dash-stat-icon">⏳</div>
+      </div>
+
+      <div class="dash-stat-card">
+        <div class="dash-stat-info">
+          <h3>@Audiobooks.Count</h3>
+          <p>Published Audiobooks</p>
+        </div>
+        <div class="dash-stat-icon">🎧</div>
+      </div>
+
+      <div class="dash-stat-card">
+        <div class="dash-stat-info">
+          <h3>1,700+</h3>
+          <p>Students Reached</p>
+        </div>
+        <div class="dash-stat-icon">📊</div>
+      </div>
+    </div>
+
+    <!-- TAB 1: INQUIRIES -->
+    @if (ActiveTab == "inquiries")
+    {
+      <section class="dash-card">
+        <div class="dash-card-header" style="flex-wrap:wrap; gap:14px;">
+          <div>
+            <h3>Inbox: Join Us & Contact Submissions</h3>
+            <p style="color:var(--text-muted); font-size:0.875rem; margin:0;">Review messages received from visitors, prospective volunteers, and partner schools.</p>
+          </div>
+
+          <div style="display:flex; gap:10px;">
+            <select class="form-input" style="width:160px; padding:6px 10px; font-size:0.875rem;" @bind="SubmissionFilter">
+              <option value="all">All Types</option>
+              <option value="Join Us">Join Us</option>
+              <option value="School Partner">School Partner</option>
+              <option value="Inquiry">General Inquiry</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-responsive"><table class="dash-table">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Applicant</th>
+              <th>Contact Details</th>
+              <th>Message</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @if (FilteredSubmissions.Count == 0)
+            {
+              <tr>
+                <td colspan="6" style="text-align:center; padding:24px; color:var(--text-muted);">
+                  No submissions in inbox.
+                </td>
+              </tr>
+            }
+            @foreach (var s in FilteredSubmissions)
+            {
+              <tr>
+                <td><span class="badge-status @(s.SubmissionType == "Join Us" ? "new" : "approved")">@s.SubmissionType</span></td>
+                <td><strong>@s.FullName</strong></td>
+                <td>@s.Email<br><small style="color:var(--text-muted);">@s.Phone</small></td>
+                <td>@s.Message</td>
+                <td>
+                  <span class="badge-status @(s.Status == "Contacted" ? "approved" : "pending")">@s.Status</span>
+                </td>
+                <td style="white-space:nowrap;">
+                  @if (s.Status != "Contacted")
+                  {
+                    <button type="button" class="btn btn-sm btn-outline-primary" style="margin-right:6px;" @onclick="() => MarkContacted(s)">✓ Contact</button>
+                  }
+                  <button type="button" class="btn btn-danger btn-sm" @onclick="() => DeleteSubmission(s.Id)">Delete</button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table></div>
+      </section>
+    }
+
+    <!-- TAB 2: PORTFOLIOS -->
+    @if (ActiveTab == "portfolios")
+    {
+      <section class="dash-card">
+        <div class="dash-card-header">
+          <div>
+            <h3>Member Portfolios: Verification & Approval</h3>
+            <p style="color:var(--text-muted); font-size:0.875rem; margin:0;">Approve or reject member portfolios before they appear on the public Our Team page.</p>
+          </div>
+        </div>
+
+        <div class="table-responsive"><table class="dash-table">
+          <thead>
+            <tr>
+              <th>Member Name</th>
+              <th>Role / Specialty</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @if (Portfolios.Count == 0)
+            {
+              <tr>
+                <td colspan="5" style="text-align:center; padding:24px; color:var(--text-muted);">
+                  No member portfolios pending.
+                </td>
+              </tr>
+            }
+            @foreach (var p in Portfolios)
+            {
+              <tr>
+                <td><strong>@p.Name</strong></td>
+                <td>@p.Title</td>
+                <td><small style="color:var(--text-muted);">@p.Email</small></td>
+                <td>
+                  <span class="badge-status @(p.Status == "Approved" ? "approved" : p.Status == "Rejected" ? "new" : "pending")">@p.Status</span>
+                </td>
+                <td style="white-space:nowrap;">
+                  @if (p.Status != "Approved")
+                  {
+                    <button type="button" class="btn btn-success btn-sm" style="margin-right:6px;" @onclick="() => ApprovePortfolio(p)">✓ Approve</button>
+                  }
+                  @if (p.Status != "Rejected")
+                  {
+                    <button type="button" class="btn btn-danger btn-sm" style="margin-right:6px;" @onclick="() => RejectPortfolio(p)">✕ Reject</button>
+                  }
+                  <button type="button" class="btn btn-sm" style="background:#E2E8F0;" @onclick="() => DeletePortfolio(p)">Delete</button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table></div>
+      </section>
+    }
+
+    <!-- TAB 3: AUDIOBOOKS (YouTube Based) -->
+    @if (ActiveTab == "audiobooks")
+    {
+      <section class="dash-card">
+        <div class="dash-card-header">
+          <div>
+            <h3>Manage & Publish Primary Audiobooks (YouTube Streamed)</h3>
+            <p style="color:var(--text-muted); font-size:0.875rem; margin:0;">All audiobooks play directly via YouTube without file storage or redirection.</p>
+          </div>
+          <button type="button" class="btn btn-primary btn-sm" @onclick="ToggleAddAudiobookModal">➕ Add New Audiobook</button>
+        </div>
+
+        <div class="table-responsive"><table class="dash-table">
+          <thead>
+            <tr>
+              <th>Audiobook Title</th>
+              <th>Grade Level</th>
+              <th>Language</th>
+              <th>Duration</th>
+              <th>YouTube Stream</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @if (!Audiobooks.Any())
+            {
+              <tr>
+                <td colspan="6" style="text-align:center; padding:36px 16px; color:var(--text-muted);">
+                  <p style="font-size:1.05rem; font-weight:600; margin-bottom:6px; color:var(--text-main);">No audiobooks published yet.</p>
+                  <p style="margin:0; font-size:0.875rem;">Click the <strong>➕ Add New Audiobook</strong> button above to publish your first YouTube audiobook.</p>
+                </td>
+              </tr>
+            }
+            else
+            {
+              @foreach (var a in Audiobooks)
+              {
+                <tr>
+                  <td><strong>@a.Title</strong></td>
+                  <td><span class="badge" style="background:#E0F2FE; color:#0369A1; padding:2px 8px; border-radius:4px; font-weight:700;">@a.Grade</span></td>
+                  <td>@a.Language</td>
+                  <td>@a.Duration</td>
+                  <td>
+                    <small style="color:var(--text-muted); word-break:break-all;">@a.YouTubeUrl</small>
+                  </td>
+                  <td style="white-space:nowrap;">
+                    <button type="button" class="btn-play-yt btn-sm" style="margin-right:6px;" @onclick="() => PlayAudiobook(a)">
+                      <span>▶ Test Play</span>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm" @onclick="() => DeleteAudiobook(a)">Delete</button>
+                  </td>
+                </tr>
+              }
+            }
+          </tbody>
+        </table></div>
+      </section>
+    }
+
+    <!-- Embedded YouTube Player Modal for Staff Admins (No Redirect) -->
+    @if (ActivePlayingAudiobook != null)
+    {
+      <div class="yt-player-modal" role="dialog" aria-modal="true" aria-labelledby="admin-player-title">
+        <div class="yt-player-dialog">
+          <div class="modal-header" style="margin-bottom:8px;">
+            <div>
+              <span class="grade-badge" style="margin-bottom:6px; display:inline-block;">@ActivePlayingAudiobook.Grade</span>
+              <h3 id="admin-player-title" class="modal-title" style="margin:0;">
+                @ActivePlayingAudiobook.Title
+              </h3>
+            </div>
+            <button type="button" class="modal-close-btn" @onclick="ClosePlayer" aria-label="Close audio player">×</button>
+          </div>
+
+          <div class="video-container-16-9">
+            <iframe src="@YouTubeHelper.GetEmbedUrl(ActivePlayingAudiobook.YouTubeUrl)" 
+                    title="@ActivePlayingAudiobook.Title" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen>
+            </iframe>
+          </div>
+
+          <div style="text-align:right; margin-top:16px;">
+            <button type="button" class="btn btn-sm btn-primary" @onclick="ClosePlayer">Done / Close Player</button>
+          </div>
+        </div>
+      </div>
+    }
+
+  </main>
+</div>
+
+

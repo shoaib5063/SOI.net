@@ -1,0 +1,106 @@
+﻿@page "/contact"
+@inject AppStateService AppState
+
+<PageTitle>Get Involved & Contact | Stories of Inclusion</PageTitle>
+
+<section class="page-hero" aria-labelledby="page-title">
+  <div class="container">
+    <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+      <ol class="breadcrumb-list">
+        <li><NavLink href="">@AppState.T("homeBreadcrumb")</NavLink></li>
+        <li class="breadcrumb-separator" aria-hidden="true">/</li>
+        <li aria-current="page">@AppState.T("navJoin")</li>
+      </ol>
+    </nav>
+    <h1 id="page-title" class="page-hero-title">@AppState.T("contactHeroTitle")</h1>
+    <p class="page-hero-desc">@AppState.T("contactHeroDesc")</p>
+  </div>
+</section>
+
+<section class="section-pad">
+  <div class="container">
+    <div class="contact-grid">
+      
+      <!-- Contact Info Card -->
+      <div class="contact-info-card">
+        <h2 style="font-size:1.6rem; color:var(--color-navy-dark); margin-bottom:20px;">@AppState.T("contactInfoTitle")</h2>
+        
+        <div style="margin-bottom:20px;">
+          <strong style="display:block; color:var(--color-accent-teal); font-size:0.875rem;">Headquarters Address:</strong>
+          <p style="font-size:1.05rem;">Middle Badda, Dhaka - 1212, Bangladesh</p>
+        </div>
+
+        <div style="margin-bottom:20px;">
+          <strong style="display:block; color:var(--color-accent-teal); font-size:0.875rem;">Phone / WhatsApp:</strong>
+          <p style="font-size:1.05rem;">+880 1914-015054 / 01772838474</p>
+        </div>
+
+        <div style="margin-bottom:24px;">
+          <strong style="display:block; color:var(--color-accent-teal); font-size:0.875rem;">Email Addresses:</strong>
+          <p style="font-size:1.05rem;">storiesofinclusion.bd@gmail.com, shoaibahmed.5063@gmail.com</p>
+        </div>
+
+        <div style="border-top:1px solid var(--border-color); padding-top:20px;">
+          <strong style="display:block; color:var(--text-main); font-size:0.925rem; margin-bottom:12px;">Official Channels:</strong>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:8px; font-weight:600; font-size:0.925rem;">
+            <li><a href="https://www.facebook.com/storiesofinclusion.bd" target="_blank" rel="noopener noreferrer" style="color:var(--color-navy-mid); text-decoration:none;">📘 Facebook: storiesofinclusion.bd</a></li>
+            <li><a href="https://www.youtube.com/@@stories_of_inclusion" target="_blank" rel="noopener noreferrer" style="color:#E11D48; text-decoration:none;">▶ YouTube: @@stories_of_inclusion</a></li>
+            <li><a href="https://www.instagram.com/storiesofinclusion" target="_blank" rel="noopener noreferrer" style="color:#C13584; text-decoration:none;">📷 Instagram: storiesofinclusion</a></li>
+            <li><a href="https://www.linkedin.com/company/stories-of-inclusion" target="_blank" rel="noopener noreferrer" style="color:#0A66C2; text-decoration:none;">💼 LinkedIn: Stories of Inclusion</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Application Form -->
+      <div class="contact-card">
+        @if (IsSubmitted)
+        {
+          <div class="form-success-alert" role="alert" style="display:block;">
+            Thank you! Your submission has been received. Our team will contact you shortly.
+          </div>
+        }
+
+        <EditForm Model="@SubmissionModel" OnValidSubmit="HandleSubmit">
+          <DataAnnotationsValidator />
+          
+          <div class="form-group">
+            <label for="form-type" class="form-label">I Want To:</label>
+            <InputSelect id="form-type" class="form-select" @bind-Value="SubmissionModel.SubmissionType">
+              <option value="Join Us">Join as Volunteer / Contributor</option>
+              <option value="Contact Inquiry">General Inquiry / School Partnership</option>
+            </InputSelect>
+          </div>
+
+          <div class="form-group">
+            <label for="form-name" class="form-label">Full Name *</label>
+            <InputText id="form-name" class="form-input" @bind-Value="SubmissionModel.FullName" required />
+            <ValidationMessage For="@(() => SubmissionModel.FullName)" />
+          </div>
+
+          <div class="form-group">
+            <label for="form-email" class="form-label">Email Address *</label>
+            <InputText id="form-email" type="email" class="form-input" @bind-Value="SubmissionModel.Email" required />
+            <ValidationMessage For="@(() => SubmissionModel.Email)" />
+          </div>
+
+          <div class="form-group">
+            <label for="form-phone" class="form-label">Phone / WhatsApp</label>
+            <InputText id="form-phone" class="form-input" @bind-Value="SubmissionModel.Phone" />
+          </div>
+
+          <div class="form-group">
+            <label for="form-message" class="form-label">Tell Us About Yourself / Your Message *</label>
+            <InputTextArea id="form-message" class="form-textarea" rows="4" @bind-Value="SubmissionModel.Message" required />
+            <ValidationMessage For="@(() => SubmissionModel.Message)" />
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width:100%;">
+            @(IsSubmitting ? "Sending Application..." : "Send Application")
+          </button>
+        </EditForm>
+      </div>
+
+    </div>
+  </div>
+</section>
+

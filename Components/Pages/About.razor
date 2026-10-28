@@ -1,0 +1,77 @@
+﻿@page "/about"
+@inject AppStateService AppState
+
+<PageTitle>About Us | Stories of Inclusion</PageTitle>
+
+<section class="page-hero" aria-labelledby="page-title">
+  <div class="container">
+    <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+      <ol class="breadcrumb-list">
+        <li><NavLink href="">@AppState.T("homeBreadcrumb")</NavLink></li>
+        <li class="breadcrumb-separator" aria-hidden="true">/</li>
+        <li aria-current="page">@AppState.T("navAbout")</li>
+      </ol>
+    </nav>
+    <h1 id="page-title" class="page-hero-title">@AppState.T("aboutHeroTitle")</h1>
+    <p class="page-hero-desc">@AppState.T("aboutHeroDesc")</p>
+  </div>
+</section>
+
+<section class="section-pad">
+  <div class="container">
+    <div style="max-width:880px; margin:0 auto;">
+      <span class="section-label">About Our Initiative</span>
+      <h2 class="section-title">Stories That Need to Be Heard</h2>
+      
+      <div style="font-size:1.125rem; line-height:1.8; color:var(--text-muted); margin-bottom:32px;">
+        <p style="margin-bottom:20px;">
+          Stories of Inclusion was founded by young changemakers driven by a single purpose: ensuring that every child, regardless of ability, has access to quality education in an inclusive learning environment.
+        </p>
+        <p style="margin-bottom:20px;">
+          In many schools in Bangladesh, students with disabilities are often left behind—not because they lack the ability to learn, but because they do not have the right support, accessible materials, or assistive technology. Stories of Inclusion is on a mission to change that.
+        </p>
+        <p>
+          In Bangladesh, children with visual impairments or learning disabilities face a severe shortage of accessible learning materials. We bridge this gap by producing free audiobooks, training teachers, and advocating for systemic school policy reforms.
+        </p>
+      </div>
+
+      <div class="info-box-highlight">
+        <h3 style="font-size:1.35rem; font-weight:800; color:var(--color-navy-dark); margin-bottom:10px;">Why the Name 'Stories of Inclusion'?</h3>
+        <p style="font-size:1rem; line-height:1.7; color:var(--text-main);">
+          Because this initiative is about telling the stories that are often unheard—the stories of students with disabilities, their struggles, and their remarkable achievements. Every story matters. Every child deserves to belong.
+        </p>
+      </div>
+    </div>
+
+    <!-- Vision and Mission -->
+    <div class="mission-vision-grid" style="margin-top:48px;">
+      <article class="mv-card">
+        <h3>Our Vision</h3>
+        <p>A world where every person, regardless of ability, background, or identity, has equal opportunities to learn and grow in an inclusive education system and society.</p>
+      </article>
+
+      <article class="mv-card">
+        <h3>Our Mission</h3>
+        <p>To eliminate disparities in education (SDG 4.5), build inclusive learning environments (SDG 4.8), and empower marginalized groups (SDG 10.2) in Bangladesh by 2030.</p>
+      </article>
+    </div>
+
+    <!-- The 6 Strategic Pillars -->
+    <div style="margin-top:64px;">
+      <div class="section-head" style="margin-bottom:32px;">
+        <h2 class="section-title">Our Six Strategic Pillars of Inclusive Action</h2>
+      </div>
+
+      <div class="pillars-grid-6">
+        @foreach (var p in Pillars)
+        {
+          <div class="pillar-card-6">
+            <div style="font-size:1.5rem; margin-bottom:8px;">@p.Icon</div>
+            <h4>@p.Title</h4>
+            <p>@p.Description</p>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>

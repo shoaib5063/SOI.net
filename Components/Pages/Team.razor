@@ -1,0 +1,41 @@
+﻿@page "/team"
+@inject AppStateService AppState
+
+<PageTitle>Our Team | Stories of Inclusion</PageTitle>
+
+<section class="page-hero" aria-labelledby="page-title">
+  <div class="container">
+    <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+      <ol class="breadcrumb-list">
+        <li><NavLink href="">@AppState.T("homeBreadcrumb")</NavLink></li>
+        <li class="breadcrumb-separator" aria-hidden="true">/</li>
+        <li aria-current="page">@AppState.T("navTeam")</li>
+      </ol>
+    </nav>
+    <h1 id="page-title" class="page-hero-title">@AppState.T("teamHeroTitle")</h1>
+    <p class="page-hero-desc">@AppState.T("teamHeroDesc")</p>
+  </div>
+</section>
+
+<section class="section-pad">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-label">The Changemakers</span>
+      <h2 class="section-title">Meet the Core Team</h2>
+    </div>
+
+    <div class="team-grid">
+      @foreach (var member in Members)
+      {
+        <article class="team-card">
+          <div class="team-avatar-badge" aria-hidden="true">@member.Initials</div>
+          <div class="team-info">
+            <h4>@member.Name</h4>
+            <p>@member.Role</p>
+            <small style="color:var(--text-muted);">@member.Bio</small>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>

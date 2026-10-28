@@ -1,0 +1,20 @@
+## .NET Core
+bin/
+obj/
+*.user
+*.suo
+.vs/
+.vscode/
+
+## Node
+node_modules/
+dist/
+
+## Archives
+*.zip
+*.tar.gz
+*.rar
+
+## OS
+Thumbs.db
+Desktop.ini

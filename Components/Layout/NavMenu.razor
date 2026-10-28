@@ -1,0 +1,113 @@
+﻿@inject AppStateService AppState
+
+<header class="site-header" role="banner">
+  <div class="nav-container">
+    
+    <!-- Left: Brand Logo & Title -->
+    <NavLink href="" class="brand" Match="NavLinkMatch.All">
+      <div class="brand-logo-wrapper">
+        <img src="./assets/images/logo.png" alt="Stories of Inclusion" class="brand-logo-img" />
+      </div>
+      <div class="brand-text-block">
+        <span class="brand-title">@AppState.T("brandName")</span>
+        <span class="brand-tagline">@AppState.T("tagline")</span>
+      </div>
+    </NavLink>
+
+    <!-- Center: Primary Nav Links (Collapsible Mobile Drawer) -->
+    <nav class="nav-center @(IsMobileMenuOpen ? "open" : "")" aria-label="Main Navigation">
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <NavLink href="" Match="NavLinkMatch.All" class="nav-link" @onclick="CloseMobileMenu">
+            <span class="nav-link-text">@AppState.T("navHome")</span>
+          </NavLink>
+        </li>
+        <li class="nav-item">
+          <NavLink href="about" class="nav-link" @onclick="CloseMobileMenu">
+            <span class="nav-link-text">@AppState.T("navAbout")</span>
+          </NavLink>
+        </li>
+        <li class="nav-item">
+          <NavLink href="activities" class="nav-link" @onclick="CloseMobileMenu">
+            <span class="nav-link-text">@AppState.T("navActivities")</span>
+          </NavLink>
+        </li>
+        <li class="nav-item">
+          <NavLink href="audiobooks" class="nav-link" @onclick="CloseMobileMenu">
+            <span class="nav-link-text">@AppState.T("navAudiobooks")</span>
+          </NavLink>
+        </li>
+        <li class="nav-item">
+          <NavLink href="recognition" class="nav-link" @onclick="CloseMobileMenu">
+            <span class="nav-link-text">@AppState.T("navAwards")</span>
+          </NavLink>
+        </li>
+        <li class="nav-item">
+          <NavLink href="team" class="nav-link" @onclick="CloseMobileMenu">
+            <span class="nav-link-text">@AppState.T("navTeam")</span>
+          </NavLink>
+        </li>
+      </ul>
+
+      <!-- Mobile-only Drawer Actions (CTA + Dashboard + Role Switcher) -->
+      <div class="mobile-drawer-actions">
+        <NavLink href="contact" class="btn btn-primary btn-mobile-cta" @onclick="CloseMobileMenu">
+          <span>@AppState.T("navJoin")</span>
+          <span aria-hidden="true">→</span>
+        </NavLink>
+
+        @if (AppState.CurrentRole != AppRole.Guest)
+        {
+          <NavLink href="@GetDashboardUrl()" class="btn btn-mobile-dash" @onclick="CloseMobileMenu">
+            <span aria-hidden="true">📊</span>
+            <span>Open @AppState.GetRoleDisplayName() Dashboard</span>
+          </NavLink>
+        }
+
+        <button type="button" @onclick="OpenRbacModal" class="btn btn-mobile-role">
+          <span aria-hidden="true">🔄</span>
+          <span>Switch Role: @AppState.GetRoleDisplayName()</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Right: Actions Cluster -->
+    <div class="nav-actions">
+      <!-- Direct Dashboard Shortcut when authorized (Desktop/Tablet) -->
+      @if (AppState.CurrentRole != AppRole.Guest)
+      {
+        <NavLink href="@GetDashboardUrl()" class="btn-nav-dashboard desktop-only-action" title="Open Your Role Dashboard">
+          <span aria-hidden="true">📊</span>
+          <span>Dashboard</span>
+        </NavLink>
+      }
+
+      <!-- Single Join Us CTA Button (Desktop/Tablet) -->
+      <NavLink href="contact" class="btn-nav-join desktop-only-action">
+        <span>@AppState.T("navJoin")</span>
+        <span aria-hidden="true" class="btn-arrow">→</span>
+      </NavLink>
+
+      <!-- Role & Admin Manager Pill Button -->
+      <button type="button" id="btn-open-rbac-modal" @onclick="OpenRbacModal" class="role-pill-btn" aria-haspopup="dialog" aria-expanded="false" title="Switch or simulate system roles (Admin Manager)">
+        <span class="role-badge-status @GetRoleStatusClass()" aria-hidden="true"></span>
+        <span class="role-icon" aria-hidden="true">@GetRoleIcon()</span>
+        <span class="role-pill-text">@AppState.GetRoleDisplayName()</span>
+        <span class="role-pill-chevron" aria-hidden="true">▾</span>
+      </button>
+
+      <!-- Mobile Hamburger Toggle -->
+      <button type="button" class="mobile-nav-toggle" @onclick="ToggleMobileMenu" aria-label="Toggle Navigation Menu" aria-expanded="@IsMobileMenuOpen">
+        @if (IsMobileMenuOpen)
+        {
+          <span aria-hidden="true">✕</span>
+        }
+        else
+        {
+          <span aria-hidden="true">☰</span>
+        }
+      </button>
+    </div>
+
+  </div>
+</header>

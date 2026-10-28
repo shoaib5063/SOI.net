@@ -1,0 +1,50 @@
+﻿@inject AppStateService AppState
+@inject NavigationManager Navigation
+
+<div id="rbac-modal" class="modal-overlay @(AppState.IsRbacModalOpen ? "active" : "")" style="@(AppState.IsRbacModalOpen ? "display:flex;" : "display:none;")" role="dialog" aria-modal="true" aria-labelledby="rbac-modal-title">
+    <div class="modal-dialog" tabindex="-1">
+        <div class="modal-header">
+            <h3 id="rbac-modal-title" class="modal-title">Role Simulation & Admin Manager</h3>
+            <button type="button" id="btn-close-rbac-modal" @onclick="CloseModal" class="modal-close-btn" aria-label="Close dialog">×</button>
+        </div>
+
+        <p style="margin-bottom:16px; color:var(--text-muted);">
+            Switch between access roles to preview system features and open role-specific C# dashboards.
+        </p>
+
+        <div class="role-cards-grid">
+            <div class="role-card @(AppState.CurrentRole == AppRole.Guest ? "selected" : "")" @onclick="@(() => SelectRole(AppRole.Guest))" role="button" tabindex="0">
+                <h4><span aria-hidden="true">🌐</span> Public Visitor</h4>
+                <p>Access public website, audiobooks, accessibility tools, and submit inquiries.</p>
+            </div>
+
+            <div class="role-card @(AppState.CurrentRole == AppRole.User ? "selected" : "")" @onclick="@(() => SelectRole(AppRole.User))" role="button" tabindex="0">
+                <h4><span aria-hidden="true">👤</span> Member (User)</h4>
+                <p>Manage individual member portfolio, edit bio, and view approval status.</p>
+            </div>
+
+            <div class="role-card @(AppState.CurrentRole == AppRole.Admin ? "selected" : "")" @onclick="@(() => SelectRole(AppRole.Admin))" role="button" tabindex="0">
+                <h4><span aria-hidden="true">🛡️</span> Staff Admin</h4>
+                <p>Moderate submissions, approve portfolios, and publish audiobooks.</p>
+            </div>
+
+            <div class="role-card @(AppState.CurrentRole == AppRole.SuperAdmin ? "selected" : "")" @onclick="@(() => SelectRole(AppRole.SuperAdmin))" role="button" tabindex="0">
+                <h4><span aria-hidden="true">⚡</span> SuperAdmin</h4>
+                <p>Full control, manage admin permissions, view audit logs & database status.</p>
+            </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border-color); padding-top:16px;">
+            <div>
+                <strong>Active Role:</strong> <span class="dash-role-tag">@AppState.GetRoleDisplayName()</span>
+            </div>
+            <div style="display:flex; gap:10px;">
+                @if (AppState.CurrentRole != AppRole.Guest)
+                {
+                    <button type="button" class="btn btn-primary btn-sm" @onclick="NavigateToDashboard">Open Role Dashboard ↗</button>
+                }
+                <button type="button" class="btn btn-sm" style="background:#E2E8F0;" @onclick="CloseModal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

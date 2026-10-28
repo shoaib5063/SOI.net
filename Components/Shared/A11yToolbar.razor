@@ -1,0 +1,33 @@
+﻿@inject AppStateService AppState
+
+<aside class="a11y-bar" aria-label="Accessibility settings and language options">
+  <div class="container a11y-container">
+    <div class="a11y-tools">
+      <span class="a11y-label">@AppState.T("a11yBarTitle"):</span>
+      <div class="a11y-btn-group" role="group" aria-label="Font sizing">
+        <button type="button" id="btn-font-dec" @onclick="AppState.DecreaseFont" class="a11y-btn" aria-label="Decrease text size">A-</button>
+        <button type="button" id="btn-font-reset" @onclick="AppState.ResetFont" class="a11y-btn" aria-label="Reset text size to 100%">A</button>
+        <button type="button" id="btn-font-inc" @onclick="AppState.IncreaseFont" class="a11y-btn" aria-label="Increase text size">A+</button>
+      </div>
+      
+      <button type="button" id="btn-contrast-toggle" @onclick="AppState.CycleTheme" class="a11y-btn" aria-label="Toggle high contrast or dark mode">
+        <span aria-hidden="true">🌓</span> <span class="a11y-btn-text">@AppState.T("contrastHigh")</span>
+      </button>
+
+      <button type="button" id="btn-dyslexia-toggle" @onclick="AppState.ToggleDyslexicFont" class="a11y-btn" aria-label="Toggle dyslexia-friendly font">
+        <span aria-hidden="true">📖</span> <span class="a11y-btn-text">@AppState.T("dyslexiaFont")</span>
+      </button>
+
+      <button type="button" id="btn-read-aloud" @onclick="HandleReadAloud" class="a11y-btn" aria-label="Read page content aloud">
+        <span aria-hidden="true">🔊</span> <span class="a11y-btn-text">@AppState.T("readAloud")</span>
+      </button>
+    </div>
+
+    <!-- Language Selector -->
+    <div class="lang-switch" role="group" aria-label="Language Selector">
+      <button type="button" id="btn-lang-en" @onclick="@(() => AppState.SetLanguage("en"))" class="lang-btn @(AppState.CurrentLanguage == "en" ? "active" : "")">English</button>
+      <span style="color:#64748B" aria-hidden="true">|</span>
+      <button type="button" id="btn-lang-bn" @onclick="@(() => AppState.SetLanguage("bn"))" class="lang-btn @(AppState.CurrentLanguage == "bn" ? "active" : "")">বাংলা</button>
+    </div>
+  </div>
+</aside>

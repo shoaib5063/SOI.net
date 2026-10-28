@@ -1,0 +1,92 @@
+﻿@page "/activities"
+@inject AppStateService AppState
+
+<PageTitle>Activities & Initiatives | Stories of Inclusion</PageTitle>
+
+<section class="page-hero" aria-labelledby="page-title">
+  <div class="container">
+    <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+      <ol class="breadcrumb-list">
+        <li><NavLink href="">@AppState.T("homeBreadcrumb")</NavLink></li>
+        <li class="breadcrumb-separator" aria-hidden="true">/</li>
+        <li aria-current="page">@AppState.T("navActivities")</li>
+      </ol>
+    </nav>
+    <h1 id="page-title" class="page-hero-title">@AppState.T("activitiesHeroTitle")</h1>
+    <p class="page-hero-desc">@AppState.T("activitiesHeroDesc")</p>
+  </div>
+</section>
+
+<section class="section-pad">
+  <div class="container">
+    
+    <!-- Pillar 1 -->
+    <article class="activity-card activity-card-detailed">
+      <div class="activity-header-wrap">
+        <div class="activity-icon" style="margin-bottom:0;" aria-hidden="true">📢</div>
+        <div>
+          <span class="activity-sub">Spreading the message online & offline</span>
+          <h2 class="activity-title-lg">Building Awareness</h2>
+        </div>
+      </div>
+      <p style="font-size:1.1rem; line-height:1.8; color:var(--text-muted); margin-bottom:16px;">
+        Reaching over 1,700 primary school children through interactive empathy sessions, and thousands more through the online 'Inclusive Fact Series' on social media.
+      </p>
+      <p style="font-size:1rem; line-height:1.7; color:var(--text-main);">
+        Primary school children are in their most formative years. If they understand why some classmates need different tools or extra support, they grow into adults who value and practice inclusivity.
+      </p>
+      <div class="activity-stats-pills">
+        <div class="activity-pill-item">
+          👥 1,700+ Primary Students Engaged
+        </div>
+        <div class="activity-pill-item">
+          📱 The Inclusive Fact Series on Social Media
+        </div>
+      </div>
+    </article>
+
+    <!-- Pillar 2 -->
+    <article class="activity-card activity-card-detailed">
+      <div class="activity-header-wrap">
+        <div class="activity-icon" style="margin-bottom:0;" aria-hidden="true">🏫</div>
+        <div>
+          <span class="activity-sub">Engaging schools & policymakers</span>
+          <h2 class="activity-title-lg">Advocacy for Inclusive Education</h2>
+        </div>
+      </div>
+      <p style="font-size:1.1rem; line-height:1.8; color:var(--text-muted); margin-bottom:16px;">
+        Partnering with school authorities to introduce assistive technology, inclusive classroom practices, and supportive curricula for students with special needs.
+      </p>
+      <p style="font-size:1rem; line-height:1.7; color:var(--text-main);">
+        Through one-on-one sessions with school administrators, we provide practical blueprints for accessible infrastructure, teacher training, and barrier-free testing strategies.
+      </p>
+      <div class="activity-stats-pills">
+        <div class="activity-pill-item">
+          🤝 Direct School Authority Engagement
+        </div>
+        <div class="activity-pill-item">
+          ♿ Physical & Digital Classroom Accessibility Guidelines
+        </div>
+      </div>
+    </article>
+
+    <!-- Pillar 3 -->
+    <article class="activity-card activity-card-detailed">
+      <div class="activity-header-wrap">
+        <div class="activity-icon" style="margin-bottom:0;" aria-hidden="true">🎧</div>
+        <div>
+          <span class="activity-sub">Bangladesh's 1st primary audio platform</span>
+          <h2 class="activity-title-lg">Inclusive Audiobook Library</h2>
+        </div>
+      </div>
+      <p style="font-size:1.1rem; line-height:1.8; color:var(--text-muted); margin-bottom:16px;">
+        Providing free, high-quality audio lessons in Bangla and English for primary Classes 1, 2, and 4 so children with visual challenges never fall behind.
+      </p>
+      <p style="font-size:1rem; line-height:1.7; color:var(--text-main); margin-bottom:24px;">
+        Traditional textbooks do not meet the needs of children with visual impairments. Inclusive Audio bridges this gap with structured narration, clear pronunciations, and accessible transcripts.
+      </p>
+      <NavLink href="audiobooks" class="btn btn-primary btn-mobile-full" style="align-self:flex-start;">Explore Audiobooks</NavLink>
+    </article>
+
+  </div>
+</section>

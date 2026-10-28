@@ -1,0 +1,130 @@
+﻿@page "/audiobooks"
+@rendermode InteractiveServer
+@inject AppStateService AppState
+
+<PageTitle>Accessible Audiobooks | Stories of Inclusion</PageTitle>
+
+<!-- Inner Page Hero -->
+<header class="page-hero" role="region" aria-label="Audiobooks Page Header">
+  <div class="container">
+    <span class="badge" style="background:rgba(20,184,166,0.25); color:#2DD4BF; margin-bottom:12px; display:inline-block;">Bangladesh Primary Curriculum</span>
+    <h1 class="page-hero-title">Accessible Primary Educational Audiobooks</h1>
+    <p class="page-hero-desc">Free, high-quality audio lessons produced specifically for visually impaired primary school students and diverse learners across Bangladesh. Streamed directly without redirection.</p>
+  </div>
+</header>
+
+<section class="section-pad">
+  <div class="container">
+    
+    <!-- Controls Bar -->
+    <div class="audiobooks-filter-bar" role="search" aria-label="Filter and Search Audiobooks">
+      <div class="filter-pills" role="group" aria-label="Class Filter">
+        <button type="button" @onclick="@(() => FilterByClass("All"))" class="filter-btn @(SelectedGrade == "All" ? "active" : "")">All Classes</button>
+        <button type="button" @onclick="@(() => FilterByClass("Class 1"))" class="filter-btn @(SelectedGrade == "Class 1" ? "active" : "")">Class 1</button>
+        <button type="button" @onclick="@(() => FilterByClass("Class 2"))" class="filter-btn @(SelectedGrade == "Class 2" ? "active" : "")">Class 2</button>
+        <button type="button" @onclick="@(() => FilterByClass("Class 3"))" class="filter-btn @(SelectedGrade == "Class 3" ? "active" : "")">Class 3</button>
+        <button type="button" @onclick="@(() => FilterByClass("Class 4"))" class="filter-btn @(SelectedGrade == "Class 4" ? "active" : "")">Class 4</button>
+      </div>
+
+      <div class="search-input-wrap" style="margin-bottom:0;">
+        <label for="audiobook-search" class="sr-only">Search audiobooks</label>
+        <input type="text" id="audiobook-search" @bind="SearchQuery" @bind:event="oninput" class="search-input" placeholder="Search audiobooks by title or subject..." />
+      </div>
+    </div>
+
+    <!-- Filtered Books Grid -->
+    <div class="audiobook-grid">
+      @if (!FilteredAudiobooks.Any())
+      {
+        <div class="empty-state-card" style="grid-column: 1 / -1; text-align: center; padding: 48px 24px; background: rgba(255,255,255,0.03); border: 2px dashed rgba(255,255,255,0.15); border-radius: 16px; margin: 20px 0;">
+          <div style="font-size: 3rem; margin-bottom: 12px;" aria-hidden="true">🎧</div>
+          <h2 style="font-size: 1.5rem; margin-bottom: 8px;">
+            @(AppState.CurrentLanguage == "bn" ? "কোনো অডিওবুক প্রকাশিত হয়নি" : "No Audiobooks Available Yet")
+          </h2>
+          <p style="color: var(--text-muted); max-width: 520px; margin: 0 auto 20px; line-height: 1.6;">
+            @(AppState.CurrentLanguage == "bn" 
+              ? "দৃষ্টিপ্রতিবন্ধী শিক্ষার্থীদের জন্য শিক্ষামূলক ইউটিউব অডিওবুক দ্রুত যুক্ত করা হবে। নতুন অডিওবুক প্রকাশের সাথে সাথেই এখানে সরাসরি শোনা যাবে।" 
+              : "Audiobooks will appear here once published by our curriculum team. You can suggest a lesson or request an audiobook below.")
+          </p>
+          <a href="/contact" class="btn btn-primary" style="display: inline-block;">
+            @(AppState.CurrentLanguage == "bn" ? "অডিওবুকের অনুরোধ পাঠান" : "Suggest or Request an Audiobook")
+          </a>
+        </div>
+      }
+      else
+      {
+        @foreach (var book in FilteredAudiobooks)
+        {
+          <article class="audiobook-card">
+            <div class="audiobook-header">
+              <span class="grade-badge">@book.GradeLevel</span>
+              <h3>@(AppState.CurrentLanguage == "bn" ? book.TitleBn : book.TitleEn)</h3>
+            </div>
+            <div class="audiobook-body">
+              <p style="color:var(--text-muted); font-size:0.875rem; margin-bottom:14px;">
+                Duration: <strong>@FormatDuration(book.DurationSeconds)</strong> • Direct YouTube Audio Player
+              </p>
+
+              <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;">
+                <button type="button" class="btn-play-yt" @onclick="() => PlayAudiobook(book)">
+                  <span aria-hidden="true">▶</span> Play on Page
+                </button>
+
+                <button type="button" @onclick="() => ToggleTranscript(book.Id)" class="btn btn-outline-white" style="color:var(--color-navy-dark); border-color:var(--border-color); font-size:0.875rem;">
+                  @(ExpandedTranscriptBookId == book.Id ? "Hide Transcript" : "Accessible Transcript")
+                </button>
+              </div>
+
+              @if (ExpandedTranscriptBookId == book.Id)
+              {
+                <div class="transcript-box">
+                  <p>@(AppState.CurrentLanguage == "bn" ? book.TranscriptBn : book.TranscriptEn)</p>
+                </div>
+              }
+            </div>
+          </article>
+        }
+      }
+    </div>
+
+    <!-- Dedicated YouTube Embedded Player Modal (Plays without redirect) -->
+    @if (ActivePlayingBook != null)
+    {
+      <div class="yt-player-modal" role="dialog" aria-modal="true" aria-labelledby="yt-player-title">
+        <div class="yt-player-dialog">
+          <div class="modal-header" style="margin-bottom:8px;">
+            <div>
+              <span class="grade-badge" style="margin-bottom:6px; display:inline-block;">@ActivePlayingBook.GradeLevel</span>
+              <h3 id="yt-player-title" class="modal-title" style="margin:0;">
+                @(AppState.CurrentLanguage == "bn" ? ActivePlayingBook.TitleBn : ActivePlayingBook.TitleEn)
+              </h3>
+            </div>
+            <button type="button" class="modal-close-btn" @onclick="ClosePlayer" aria-label="Close audio player">×</button>
+          </div>
+
+          <!-- 16:9 YouTube Embedded Iframe Player (No Redirect) -->
+          <div class="video-container-16-9">
+            <iframe src="@YouTubeHelper.GetEmbedUrl(ActivePlayingBook.YouTubeUrl)" 
+                    title="@ActivePlayingBook.TitleEn" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen>
+            </iframe>
+          </div>
+
+          <!-- Synchronized Accessible Transcript -->
+          <div style="margin-top:16px;">
+            <h4 style="margin-bottom:8px;">Accessible Lesson Transcript:</h4>
+            <div class="transcript-box" style="max-height:160px; overflow-y:auto;">
+              <p>@(AppState.CurrentLanguage == "bn" ? ActivePlayingBook.TranscriptBn : ActivePlayingBook.TranscriptEn)</p>
+            </div>
+          </div>
+
+          <div style="text-align:right; margin-top:16px;">
+            <button type="button" class="btn btn-sm btn-primary" @onclick="ClosePlayer">Done / Close Player</button>
+          </div>
+        </div>
+      </div>
+    }
+
+  </div>
+</section>

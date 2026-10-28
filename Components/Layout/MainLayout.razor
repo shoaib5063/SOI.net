@@ -1,0 +1,61 @@
+﻿@inherits LayoutComponentBase
+@inject AppStateService AppState
+
+<div data-theme="@AppState.Theme" style="font-size: @(AppState.FontScalePercent)%; min-height: 100vh; background-color: var(--bg-primary); color: var(--text-main);" class="@(AppState.IsDyslexicFont ? "dyslexic-font" : "") @(AppState.CurrentLanguage == "bn" ? "font-bengali" : "font-english")">
+  
+  <!-- Screen Reader Live Announcements -->
+  <div id="a11y-live-region" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- WCAG 2.1 AA Required: Skip Navigation Link -->
+  <a href="#main-content" class="skip-link">@AppState.T("skipLink")</a>
+
+  <!-- Top Accessibility Toolbar -->
+  <A11yToolbar />
+
+  <!-- Main Navigation -->
+  <NavMenu />
+
+  <!-- Main Body Landmark -->
+  <main id="main-content" role="main" tabindex="-1">
+    @Body
+  </main>
+
+  <!-- Role-Based Simulation Modal -->
+  <RbacModal />
+
+  <!-- Semantic Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <h4>@AppState.T("brandName")</h4>
+        <p>Stories of Inclusion is dedicated to creating accessible learning environments and empowering students with disabilities across Bangladesh.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Quick Navigation</h4>
+        <ul class="footer-links">
+          <li><NavLink href="">@AppState.T("navHome")</NavLink></li>
+          <li><NavLink href="about">@AppState.T("navAbout")</NavLink></li>
+          <li><NavLink href="activities">@AppState.T("navActivities")</NavLink></li>
+          <li><NavLink href="audiobooks">@AppState.T("navAudiobooks")</NavLink></li>
+          <li><NavLink href="team">@AppState.T("navTeam")</NavLink></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Compliance & Policies</h4>
+        <ul class="footer-links">
+          <li><a href="#">WCAG 2.1 AA Statement</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="https://www.facebook.com/storiesofinclusion.bd" target="_blank" rel="noopener noreferrer">Facebook: storiesofinclusion.bd</a></li>
+          <li><a href="mailto:storiesofinclusion.bd@gmail.com">storiesofinclusion.bd@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>© 2026 Stories of Inclusion. All rights reserved. Developed by <a href="https://shoaibahmed1.netlify.app/" target="_blank" rel="noopener noreferrer" style="color:var(--color-primary-light); text-decoration:underline; font-weight:600;">Shoaib Ahmed</a>.</p>
+    </div>
+  </footer>
+
+</div>
