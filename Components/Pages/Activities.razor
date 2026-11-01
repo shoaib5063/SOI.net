@@ -1,4 +1,4 @@
-﻿@page "/activities"
+@page "/activities"
 @inject AppStateService AppState
 
 <PageTitle>Activities & Initiatives | Stories of Inclusion</PageTitle>
@@ -14,6 +14,22 @@
     </nav>
     <h1 id="page-title" class="page-hero-title">@AppState.T("activitiesHeroTitle")</h1>
     <p class="page-hero-desc">@AppState.T("activitiesHeroDesc")</p>
+
+    <!-- Quick Navigation Hub -->
+    <div style="margin-top:24px; display:flex; flex-wrap:wrap; gap:12px;">
+      <NavLink href="activities/magazine" class="btn btn-sm btn-primary">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+        <span>Explore Magazine by Volume</span>
+      </NavLink>
+      <NavLink href="activities/gallery" class="btn btn-sm btn-outline-primary" style="background:rgba(255,255,255,0.1); color:#FFFFFF; border-color:rgba(255,255,255,0.3);">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+        <span>Photo Gallery & Field Work</span>
+      </NavLink>
+      <NavLink href="audiobooks" class="btn btn-sm btn-outline-primary" style="background:rgba(255,255,255,0.1); color:#FFFFFF; border-color:rgba(255,255,255,0.3);">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg>
+        <span>Inclusive Audiobooks</span>
+      </NavLink>
+    </div>
   </div>
 </section>
 
@@ -23,7 +39,9 @@
     <!-- Pillar 1 -->
     <article class="activity-card activity-card-detailed">
       <div class="activity-header-wrap">
-        <div class="activity-icon" style="margin-bottom:0;" aria-hidden="true">📢</div>
+        <div class="activity-icon" style="margin-bottom:0;" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+        </div>
         <div>
           <span class="activity-sub">Spreading the message online & offline</span>
           <h2 class="activity-title-lg">Building Awareness</h2>
@@ -37,10 +55,10 @@
       </p>
       <div class="activity-stats-pills">
         <div class="activity-pill-item">
-          👥 1,700+ Primary Students Engaged
+          1,700+ Primary Students Engaged
         </div>
         <div class="activity-pill-item">
-          📱 The Inclusive Fact Series on Social Media
+          The Inclusive Fact Series on Social Media
         </div>
       </div>
     </article>
@@ -48,7 +66,9 @@
     <!-- Pillar 2 -->
     <article class="activity-card activity-card-detailed">
       <div class="activity-header-wrap">
-        <div class="activity-icon" style="margin-bottom:0;" aria-hidden="true">🏫</div>
+        <div class="activity-icon" style="margin-bottom:0;" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M5 21V7l7-4 7 4v14"></path><path d="M9 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path></svg>
+        </div>
         <div>
           <span class="activity-sub">Engaging schools & policymakers</span>
           <h2 class="activity-title-lg">Advocacy for Inclusive Education</h2>
@@ -62,10 +82,10 @@
       </p>
       <div class="activity-stats-pills">
         <div class="activity-pill-item">
-          🤝 Direct School Authority Engagement
+          Direct School Authority Engagement
         </div>
         <div class="activity-pill-item">
-          ♿ Physical & Digital Classroom Accessibility Guidelines
+          Physical & Digital Classroom Accessibility Guidelines
         </div>
       </div>
     </article>
@@ -73,7 +93,9 @@
     <!-- Pillar 3 -->
     <article class="activity-card activity-card-detailed">
       <div class="activity-header-wrap">
-        <div class="activity-icon" style="margin-bottom:0;" aria-hidden="true">🎧</div>
+        <div class="activity-icon" style="margin-bottom:0;" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg>
+        </div>
         <div>
           <span class="activity-sub">Bangladesh's 1st primary audio platform</span>
           <h2 class="activity-title-lg">Inclusive Audiobook Library</h2>
@@ -86,6 +108,62 @@
         Traditional textbooks do not meet the needs of children with visual impairments. Inclusive Audio bridges this gap with structured narration, clear pronunciations, and accessible transcripts.
       </p>
       <NavLink href="audiobooks" class="btn btn-primary btn-mobile-full" style="align-self:flex-start;">Explore Audiobooks</NavLink>
+    </article>
+
+    <!-- Pillar 4: Stories of Inclusion Magazine (By Volume) -->
+    <article class="activity-card activity-card-detailed">
+      <div class="activity-header-wrap">
+        <div class="activity-icon" style="margin-bottom:0;" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+        </div>
+        <div>
+          <span class="activity-sub">Published research, essays & dispatches</span>
+          <h2 class="activity-title-lg">Stories of Inclusion Magazine (By Volume)</h2>
+        </div>
+      </div>
+      <p style="font-size:1.1rem; line-height:1.8; color:var(--text-muted); margin-bottom:16px;">
+        An open-access quarterly publication organized by issue volume, featuring research papers, assistive technology evaluations, and heartfelt student essays on disability justice in education.
+      </p>
+      <p style="font-size:1rem; line-height:1.7; color:var(--text-main); margin-bottom:24px;">
+        Every volume is curated with full accessibility in mind, providing high-contrast readable layouts, scalable typography, and spoken audio narrations for every article.
+      </p>
+      <div class="activity-stats-pills" style="margin-bottom:24px;">
+        <div class="activity-pill-item">
+          Volume 1 & Volume 2 Available Online
+        </div>
+        <div class="activity-pill-item">
+          Spoken Audio Summaries Included
+        </div>
+      </div>
+      <NavLink href="activities/magazine" class="btn btn-primary btn-mobile-full" style="align-self:flex-start;">Browse Magazine by Volume</NavLink>
+    </article>
+
+    <!-- Pillar 5: Photo Gallery -->
+    <article class="activity-card activity-card-detailed">
+      <div class="activity-header-wrap">
+        <div class="activity-icon" style="margin-bottom:0;" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+        </div>
+        <div>
+          <span class="activity-sub">Moments of change & field workshops</span>
+          <h2 class="activity-title-lg">Inclusive Impact Photo Gallery</h2>
+        </div>
+      </div>
+      <p style="font-size:1.1rem; line-height:1.8; color:var(--text-muted); margin-bottom:16px;">
+        A visual timeline capturing our classroom empathy sessions across Dhaka, high-definition recording sessions with children at studio setups, and youth engagement forums.
+      </p>
+      <p style="font-size:1rem; line-height:1.7; color:var(--text-main); margin-bottom:24px;">
+        Every single photo includes verified, comprehensive WCAG 2.1 AA descriptive alternative text so that visitors utilizing screen readers experience the complete context of each moment.
+      </p>
+      <div class="activity-stats-pills" style="margin-bottom:24px;">
+        <div class="activity-pill-item">
+          100% WCAG 2.1 AA Alt-Text Conformance
+        </div>
+        <div class="activity-pill-item">
+          Interactive Lightbox with Alt-Text Inspector
+        </div>
+      </div>
+      <NavLink href="activities/gallery" class="btn btn-primary btn-mobile-full" style="align-self:flex-start;">View Accessible Photo Gallery</NavLink>
     </article>
 
   </div>

@@ -1,0 +1,302 @@
+@page "/blog"
+@inject AppStateService AppState
+
+<PageTitle>@(AppState.CurrentLanguage == "bn" ? "ব্লগ ও নিবন্ধসমূহ | স্টোরিজ অফ ইনক্লুশন" : "Blog & Thought Leadership | Stories of Inclusion")</PageTitle>
+
+<!-- Hero Section -->
+<section class="page-hero" aria-labelledby="blog-hero-title">
+  <div class="container">
+    <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+      <ol class="breadcrumb-list">
+        <li><NavLink href="">@AppState.T("homeBreadcrumb")</NavLink></li>
+        <li class="breadcrumb-separator" aria-hidden="true">/</li>
+        <li aria-current="page">@AppState.T("navBlog")</li>
+      </ol>
+    </nav>
+    <div class="sdg-badge-wrap" style="margin-bottom:14px;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+      <span>@(AppState.CurrentLanguage == "bn" ? "অন্তর্ভুক্তিমূলক শিক্ষা • গবেষণা ও মাঠপর্যায়ের অভিজ্ঞতা" : "Disability Rights • Educational Insights • Field Narratives")</span>
+    </div>
+    <h1 id="blog-hero-title" class="page-hero-title">
+      @(AppState.CurrentLanguage == "bn" ? "ব্লগ, কলাম ও চিন্তাভাবনা" : "Inclusive Voices & Field Articles")
+    </h1>
+    <p class="page-hero-desc">
+      @(AppState.CurrentLanguage == "bn"
+        ? "বাংলাদেশে বিশেষ চাহিদাসম্পন্ন শিশুদের অধিকার, নতুন শিক্ষণ পদ্ধতি এবং ক্লাসরুম রূপান্তরের গল্পগুলো নিয়ে আমাদের নিয়মিত ব্লগ ও বিশ্লেষণধর্মী লেখা।"
+        : "Thoughtful essays, field dispatches, and policy reflections from the changemakers building barrier-free education across Bangladesh.")
+    </p>
+  </div>
+</section>
+
+<!-- Blog Catalog -->
+<section class="section-pad">
+  <div class="container">
+
+    <!-- Search & Category Filter Card -->
+    <div class="store-toolbar-card" style="margin-bottom:40px;">
+      <div class="category-pills" role="tablist" aria-label="Filter Blog Categories">
+        @foreach (var cat in Categories)
+        {
+          <button type="button" class="category-pill-btn @(SelectedCategory == cat ? "active" : "")" @onclick="() => FilterCategory(cat)">
+            <span>@cat</span>
+            <span class="pill-count">@(cat == "All" ? AllPosts.Count : AllPosts.Count(p => p.Category == cat))</span>
+          </button>
+        }
+      </div>
+
+      <div class="store-action-row" style="margin-top:14px;">
+        <div class="store-search-wrap">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" class="store-search-input" placeholder="Search blog articles by title or keyword..." @bind="SearchQuery" @bind:event="oninput" aria-label="Search articles" />
+        </div>
+
+        <div style="font-size:0.875rem; color:var(--text-muted); font-weight:600;">
+          Showing <strong>@FilteredPosts.Count()</strong> articles
+        </div>
+      </div>
+    </div>
+
+    <!-- Blog Posts Grid -->
+    <div class="blog-posts-grid">
+      @foreach (var post in FilteredPosts)
+      {
+        <article class="blog-card">
+          <div class="blog-card-media">
+            <img src="@post.ImageUrl" alt="@(AppState.CurrentLanguage == "bn" ? post.ImageCaptionBn : post.ImageCaptionEn)" class="blog-card-img" />
+            <span class="blog-category-badge">@post.Category</span>
+          </div>
+
+          <div class="blog-card-body">
+            <div class="blog-meta-row">
+              <span class="blog-date">@post.PublishedDate</span>
+              <span class="blog-read-time" style="display:inline-flex; align-items:center; gap:4px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                <span>@post.ReadTimeMinutes</span>
+              </span>
+            </div>
+
+            <h2 class="blog-title">
+              @(AppState.CurrentLanguage == "bn" ? post.TitleBn : post.TitleEn)
+            </h2>
+
+            <p class="blog-author-line">
+              By <strong>@post.Author</strong> • <span>@post.AuthorRole</span>
+            </p>
+
+            <p class="blog-excerpt">
+              @(AppState.CurrentLanguage == "bn" ? post.ExcerptBn : post.ExcerptEn)
+            </p>
+
+            <!-- Captions & Audio Transcript Disclosure Tag -->
+            <div class="blog-transcript-strip" style="display:inline-flex; align-items:center; gap:6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+              <span>Includes Accessible Transcript & Verified Captions</span>
+            </div>
+
+            <div class="blog-card-actions">
+              <button type="button" class="btn btn-primary btn-sm" @onclick="() => OpenArticleReader(post)">
+                <span>Read Full Article</span>
+                <span aria-hidden="true">→</span>
+              </button>
+
+              <button type="button" class="btn btn-outline-primary btn-sm" @onclick="() => ToggleTranscript(post.Id)">
+                @(ExpandedTranscriptId == post.Id ? "Hide Audio Transcript" : "Audio Transcript")
+              </button>
+            </div>
+
+            @if (ExpandedTranscriptId == post.Id)
+            {
+              <div class="transcript-box" style="margin-top:16px;">
+                <h4 style="font-size:0.9rem; margin-bottom:6px; color:var(--color-navy-dark); display:flex; align-items:center; gap:6px;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+                  <span>Spoken Audio Transcript:</span>
+                </h4>
+                <p>@(AppState.CurrentLanguage == "bn" ? post.AudioTranscriptBn : post.AudioTranscriptEn)</p>
+              </div>
+            }
+          </div>
+        </article>
+      }
+    </div>
+
+  </div>
+</section>
+
+<!-- Full Blog Article Reader Modal -->
+@if (ActiveArticle != null)
+{
+  <div class="modal-overlay active" role="dialog" aria-modal="true" aria-labelledby="modal-blog-title">
+    <div class="modal-dialog article-reader-dialog">
+      <div class="modal-header">
+        <div>
+          <span class="badge-winner" style="font-size:0.75rem; margin-bottom:6px;">@ActiveArticle.Category • @ActiveArticle.PublishedDate</span>
+          <h2 id="modal-blog-title" class="modal-title" style="font-size:1.65rem; margin:0;">
+            @(AppState.CurrentLanguage == "bn" ? ActiveArticle.TitleBn : ActiveArticle.TitleEn)
+          </h2>
+          <p style="font-size:0.9rem; color:var(--color-accent-teal); font-weight:700; margin-top:4px;">
+            By @ActiveArticle.Author (@ActiveArticle.AuthorRole) • @ActiveArticle.ReadTimeMinutes
+          </p>
+        </div>
+        <button type="button" class="modal-close-btn" @onclick="CloseArticleReader" aria-label="Close article modal">×</button>
+      </div>
+
+      <div style="border-radius:12px; overflow:hidden; margin:16px 0; border:1px solid var(--border-color);">
+        <img src="@ActiveArticle.ImageUrl" alt="@(AppState.CurrentLanguage == "bn" ? ActiveArticle.ImageCaptionBn : ActiveArticle.ImageCaptionEn)" style="width:100%; max-height:360px; object-fit:cover; display:block;" />
+        <div style="background:var(--skeuo-inset-grad); padding:10px 14px; font-size:0.85rem; color:var(--text-muted); border-top:1px solid var(--border-color);">
+          <strong>Caption:</strong> @(AppState.CurrentLanguage == "bn" ? ActiveArticle.ImageCaptionBn : ActiveArticle.ImageCaptionEn)
+        </div>
+      </div>
+
+      <div class="article-body-content" style="font-size:1.05rem; line-height:1.85; margin:24px 0; color:var(--text-main); white-space:pre-line;">
+        @(AppState.CurrentLanguage == "bn" ? ActiveArticle.ContentBn : ActiveArticle.ContentEn)
+      </div>
+
+      <div class="modal-footer" style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border-color); padding-top:16px; flex-wrap:wrap; gap:12px;">
+        <div style="display:flex; gap:10px; align-items:center;">
+          <span style="font-weight:700; font-size:0.85rem;">Share:</span>
+          <a href="https://www.facebook.com/storiesofinclusion.bd" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary">Facebook</a>
+          <a href="https://www.linkedin.com/company/stories-of-inclusion" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary">LinkedIn</a>
+        </div>
+        <button type="button" class="btn btn-primary" @onclick="CloseArticleReader">Done Reading</button>
+      </div>
+    </div>
+  </div>
+}
+
+@code {
+  private string SelectedCategory = "All";
+  private string SearchQuery = "";
+  private string? ExpandedTranscriptId = null;
+  private BlogPost? ActiveArticle = null;
+
+  private List<string> Categories = new()
+  {
+    "All",
+    "Advocacy",
+    "Audiobooks",
+    "Teaching Insights",
+    "SDG Impact"
+  };
+
+  private List<BlogPost> AllPosts = new();
+
+  protected override void OnInitialized()
+  {
+    AllPosts = GetSampleBlogPosts();
+  }
+
+  private IEnumerable<BlogPost> FilteredPosts => AllPosts
+    .Where(p => SelectedCategory == "All" || p.Category == SelectedCategory)
+    .Where(p => string.IsNullOrWhiteSpace(SearchQuery) ||
+                p.TitleEn.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ||
+                p.TitleBn.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ||
+                p.ExcerptEn.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase));
+
+  private void FilterCategory(string cat)
+  {
+    SelectedCategory = cat;
+  }
+
+  private void ToggleTranscript(string id)
+  {
+    ExpandedTranscriptId = ExpandedTranscriptId == id ? null : id;
+  }
+
+  private void OpenArticleReader(BlogPost post)
+  {
+    ActiveArticle = post;
+  }
+
+  private void CloseArticleReader()
+  {
+    ActiveArticle = null;
+  }
+
+  private List<BlogPost> GetSampleBlogPosts()
+  {
+    return new List<BlogPost>
+    {
+      new BlogPost
+      {
+        Category = "Advocacy",
+        PublishedDate = "October 20, 2026",
+        TitleEn = "Why Accessible Audiobooks are a Fundamental Human Right for Blind Children",
+        TitleBn = "কেন দৃষ্টিপ্রতিবন্ধী শিশুদের জন্য বিনামূল্যে অডিওবুক একটি মৌলিক অধিকার",
+        Author = "Iffat Nusaiba",
+        AuthorRole = "Co-Founder & Executive Director",
+        ReadTimeMinutes = "4 min",
+        ImageUrl = "./assets/images/hero-team.jpg?v=2",
+        ImageCaptionEn = "Students interacting joyfully during a Stories of Inclusion classroom session in Dhaka.",
+        ImageCaptionBn = "ঢাকার একটি প্রাথমিক শ্রেণীকক্ষে শিশুদের সাথে শিক্ষামূলক সেশনে স্টোরিজ অফ ইনক্লুশন প্রতিনিধিরা।",
+        ExcerptEn = "Equal education is not a gift or an act of charity; it is an unalienable entitlement enshrined in the United Nations Sustainable Development Goals.",
+        ExcerptBn = "সমতাভিত্তিক শিক্ষা কোনো দান বা অনুগ্রহ নয়; এটি জাতিসংঘের টেকসই উন্নয়ন লক্ষ্যমাত্রায় স্বীকৃত প্রতিটি শিশুর মৌলিক মানবাধিকার।",
+        ContentEn = @"When we talk about the literacy rate in Bangladesh, we frequently cite the impressive national primary enrollment figures. But hidden beneath those statistics is an uncomfortable reality: thousands of children who enter school with visual, auditory, or cognitive differences drop out before completing Class 5.
+
+Why? Because traditional classrooms rely almost exclusively on printed paper blackboards and standard ink text. If a child cannot see the board or read the tiny print on low-grade paper, they are systematically silenced.
+
+Our mission at Stories of Inclusion is to replace that barrier with voice. An accessible audiobook is not merely a reading tool; it is independence. When a blind child can sit in bed at night, turn on their audio lesson on an affordable phone, and listen to Class 1, 2, and 4 English and Bengali at their own pace, they regain autonomy over their future.",
+        ContentBn = @"বাংলাদেশের প্রাথমিক শিক্ষার অগ্রযাত্রায় বড় সাফল্য দেখা গেলেও দৃষ্টিপ্রতিবন্ধী শিশুদের ঝরে পড়ার হার এখনও উদ্বেগজনক। কারণ প্রথাগত পাঠ্যপুস্তক কেবল দেখার ওপর নির্ভরশীল।
+
+স্টোরিজ অফ ইনক্লুশন বিশ্বাস করে, দৃষ্টিহীনতা কোনো বাধা হতে পারে না যদি শিক্ষাকে তাদের কানে পৌঁছে দেওয়া যায়। একটি স্মার্টফোনে বিনামূল্যে পাওয়া অডিও পাঠ একজন শিশুর ভেতর স্বাবলম্বী হওয়ার তীব্র আত্মবিশ্বাস জাগিয়ে তোলে।",
+        AudioTranscriptEn = "Audio narration transcript for 'Why Accessible Audiobooks are a Fundamental Human Right': Narrator discusses enrollment statistics in Bangladesh and explains how audio-first education restores educational independence to blind students.",
+        AudioTranscriptBn = "অডিও ট্রান্সক্রিপ্ট: বাংলাদেশে দৃষ্টিপ্রতিবন্ধী শিক্ষার্থীদের শিক্ষার অধিকার এবং কীভাবে অডিওবুক তাদের পড়াশোনায় বৈপ্লবিক পরিবর্তন আনছে তার মৌখিক বিবরণ।"
+      },
+      new BlogPost
+      {
+        Category = "Audiobooks",
+        PublishedDate = "October 14, 2026",
+        TitleEn = "Inside Our Sound Booth: How Volunteers Turn School Books into Living Lessons",
+        TitleBn = "আমাদের অডিও স্টুডিওর ভেতরের গল্প: কীভাবে তৈরি হয় জীবন্ত অডিও লেসন",
+        Author = "Shoaib Ahmed",
+        AuthorRole = "Lead Developer & Tech Architect",
+        ReadTimeMinutes = "5 min",
+        ImageUrl = "./assets/images/award.jpg?v=2",
+        ImageCaptionEn = "Studio microphone setup used to record primary curriculum audiobooks with professional acoustic isolation.",
+        ImageCaptionBn = "পেশাদার অ্যাকোস্টিক স্টুডিওতে তৈরি হচ্ছে শিশুদের উপযোগী প্রাথমিক পাঠ্যক্রমের অডিওবুক।",
+        ExcerptEn = "A peek behind the glass: the voice actors, teachers, and audio engineers who spent hundreds of studio hours recording Class 1, 2, and 4 lessons.",
+        ExcerptBn = "রেকর্ডিং বুথের নেপথ্যে থাকা নিবেদিতপ্রাণ তরুণরা কীভাবে শত শত ঘণ্টা সময় দিয়ে তৈরি করেছেন প্রতিটি আকর্ষণীয় পাঠ।",
+        ContentEn = @"Recording an audiobook for a 7-year-old blind child is entirely different from narrating a novel. 
+
+First, we cannot simply say 'look at the bird in the picture'. Our accessibility scripting team must rewrite the passage into sensory storytelling: 'On the branch sits a bright yellow bird with feathers that shimmer in the sun, singing two cheerful chirps'.
+
+Second, the technical mastering must be flawless. We calibrate our audio processing to guarantee vocal intelligibility even when played through low-cost smartphone loudspeakers in noisy rural schoolrooms.
+
+Over the past year, our volunteer narrators have recorded dozens of full textbook chapters, providing free, open access on YouTube.",
+        ContentBn = @"একটি সাত বছর বয়সী শিশুর জন্য বই পড়া সাধারণ উপন্যাস পড়ার মতো নয়। প্রতিটি ছবি ও অলংকরণকে এমনভাবে মুখে ফুটিয়ে তুলতে হয় যাতে শিশুটি মনের চোখে তা কল্পনা করতে পারে।
+
+আমাদের কারিগরি দল নিশ্চিত করেছে যেন গ্রামের সাধারণ ফোনের স্পিকারেও প্রতিটি উচ্চারণ স্পষ্ট শোনা যায়। তরুণদের এই ভালোবাসার উদ্যোগ আজ হাজারো শিশুর মুখে হাসি ফোটাচ্ছে।",
+        AudioTranscriptEn = "Audio narration transcript: Detailed breakdown of how visual illustrations are rewritten into sensory spoken audio for primary learners.",
+        AudioTranscriptBn = "অডিও ট্রান্সক্রিপ্ট: কীভাবে পাঠ্যবইয়ের প্রতিটি ছবিকে রূপক ও শ্রুতিমধুর ভাষায় রূপান্তর করা হয়েছে তার বিস্তারিত ব্যাখ্যা।"
+      },
+      new BlogPost
+      {
+        Category = "SDG Impact",
+        PublishedDate = "September 28, 2026",
+        TitleEn = "Aligning Bangladesh's Grassroots Movements with UN SDGs 4.5 & 10.2",
+        TitleBn = "জাতিসংঘের এসডিজি ৪.৫ ও ১০.২ অর্জনে বাংলাদেশের তৃণমূল উদ্যোগ",
+        Author = "Naima Jannat Taki",
+        AuthorRole = "Program Design & School Outreach",
+        ReadTimeMinutes = "6 min",
+        ImageUrl = "./assets/images/award-fellowship.jpg?v=2",
+        ImageCaptionEn = "Stories of Inclusion receiving national recognition for advancing inclusive education goals.",
+        ImageCaptionBn = "টেকসই উন্নয়ন লক্ষ্যমাত্রা অর্জনে বিশেষ অবদানের জন্য জাতীয় পর্যায়ে সম্মাননা গ্রহণ।",
+        ExcerptEn = "How youth-led non-profits in Bangladesh are translating lofty global development targets into actual classroom desks, braille pads, and audiobooks.",
+        ExcerptBn = "আন্তর্জাতিক সম্মেলন থেকে শুরু করে ক্লাসরুমের বেঞ্চ পর্যন্ত টেকসই উন্নয়ন লক্ষ্যমাত্রাকে বাস্তবে রূপ দেওয়ার তরুণ প্রয়াস।",
+        ContentEn = @"Sustainable Development Goal 4 explicitly mandates inclusive and equitable quality education by 2030. In particular, Target 4.5 calls for eliminating gender and disability disparities in educational access.
+
+At Stories of Inclusion, we do not view SDGs as theoretical policy manifestos. We view them as daily engineering challenges:
+1. Reaching schools in every administrative division.
+2. Training teachers who have never previously interacted with a child who is blind or neurodivergent.
+3. Offering freely distributable digital learning materials under open licenses.
+
+Our recognition at the BRAC Fellowship confirms that local, community-driven organizations are the true accelerators of global development goals.",
+        ContentBn = @"জাতিসংঘের লক্ষ্যমাত্রা কেবল নথিপত্রে সীমাবদ্ধ থাকলে চলবে না। তা হতে হবে প্রতিটি বিদ্যালয়ের প্রতিটি শিশুর জন্য বাস্তব সত্য।
+
+আমরা শিক্ষক প্রশিক্ষণ, উন্মুক্ত অডিও লাইব্রেরী এবং সহমর্মিতা কর্মশালার মাধ্যমে এসডিজি ৪.৫ বাস্তবায়নে নিরলস কাজ করে যাচ্ছি।",
+        AudioTranscriptEn = "Audio transcript discussing global sustainable development indicators and local implementation metrics across Bangladeshi primary schools.",
+        AudioTranscriptBn = "অডিও ট্রান্সক্রিপ্ট: বাংলাদেশে এসডিজি বাস্তবায়নের বাস্তব চ্যালেঞ্জ ও সমাধানের বিশ্লেষণ।"
+      }
+    };
+  }
+}
+

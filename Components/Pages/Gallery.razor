@@ -1,0 +1,257 @@
+@page "/activities/gallery"
+@page "/gallery"
+@inject AppStateService AppState
+
+<PageTitle>@(AppState.CurrentLanguage == "bn" ? "ফটোগ্রাফি গ্যালারি ও চিত্রমালা | স্টোরিজ অফ ইনক্লুশন" : "Inclusive Photo Gallery & Field Impact | Stories of Inclusion")</PageTitle>
+
+<!-- Hero Section -->
+<section class="page-hero" aria-labelledby="gallery-hero-title">
+  <div class="container">
+    <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+      <ol class="breadcrumb-list">
+        <li><NavLink href="">@AppState.T("homeBreadcrumb")</NavLink></li>
+        <li class="breadcrumb-separator" aria-hidden="true">/</li>
+        <li><NavLink href="activities">@AppState.T("navActivities")</NavLink></li>
+        <li class="breadcrumb-separator" aria-hidden="true">/</li>
+        <li aria-current="page">@AppState.T("navGallery")</li>
+      </ol>
+    </nav>
+    <div class="sdg-badge-wrap" style="margin-bottom:14px;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+      <span>@(AppState.CurrentLanguage == "bn" ? "WCAG ২.১ এএ স্ট্যান্ডার্ড • প্রতিটি ছবিতে বিস্তারিত অল্টারনেটিভ টেক্সট" : "WCAG 2.1 AA Compliant • Descriptive Alt Text for Every Photo")</span>
+    </div>
+    <h1 id="gallery-hero-title" class="page-hero-title">
+      @(AppState.CurrentLanguage == "bn" ? "মাঠপর্যায়ের চিত্রমালা ও ফটো গ্যালারি" : "Moments of Change: Photo Gallery")
+    </h1>
+    <p class="page-hero-desc">
+      @(AppState.CurrentLanguage == "bn"
+        ? "বিদ্যালয়ের শ্রেণীকক্ষ, স্টুডিওতে অডিওবুক রেকর্ডিং এবং জাতীয় স্বীকৃতি অর্জনের মুহূর্তগুলোর জীবন্ত চিত্র। প্রতিটি ছবিতে অন্তর্ভুক্ত রয়েছে সম্পূর্ণ পাঠযোগ্য ডেসক্রিপ্টিভ অল্ট টেক্সট।"
+        : "A visual record of empathy sessions in primary classrooms, audiobook recording studios, and national recognitions across Bangladesh—engineered with meticulous accessible alt text.")
+    </p>
+  </div>
+</section>
+
+<!-- Gallery Filter & Showcase -->
+<section class="section-pad">
+  <div class="container">
+    
+    <!-- Filter Bar -->
+    <div class="store-toolbar-card" style="margin-bottom:36px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+        <div class="category-pills" role="tablist" aria-label="Filter Gallery Categories">
+          @foreach (var cat in Categories)
+          {
+            <button type="button" class="category-pill-btn @(SelectedCategory == cat ? "active" : "")" @onclick="() => FilterCategory(cat)">
+              <span>@cat</span>
+              <span class="pill-count">@(cat == "All" ? AllItems.Count : AllItems.Count(i => i.Category == cat))</span>
+            </button>
+          }
+        </div>
+
+        <div style="font-size:0.875rem; color:var(--color-navy-dark); font-weight:700; display:flex; align-items:center; gap:6px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
+          <span>Screen-reader optimized with rich semantic captions</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gallery Grid -->
+    <div class="gallery-photo-grid">
+      @foreach (var item in FilteredItems)
+      {
+        <div class="gallery-photo-card" @onclick="() => OpenLightbox(item)">
+          <div class="gallery-img-frame">
+            <img src="@item.ImageUrl" alt="@item.AltTextEn" class="gallery-thumb-img" loading="lazy" />
+            <div class="gallery-overlay-badge" style="display:inline-flex; align-items:center; justify-content:center; gap:6px;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+              <span>Click to Expand & Inspect Alt Text</span>
+            </div>
+          </div>
+
+          <div class="gallery-card-info">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <span class="article-category-tag" style="font-size:0.75rem;">@item.Category</span>
+              <span style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">@item.LocationDateEn</span>
+            </div>
+
+            <h3 class="gallery-card-title">
+              @(AppState.CurrentLanguage == "bn" ? item.TitleBn : item.TitleEn)
+            </h3>
+
+            <!-- Accessible Alt Text Indicator Box -->
+            <div class="alt-text-preview-box">
+              <span class="alt-label">ALT TEXT:</span>
+              <p class="alt-desc">@(AppState.CurrentLanguage == "bn" ? item.AltTextBn : item.AltTextEn)</p>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+  </div>
+</section>
+
+<!-- Lightbox Modal with Full Image & Descriptive Alt Text -->
+@if (ActiveLightboxItem != null)
+{
+  <div class="modal-overlay active" role="dialog" aria-modal="true" aria-labelledby="lightbox-title">
+    <div class="modal-dialog gallery-lightbox-dialog">
+      <div class="modal-header">
+        <div>
+          <span class="badge-winner" style="font-size:0.75rem; margin-bottom:6px;">@ActiveLightboxItem.Category • @ActiveLightboxItem.LocationDateEn</span>
+          <h2 id="lightbox-title" class="modal-title" style="font-size:1.5rem; margin:0;">
+            @(AppState.CurrentLanguage == "bn" ? ActiveLightboxItem.TitleBn : ActiveLightboxItem.TitleEn)
+          </h2>
+        </div>
+        <button type="button" class="modal-close-btn" @onclick="CloseLightbox" aria-label="Close photo preview">×</button>
+      </div>
+
+      <div class="lightbox-media-wrap">
+        <img src="@ActiveLightboxItem.ImageUrl" alt="@ActiveLightboxItem.AltTextEn" class="lightbox-full-img" />
+      </div>
+
+      <div class="lightbox-caption-box" style="margin-top:20px;">
+        <h4 style="font-size:1.05rem; color:var(--color-navy-dark); margin-bottom:6px;">
+          <span aria-hidden="true">📝</span> Descriptive Accessibility Caption (WCAG 2.1 AA):
+        </h4>
+        <p style="font-size:0.95rem; line-height:1.65; color:var(--text-main); background:var(--skeuo-inset-grad); border:1px solid var(--skeuo-inset-border); padding:14px; border-radius:10px; box-shadow:var(--skeuo-inset-shadow);">
+          @(AppState.CurrentLanguage == "bn" ? ActiveLightboxItem.AltTextBn : ActiveLightboxItem.AltTextEn)
+        </p>
+
+        <p style="font-size:0.9rem; color:var(--text-muted); margin-top:12px; line-height:1.6;">
+          @(AppState.CurrentLanguage == "bn" ? ActiveLightboxItem.DescriptionBn : ActiveLightboxItem.DescriptionEn)
+        </p>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:24px; border-top:1px solid var(--border-color); padding-top:16px;">
+        <button type="button" class="btn btn-outline-primary" @onclick="ShowPreviousPhoto">
+          <span aria-hidden="true">←</span> Previous Photo
+        </button>
+        <button type="button" class="btn btn-outline-primary" @onclick="ShowNextPhoto">
+          Next Photo <span aria-hidden="true">→</span>
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+@code {
+  private string SelectedCategory = "All";
+  private GalleryItem? ActiveLightboxItem = null;
+
+  private List<string> Categories = new()
+  {
+    "All",
+    "Awards & Fellowships",
+    "Classroom Empathy",
+    "Audiobook Recording",
+    "Leadership & Community"
+  };
+
+  private List<GalleryItem> AllItems = new();
+
+  protected override void OnInitialized()
+  {
+    AllItems = GetSampleGalleryItems();
+  }
+
+  private IEnumerable<GalleryItem> FilteredItems =>
+    SelectedCategory == "All" ? AllItems : AllItems.Where(i => i.Category == SelectedCategory);
+
+  private void FilterCategory(string cat)
+  {
+    SelectedCategory = cat;
+  }
+
+  private void OpenLightbox(GalleryItem item)
+  {
+    ActiveLightboxItem = item;
+  }
+
+  private void CloseLightbox()
+  {
+    ActiveLightboxItem = null;
+  }
+
+  private void ShowNextPhoto()
+  {
+    if (ActiveLightboxItem == null) return;
+    var list = FilteredItems.ToList();
+    var idx = list.IndexOf(ActiveLightboxItem);
+    if (idx < list.Count - 1)
+      ActiveLightboxItem = list[idx + 1];
+    else
+      ActiveLightboxItem = list[0];
+  }
+
+  private void ShowPreviousPhoto()
+  {
+    if (ActiveLightboxItem == null) return;
+    var list = FilteredItems.ToList();
+    var idx = list.IndexOf(ActiveLightboxItem);
+    if (idx > 0)
+      ActiveLightboxItem = list[idx - 1];
+    else
+      ActiveLightboxItem = list[list.Count - 1];
+  }
+
+  private List<GalleryItem> GetSampleGalleryItems()
+  {
+    return new List<GalleryItem>
+    {
+      new GalleryItem
+      {
+        TitleEn = "Conferring the BRAC Amra Notun Fellowship 2026",
+        TitleBn = "ব্র্যাক আমরা নতুন সোশ্যাল এন্টারপ্রেনারশিপ ফেলোশিপ ২০২৬ সম্মাননা",
+        Category = "Awards & Fellowships",
+        ImageUrl = "./assets/images/award-fellowship.jpg?v=2",
+        AltTextEn = "Stories of Inclusion co-founders standing on stage receiving the prestigious BRAC Amra Notun Young Social Entrepreneurs Fellowship 2026 crystal award, surrounded by mentors and jury members in Dhaka.",
+        AltTextBn = "ঢাকায় ব্র্যাকের মঞ্চে স্টোরিজ অফ ইনক্লুশন প্রতিনিধিরা সম্মানিত বিচারকমণ্ডলী ও মেন্টরদের উপস্থিতিতে আমরা নতুন সোশ্যাল এন্টারপ্রেনারশিপ ফেলোশিপ ২০২৬ পুরস্কার গ্রহণ করছেন।",
+        LocationDateEn = "BRAC Centre, Dhaka • October 2026",
+        LocationDateBn = "ব্র্যাক সেন্টার, ঢাকা • অক্টোবর ২০২৬",
+        DescriptionEn = "Recognizing our pioneering digital audiobook library and school advocacy work across primary grades in Bangladesh.",
+        DescriptionBn = "বাংলাদেশের প্রাথমিক বিদ্যালয়ের সুবিধাবঞ্চিত শিশুদের জন্য অডিওবুক লাইব্রেরী প্রতিষ্ঠার জাতীয় স্বীকৃতি।"
+      },
+      new GalleryItem
+      {
+        TitleEn = "Classroom Empathy & Interactive Inclusion Session",
+        TitleBn = "প্রাথমিক বিদ্যালয়ে অন্তর্ভুক্তিমূলক সহমর্মিতা কর্মশালা",
+        Category = "Classroom Empathy",
+        ImageUrl = "./assets/images/hero-team.jpg?v=2",
+        AltTextEn = "A circle of enthusiastic primary school students seated in a brightly decorated classroom, listening intently to inclusive storybooks narrated with tactile toys and accessible flashcards.",
+        AltTextBn = "একটি শ্রেণীকক্ষে প্রাথমিক বিদ্যালয়ের শিশুরা গোল হয়ে বসে মনোযোগ সহকারে স্টোরিজ অফ ইনক্লুশন টিমের সাথে স্পর্শমূলক খেলনা ও গল্পের মাধ্যমে শিখছে।",
+        LocationDateEn = "Government Primary School, Dhaka • 2026",
+        LocationDateBn = "সরকারি প্রাথমিক বিদ্যালয়, ঢাকা • ২০২৬",
+        DescriptionEn = "Over 1,700 students have experienced our disability empathy workshop, reducing stigma and promoting peer support.",
+        DescriptionBn = "১,৭০০ এর বেশি শিক্ষার্থী আমাদের এই সেশনে অংশ নিয়ে বিশেষ চাহিদাসম্পন্ন সহপাঠীদের সহায়তা করার শপথ নিয়েছে।"
+      },
+      new GalleryItem
+      {
+        TitleEn = "Voice Recording Booth: Primary Class Audiobooks",
+        TitleBn = "স্টুডিওতে প্রাথমিক পাঠ্যবইয়ের ভয়েস রেকর্ডিং",
+        Category = "Audiobook Recording",
+        ImageUrl = "./assets/images/award.jpg?v=2",
+        AltTextEn = "Young voice narrator speaking into a professional studio microphone with acoustic foam walls, holding a Class 4 English textbook, monitoring sound levels on an audio dashboard.",
+        AltTextBn = "স্টুডিওতে একজন ভয়েস আর্টিস্ট প্রফেশনাল মাইক্রোফোনে চতুর্থ শ্রেণীর পাঠ্যবই সুস্পষ্ট কণ্ঠে উচ্চারণ ও রেকর্ড করছেন।",
+        LocationDateEn = "Audio Lab, Dhaka • 2026",
+        LocationDateBn = "অডিও ল্যাব, ঢাকা • ২০২৬",
+        DescriptionEn = "Every lesson is recorded with accessible speed modulation and detailed auditory descriptions of visual illustrations.",
+        DescriptionBn = "প্রতিটি অডিও লেসন তৈরি করা হয় বিশেষ গতি ও স্পষ্টতায় যাতে দৃষ্টিপ্রতিবন্ধী শিশু সহজেই প্রতিটি বাক্য আত্মস্থ করতে পারে।"
+      },
+      new GalleryItem
+      {
+        TitleEn = "National Fellowship Winner Celebration",
+        TitleBn = "ফেলোশিপ অর্জন পরবর্তী টিম উদযাপন",
+        Category = "Leadership & Community",
+        ImageUrl = "./assets/images/award-old.jpg?v=2",
+        AltTextEn = "Core leadership team members smiling warmly, holding commemorative certificates of achievement and accessible braille guideline drafts at the fellowship pavilion.",
+        AltTextBn = "স্টোরিজ অফ ইনক্লুশন দলের প্রতিষ্ঠাতা সদস্যরা ফেলোশিপ প্রাপ্তির সনদ ও ব্রেইল সহায়িকা হাতে আনন্দ উদযাপন করছেন।",
+        LocationDateEn = "Youth Impact Conclave • 2026",
+        LocationDateBn = "ইয়ুথ ইমপ্যাক্ট কনক্লেভ • ২০২৬",
+        DescriptionEn = "A milestone celebrating months of grassroots field work, school surveys, and audio engineering.",
+        DescriptionBn = "কঠিন পরিশ্রম এবং স্কুল পর্যায়ের গবেষণার পর একটি ঐতিহাসিক মাইলফলক।"
+      }
+    };
+  }
+}
+

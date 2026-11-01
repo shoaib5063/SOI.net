@@ -1,4 +1,4 @@
-﻿@inject AppStateService AppState
+@inject AppStateService AppState
 @inject NavigationManager Navigation
 
 <div id="rbac-modal" class="modal-overlay @(AppState.IsRbacModalOpen ? "active" : "")" style="@(AppState.IsRbacModalOpen ? "display:flex;" : "display:none;")" role="dialog" aria-modal="true" aria-labelledby="rbac-modal-title">
@@ -14,22 +14,34 @@
 
         <div class="role-cards-grid">
             <div class="role-card @(AppState.CurrentRole == AppRole.Guest ? "selected" : "")" @onclick="@(() => SelectRole(AppRole.Guest))" role="button" tabindex="0">
-                <h4><span aria-hidden="true">🌐</span> Public Visitor</h4>
+                <h4 style="display:flex; align-items:center; gap:8px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                    <span>Public Visitor</span>
+                </h4>
                 <p>Access public website, audiobooks, accessibility tools, and submit inquiries.</p>
             </div>
 
             <div class="role-card @(AppState.CurrentRole == AppRole.User ? "selected" : "")" @onclick="@(() => SelectRole(AppRole.User))" role="button" tabindex="0">
-                <h4><span aria-hidden="true">👤</span> Member (User)</h4>
+                <h4 style="display:flex; align-items:center; gap:8px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <span>Member (User)</span>
+                </h4>
                 <p>Manage individual member portfolio, edit bio, and view approval status.</p>
             </div>
 
             <div class="role-card @(AppState.CurrentRole == AppRole.Admin ? "selected" : "")" @onclick="@(() => SelectRole(AppRole.Admin))" role="button" tabindex="0">
-                <h4><span aria-hidden="true">🛡️</span> Staff Admin</h4>
+                <h4 style="display:flex; align-items:center; gap:8px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    <span>Staff Admin</span>
+                </h4>
                 <p>Moderate submissions, approve portfolios, and publish audiobooks.</p>
             </div>
 
             <div class="role-card @(AppState.CurrentRole == AppRole.SuperAdmin ? "selected" : "")" @onclick="@(() => SelectRole(AppRole.SuperAdmin))" role="button" tabindex="0">
-                <h4><span aria-hidden="true">⚡</span> SuperAdmin</h4>
+                <h4 style="display:flex; align-items:center; gap:8px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                    <span>SuperAdmin</span>
+                </h4>
                 <p>Full control, manage admin permissions, view audit logs & database status.</p>
             </div>
         </div>

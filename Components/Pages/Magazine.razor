@@ -1,0 +1,359 @@
+@page "/activities/magazine"
+@page "/magazine"
+@inject AppStateService AppState
+
+<PageTitle>@(AppState.CurrentLanguage == "bn" ? "ইনক্লুসিভ ম্যাগাজিন (ভলিউম অনুযায়ী) | স্টোরিজ অফ ইনক্লুশন" : "Inclusive Magazine (By Volume) | Stories of Inclusion")</PageTitle>
+
+<!-- Page Hero -->
+<section class="page-hero" aria-labelledby="magazine-hero-title">
+  <div class="container">
+    <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+      <ol class="breadcrumb-list">
+        <li><NavLink href="">@AppState.T("homeBreadcrumb")</NavLink></li>
+        <li class="breadcrumb-separator" aria-hidden="true">/</li>
+        <li><NavLink href="activities">@AppState.T("navActivities")</NavLink></li>
+        <li class="breadcrumb-separator" aria-hidden="true">/</li>
+        <li aria-current="page">@AppState.T("navMagazine")</li>
+      </ol>
+    </nav>
+    <div class="sdg-badge-wrap" style="margin-bottom:14px;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+      <span>@(AppState.CurrentLanguage == "bn" ? "ভলিউম ও প্রবন্ধ সংকলন • উন্মুক্ত পাঠাগার" : "Publication Series • Volumes & Articles")</span>
+    </div>
+    <h1 id="magazine-hero-title" class="page-hero-title">
+      @(AppState.CurrentLanguage == "bn" ? "ইনক্লুসিভ এডুকেশন ম্যাগাজিন" : "Stories of Inclusion: The Magazine")
+    </h1>
+    <p class="page-hero-desc">
+      @(AppState.CurrentLanguage == "bn" 
+        ? "বাংলাদেশে প্রতিবন্ধী শিক্ষার্থীদের অধিকার, শিক্ষক প্রশিক্ষণ ও অন্তর্ভুক্তিমূলক পাঠ্যক্রম নিয়ে শিক্ষাবিদ, গবেষক এবং মাঠপর্যায়ের কর্মীদের ভাবনা ও অনুসন্ধানী নিবন্ধ।" 
+        : "An open-access quarterly publication highlighting firsthand research, disability advocacy, assistive learning breakthroughs, and classroom inclusion across Bangladesh.")
+    </p>
+  </div>
+</section>
+
+<!-- Volume Selector Bar -->
+<section class="section-pad" style="padding-top:40px;">
+  <div class="container">
+    
+    <!-- Volume & Issue Navigation Tabs -->
+    <div class="store-toolbar-card" style="margin-bottom:32px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+        <div class="category-pills" role="tablist" aria-label="Select Volume">
+          <button type="button" class="category-pill-btn @(SelectedVolume == 0 ? "active" : "")" @onclick="() => SelectVolume(0)">
+            <span>@(AppState.CurrentLanguage == "bn" ? "সকল ভলিউম" : "All Volumes")</span>
+            <span class="pill-count">@AllIssues.Count Issues</span>
+          </button>
+          @foreach (var issue in AllIssues)
+          {
+            <button type="button" class="category-pill-btn @(SelectedVolume == issue.VolumeNumber ? "active" : "")" @onclick="() => SelectVolume(issue.VolumeNumber)">
+              <span>@(AppState.CurrentLanguage == "bn" ? $"ভলিউম {issue.VolumeNumber}" : $"Volume {issue.VolumeNumber}")</span>
+              <span class="pill-count">Issue @issue.IssueNumber</span>
+            </button>
+          }
+        </div>
+
+        <div style="font-size:0.875rem; color:var(--text-muted); font-weight:600; display:flex; align-items:center; gap:6px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg>
+          <span>All articles include accessible audio narration & full transcripts.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Volumes & Articles Stream -->
+    @foreach (var issue in FilteredIssues)
+    {
+      <div class="magazine-volume-block" style="margin-bottom:56px;">
+        <!-- Volume Header Plaque -->
+        <div class="magazine-volume-plaque">
+          <div class="volume-badge-row">
+            <span class="badge-winner">Volume @issue.VolumeNumber • Issue @issue.IssueNumber</span>
+            <span style="font-size:0.85rem; color:#94A3B8; font-weight:600;">Published: @issue.PublishedDate</span>
+          </div>
+          <h2 class="volume-title">@(AppState.CurrentLanguage == "bn" ? issue.TitleBn : issue.TitleEn)</h2>
+          <p class="volume-theme">
+            <strong style="color:#2DD4BF;">Theme:</strong> @(AppState.CurrentLanguage == "bn" ? issue.ThemeBn : issue.ThemeEn)
+          </p>
+          <div class="volume-editor-note">
+            <p><strong>Editor's Dispatch:</strong> @(AppState.CurrentLanguage == "bn" ? issue.EditorNoteBn : issue.EditorNoteEn)</p>
+          </div>
+        </div>
+
+        <!-- Articles Grid in this Volume -->
+        <div class="magazine-articles-grid">
+          @foreach (var article in issue.Articles)
+          {
+            <article class="magazine-article-card">
+              <div class="article-card-top">
+                <span class="article-category-tag">@article.Category</span>
+                <span class="article-read-time" style="display:inline-flex; align-items:center; gap:4px;">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  <span>@article.ReadTimeMinutes</span>
+                </span>
+              </div>
+
+              <h3 class="article-title">
+                @(AppState.CurrentLanguage == "bn" ? article.TitleBn : article.TitleEn)
+              </h3>
+
+              <div class="article-meta">
+                <span class="article-author">By <strong>@article.Author</strong></span>
+                <span class="article-role">(@article.AuthorRole)</span>
+              </div>
+
+              <p class="article-excerpt">
+                @(AppState.CurrentLanguage == "bn" ? article.ExcerptBn : article.ExcerptEn)
+              </p>
+
+              <div class="article-card-footer">
+                @if (article.HasAudioNarration)
+                {
+                  <span class="audio-narration-badge" title="Narration Available">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                    <span>Audio Narration</span>
+                  </span>
+                }
+
+                <button type="button" class="btn btn-sm btn-primary" @onclick="() => OpenArticleReader(article)">
+                  <span>Read Article</span>
+                  <span aria-hidden="true">→</span>
+                </button>
+              </div>
+            </article>
+          }
+        </div>
+      </div>
+    }
+
+  </div>
+</section>
+
+<!-- Accessible Article Reader Modal -->
+@if (ActiveReadingArticle != null)
+{
+  <div class="modal-overlay active" role="dialog" aria-modal="true" aria-labelledby="modal-article-title">
+    <div class="modal-dialog article-reader-dialog">
+      <div class="modal-header">
+        <div>
+          <span class="badge-winner" style="font-size:0.75rem; margin-bottom:6px;">Volume @ActiveReadingArticle.VolumeNumber • @ActiveReadingArticle.Category</span>
+          <h2 id="modal-article-title" class="modal-title" style="font-size:1.65rem; margin:0;">
+            @(AppState.CurrentLanguage == "bn" ? ActiveReadingArticle.TitleBn : ActiveReadingArticle.TitleEn)
+          </h2>
+          <p style="font-size:0.9rem; color:var(--color-accent-teal); font-weight:700; margin-top:4px;">
+            By @ActiveReadingArticle.Author (@ActiveReadingArticle.AuthorRole) • @ActiveReadingArticle.ReadTimeMinutes read
+          </p>
+        </div>
+        <button type="button" class="modal-close-btn" @onclick="CloseArticleReader" aria-label="Close article reader">×</button>
+      </div>
+
+      <!-- Article Accessibility Bar -->
+      <div class="article-reader-toolbar">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-weight:700; font-size:0.85rem;">Text Size:</span>
+          <button type="button" class="a11y-btn" style="background:var(--skeuo-btn-sec-bg); color:var(--text-main);" @onclick="() => ReaderFontSize = Math.Max(90, ReaderFontSize - 10)">A-</button>
+          <button type="button" class="a11y-btn" style="background:var(--skeuo-btn-sec-bg); color:var(--text-main);" @onclick="() => ReaderFontSize = 100">100%</button>
+          <button type="button" class="a11y-btn" style="background:var(--skeuo-btn-sec-bg); color:var(--text-main);" @onclick="() => ReaderFontSize = Math.Min(140, ReaderFontSize + 10)">A+</button>
+        </div>
+
+        <button type="button" class="btn btn-sm btn-outline-primary" @onclick="ToggleAudioNarration" style="display:inline-flex; align-items:center; gap:6px;">
+          @if (IsAudioPlaying)
+          {
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+          }
+          else
+          {
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          }
+          <span>@(IsAudioPlaying ? "Pause Audio Summary" : "Listen to Audio Summary")</span>
+        </button>
+      </div>
+
+      @if (IsAudioPlaying)
+      {
+        <div class="audio-player-sim" style="margin:16px 0;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+          <div class="progress-track" style="margin:0 10px;">
+            <div class="progress-fill" style="width:48%;"></div>
+          </div>
+          <span style="font-size:0.8rem; font-weight:700; color:var(--color-accent-teal);">Playing Narration (1:45 / 4:10)</span>
+        </div>
+      }
+
+      <!-- Article Body -->
+      <div class="article-body-content" style="font-size:@(ReaderFontSize)%; line-height:1.85; margin:24px 0; color:var(--text-main);">
+        <p style="font-size:1.15rem; font-weight:600; color:var(--color-navy-dark); margin-bottom:18px;">
+          @(AppState.CurrentLanguage == "bn" ? ActiveReadingArticle.ExcerptBn : ActiveReadingArticle.ExcerptEn)
+        </p>
+
+        <div style="white-space:pre-line; color:var(--text-main);">
+          @(AppState.CurrentLanguage == "bn" ? ActiveReadingArticle.ContentBn : ActiveReadingArticle.ContentEn)
+        </div>
+      </div>
+
+      <div class="modal-footer" style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border-color); padding-top:16px;">
+        <span style="font-size:0.85rem; color:var(--text-muted);">Stories of Inclusion Open Publishing • CC BY-NC-SA 4.0</span>
+        <button type="button" class="btn btn-primary" @onclick="CloseArticleReader">Done Reading</button>
+      </div>
+    </div>
+  </div>
+}
+
+@code {
+  private int SelectedVolume = 0;
+  private MagazineArticle? ActiveReadingArticle = null;
+  private int ReaderFontSize = 100;
+  private bool IsAudioPlaying = false;
+
+  private List<MagazineIssue> AllIssues = new();
+
+  protected override void OnInitialized()
+  {
+    AllIssues = GetSampleMagazineIssues();
+  }
+
+  private IEnumerable<MagazineIssue> FilteredIssues =>
+    SelectedVolume == 0 ? AllIssues : AllIssues.Where(i => i.VolumeNumber == SelectedVolume);
+
+  private void SelectVolume(int volume)
+  {
+    SelectedVolume = volume;
+  }
+
+  private void OpenArticleReader(MagazineArticle article)
+  {
+    ActiveReadingArticle = article;
+    IsAudioPlaying = false;
+  }
+
+  private void CloseArticleReader()
+  {
+    ActiveReadingArticle = null;
+    IsAudioPlaying = false;
+  }
+
+  private void ToggleAudioNarration()
+  {
+    IsAudioPlaying = !IsAudioPlaying;
+  }
+
+  private List<MagazineIssue> GetSampleMagazineIssues()
+  {
+    return new List<MagazineIssue>
+    {
+      new MagazineIssue
+      {
+        VolumeNumber = 1,
+        IssueNumber = 1,
+        PublishedDate = "January - June 2026",
+        TitleEn = "Foundations of Accessible Learning in Bangladesh",
+        TitleBn = "বাংলাদেশে অন্তর্ভুক্তিমূলক শিক্ষার ভিত্তি ও সম্ভাবনা",
+        ThemeEn = "Audiobooks, Braille, and Universal Primary Classrooms",
+        ThemeBn = "অডিওবুক, ব্রেইল এবং প্রাথমিক শ্রেণীকক্ষে সার্বজনীন প্রবেশাধিকার",
+        EditorNoteEn = "Our inaugural volume gathers empirical reflections from teachers, speech therapists, and audio engineers who spent six months recording textbooks for blind learners in Dhaka and Gazipur.",
+        EditorNoteBn = "আমাদের প্রথম ভলিউমে ঢাকা এবং গাজীপুরের দৃষ্টিপ্রতিবন্ধী শিশুদের জন্য পাঠ্যবই রূপান্তর ও রেকর্ডিংয়ের বাস্তব অভিজ্ঞতা তুলে ধরেছেন শিক্ষাবিদ ও বিশেষজ্ঞরা।",
+        Articles = new List<MagazineArticle>
+        {
+          new MagazineArticle
+          {
+            VolumeNumber = 1,
+            IssueNumber = 1,
+            Category = "Classroom Practice",
+            TitleEn = "The Sound of Belonging: Recording Audiobooks for Blind Primary Students",
+            TitleBn = "একীভূত শিক্ষার সুর: দৃষ্টিপ্রতিবন্ধী শিশুদের জন্য অডিওবুক রেকর্ডিং",
+            Author = "Iffat Nusaiba",
+            AuthorRole = "Lead Project Director",
+            ReadTimeMinutes = "6 min",
+            ExcerptEn = "When a blind primary student hears their National Curriculum textbook performed with warmth, character, and tactile audio descriptions, education ceases to be an obstacle and becomes home.",
+            ExcerptBn = "দৃষ্টিপ্রতিবন্ধী শিশুরা যখন তাদের ক্লাসের পাঠ্যবই স্পষ্ট ও আন্তরিক কণ্ঠে শুনতে পায়, তখন শিক্ষাজীবন তাদের কাছে কোনো বোঝা থাকে না, বরং অনুপ্রেরণার উৎস হয়ে ওঠে।",
+            ContentEn = @"In Bangladesh, approximately 4.5% of primary-aged children live with mild to severe visual disabilities. Yet, fewer than 3% of rural schools possess single-copy Braille textbooks by mid-academic year.
+
+Stories of Inclusion set out to bridge this gap through auditory empowerment. By leveraging YouTube's universal streaming infrastructure, we ensured that a parent with even a basic smartphone could open Class 1, 2, and 4 English and Bangla lessons without expensive specialized hardware.
+
+Our studio methodology pairs trained voice narrators with accessibility editors who meticulously transcribe diagrams, math symbols, and illustrations into descriptive spoken English and Bengali.
+
+The result is tangible: in schools where our audio lessons were deployed during pilot trials, student engagement among blind students rose by 72% in oral comprehension tests.",
+            ContentBn = @"বাংলাদেশে প্রায় ৪.৫% প্রাথমিক পর্যায়ের শিশু কোনো না কোনো দৃষ্টিসীমাবদ্ধতায় ভুগছে। অথচ প্রত্যন্ত অঞ্চলগুলোতে শিক্ষাবর্ষের মাঝামাঝিও ব্রেইল বইয়ের তীব্র সংকট থাকে।
+
+স্টোরিজ অফ ইনক্লুশন এই বাধা দূর করতে অডিও মাধ্যমকে বেছে নিয়েছে। ইউটিউবের উন্মুক্ত কাঠামোর সাহায্যে যেকোনো সাধারণ স্মার্টফোনেই প্রথম, দ্বিতীয় ও চতুর্থ শ্রেণীর বাংলা ও ইংরেজি পাঠ পৌঁছে দেওয়া সম্ভব হচ্ছে।
+
+আমাদের স্টুডিওর বিশেষত্ব হলো প্রতিটি চিত্র, মানচিত্র ও গণিতের সমস্যাকে সাবলীল বর্ণনামূলক ভাষায় রূপান্তর করা, যাতে শিশুটি শুধু শোনেই না, কল্পনায় পুরো বিষয়টি অনুভব করতে পারে।"
+          },
+          new MagazineArticle
+          {
+            VolumeNumber = 1,
+            IssueNumber = 1,
+            Category = "Assistive Tech",
+            TitleEn = "Designing Braille & Tactile Flashcards on a Grassroots Budget",
+            TitleBn = "স্বল্প খরচে ব্রেইল ও স্পর্শমূলক ফ্ল্যাশকার্ড তৈরির অভিজ্ঞতা",
+            Author = "Shoaib Ahmed",
+            AuthorRole = "Full-Stack Developer & Accessibility Architect",
+            ReadTimeMinutes = "5 min",
+            ExcerptEn = "Assistive technology does not always require imported multimillion-dollar hardware; sustainable inclusion starts with tactile design engineering available in our local markets.",
+            ExcerptBn = "সহায়ক প্রযুক্তির জন্য কোটি টাকার বিদেশি যন্ত্রপাতির দরকার নেই; স্থানীয় কাঁচামাল ও সৃজনশীল স্পর্শমূলক নকশার মাধ্যমেই টেকসই সমাধান সম্ভব।",
+            ContentEn = @"High-tech refreshable Braille displays retail for upwards of $2,000 USD, a sum prohibitive for 99% of government primary schools in Bangladesh.
+
+In our lab, we developed embossed tactile flashcards using recycled heavyweight cardstock and cold-press embossing dies. Each card combines raised-relief Bengali vowels and consonants alongside grade-appropriate Braille embossing and high-contrast color lettering.
+
+This allows low-vision, completely blind, and sighted children to share the exact same physical card game during classroom group activities.",
+            ContentBn = @"একটি আধুনিক ডিজিটাল ব্রেইল ডিসপ্লের দাম দুই লাখ টাকারও বেশি, যা বাংলাদেশের সরকারি প্রাথমিক বিদ্যালয়গুলোর জন্য অসম্ভব।
+
+আমরা স্থানীয়ভাবে পুনর্ব্যবহারযোগ্য ভারী বোর্ড ও অ্যাম্বসিং ডাই ব্যবহার করে দ্বিমুখী ফ্ল্যাশকার্ড তৈরি করেছি। এই কার্ডগুলো একই সাথে সাধারণ হরফ, উঁচু রেখা এবং ব্রেইল সংকেতে তৈরি, ফলে একজন দৃষ্টিপ্রতিবন্ধী শিশু তার দৃষ্টিসম্পন্ন সহপাঠীর সাথে একই সাথে খেলতে ও শিখতে পারে।"
+          }
+        }
+      },
+      new MagazineIssue
+      {
+        VolumeNumber = 2,
+        IssueNumber = 1,
+        PublishedDate = "July - December 2026",
+        TitleEn = "Scaling Social Innovation & Public Policy Reforms",
+        TitleBn = "সামাজিক উদ্ভাবন ও শিক্ষানীতি সংস্কারের বিস্তার",
+        ThemeEn = "National Fellowships, School Partnerships, and SDG 4.5",
+        ThemeBn = "জাতীয় ফেলোশিপ, বিদ্যালয় অংশীদারিত্ব ও টেকসই উন্নয়ন লক্ষ্যমাত্রা ৪.৫",
+        EditorNoteEn = "Following our recognition at the BRAC Amra Notun Young Social Entrepreneurs Fellowship 2026, Volume 2 surveys systemic outreach, volunteer management, and policy institutionalization.",
+        EditorNoteBn = "ব্র্যাক আমরা নতুন ফেলোশিপ ২০২৬ প্রাপ্তির পর আমাদের দ্বিতীয় ভলিউমে উঠে এসেছে দেশব্যাপী বিদ্যালয়গুলোর সাথে অংশীদারিত্ব ও দীর্ঘমেয়াদী নীতিমালা বাস্তবায়নের রূপরেখা।",
+        Articles = new List<MagazineArticle>
+        {
+          new MagazineArticle
+          {
+            VolumeNumber = 2,
+            IssueNumber = 1,
+            Category = "Social Innovation",
+            TitleEn = "Winning the BRAC Fellowship 2026: A Blueprint for Inclusive Nonprofits",
+            TitleBn = "ব্র্যাক ফেলোশিপ ২০২৬ অর্জন: অন্তর্ভুক্তিমূলক সমাজ গড়ার একটি রূপরেখা",
+            Author = "Shoaib Ahmed & Iffat Nusaiba",
+            AuthorRole = "Co-Founding Board",
+            ReadTimeMinutes = "7 min",
+            ExcerptEn = "How a student-led initiative went from recording audiobooks in bedrooms to standing on the national stage as BRAC Social Entrepreneurship winners.",
+            ExcerptBn = "কীভাবে একটি সাধারণ ছাত্র আন্দোলন নিজেদের শোবার ঘরে বই রেকর্ড করা থেকে শুরু করে ব্র্যাক জাতীয় ফেলোশিপের সম্মান অর্জন করল—তার পেছনের গল্প।",
+            ContentEn = @"When BRAC announced the Amra Notun Fellowship 2026 winners, Stories of Inclusion stood as validation for grassroots persistence.
+
+The fellowship provided not just prize funding, but rigorous enterprise scaling mentorship: measuring social return on investment (SROI), ensuring WCAG 2.1 AA accessibility compliance across our digital web platforms, and structuring volunteer retention.
+
+Our journey proves that when youthful compassion meets sound engineering and pedagogical discipline, structural change happens.",
+            ContentBn = @"ব্র্যাকের 'আমরা নতুন ফেলোশিপ ২০২৬' এর মঞ্চে যখন স্টোরিজ অফ ইনক্লুশনের নাম ঘোষিত হয়, তখন তা ছিল তৃণমূল পর্যায়ের একনিষ্ঠ কাজের আনুষ্ঠানিক স্বীকৃতি।
+
+এই ফেলোশিপ কেবল আর্থিক অনুদানই দেয়নি, বরং একটি টেকসই সামাজিক উদ্যোগ হিসেবে গড়ে ওঠার প্রয়োজনীয় দিকনির্দেশনা ও মেন্টরশিপ নিশ্চিত করেছে। আমরা ডিজিটাল প্ল্যাটফর্মের আন্তর্জাতিক অ্যাক্সেসিবিলিটি মান নিশ্চিত করেছি এবং দেশজুড়ে স্বেচ্ছাসেবক নেটওয়ার্ক প্রসারিত করেছি।"
+          },
+          new MagazineArticle
+          {
+            VolumeNumber = 2,
+            IssueNumber = 1,
+            Category = "Audio Engineering",
+            TitleEn = "Mastering Audiobooks for Diverse Acoustic Classrooms",
+            TitleBn = "শ্রেণীকক্ষের কোলাহলমুক্ত অডিও মাস্টারিং কৌশল",
+            Author = "Ismail Hosen Polash",
+            AuthorRole = "Audio Engineer & Producer",
+            ReadTimeMinutes = "5 min",
+            ExcerptEn = "Why recording an audiobook for rural classrooms requires specialized EQ curves, high-gain intelligibility, and zero background artifacting.",
+            ExcerptBn = "গ্রামাঞ্চলের শ্রেণীকক্ষে যেখানে ফ্যান বা পারিপার্শ্বিক শব্দ থাকে, সেখানে অডিওবুককে সর্বোচ্চ স্পষ্ট করতে বিশেষ সাউন্ড মাস্টারিং প্রয়োজন।",
+            ContentEn = @"Standard commercial audiobooks assume listeners have noise-canceling headphones. In a rural school in Manikganj or Sylhet, however, 15 children might be listening through a single small Bluetooth speaker with ceiling fans roaring above.
+
+To solve this, our mastering chain incorporates narrow vocal presence EQ, aggressive multiband speech compression, and normalized -14 LUFS loudness standards tailored for mobile speakers without clipping.",
+            ContentBn = @"সাধারণ অডিওবুক হেডফোনে শোনার জন্য তৈরি হয়। কিন্তু আমাদের দেশের গ্রামাঞ্চলে হয়তো একটি ছোট স্পিকারে একসাথে ১৫ জন শিশু পাঠ শুনছে। তাই আমরা বিশেষ ভোকাল কম্প্রেশন এবং নয়েজ রিডাকশন ব্যবহার করি যাতে যেকোনো সাধারণ স্পিকারেও প্রতিটি শব্দ স্ফটিকের মতো পরিষ্কার শোনা যায়।"
+          }
+        }
+      }
+    };
+  }
+}
+

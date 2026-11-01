@@ -8,7 +8,7 @@
   <div class="container hero-grid">
     <div class="hero-content">
       <div class="sdg-badge-wrap">
-        <span aria-hidden="true">🌍</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
         <span>@AppState.T("heroBadge")</span>
       </div>
       
@@ -119,21 +119,27 @@
 
     <div class="activity-grid">
       <div class="activity-card">
-        <div class="activity-icon" aria-hidden="true">📢</div>
+        <div class="activity-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+        </div>
         <h3>Building Awareness</h3>
         <p class="activity-sub">Spreading the message online & offline</p>
         <p>Reaching over 1,700 primary school children through interactive empathy sessions, and thousands more through the online 'Inclusive Fact Series' on social media.</p>
       </div>
 
       <div class="activity-card">
-        <div class="activity-icon" aria-hidden="true">🏫</div>
+        <div class="activity-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M5 21V7l7-4 7 4v14"></path><path d="M9 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path></svg>
+        </div>
         <h3>Advocacy for Inclusive Education</h3>
         <p class="activity-sub">Engaging schools & policymakers</p>
         <p>Partnering with school authorities to introduce assistive technology, inclusive classroom practices, and supportive curricula for students with special needs.</p>
       </div>
 
       <div class="activity-card">
-        <div class="activity-icon" aria-hidden="true">🎧</div>
+        <div class="activity-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg>
+        </div>
         <h3>Inclusive Audiobook Library</h3>
         <p class="activity-sub">Bangladesh's 1st primary audio platform</p>
         <p>Providing free, high-quality audio lessons in Bangla and English for primary Classes 1, 2, and 4 so children with visual challenges never fall behind.</p>
@@ -159,7 +165,9 @@
       @if (!FeaturedAudiobooks.Any())
       {
         <div class="empty-state-card" style="grid-column: 1 / -1; text-align: center; padding: 48px 24px; background: rgba(255,255,255,0.03); border: 2px dashed rgba(255,255,255,0.15); border-radius: 16px; margin: 12px 0;">
-          <div style="font-size: 2.8rem; margin-bottom: 12px;" aria-hidden="true">🎧</div>
+          <div style="margin-bottom: 12px; color: var(--color-accent-teal);" aria-hidden="true">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg>
+          </div>
           <h3 style="font-size: 1.35rem; margin-bottom: 8px;">
             @(AppState.CurrentLanguage == "bn" ? "নতুন অডিওবুক দ্রুত আসছে" : "Educational Audiobooks Coming Soon")
           </h3>
