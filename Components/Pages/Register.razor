@@ -1,0 +1,181 @@
+@page "/register"
+@inject AppStateService AppState
+@inject NavigationManager Navigation
+
+<PageTitle>@AppState.T("registerHeroTitle") | Stories of Inclusion</PageTitle>
+
+<section class="section-pad auth-section">
+  <div class="container auth-container">
+    
+    <!-- Tactile Skeuomorphic Registration Card -->
+    <div class="auth-card">
+      <div class="auth-card-top-plaque">
+        <div class="auth-card-badge">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="8.5" cy="7" r="4"></circle>
+            <line x1="20" y1="8" x2="20" y2="14"></line>
+            <line x1="23" y1="11" x2="17" y2="11"></line>
+          </svg>
+          <span>Community Membership • Open Platform</span>
+        </div>
+        <h2 class="auth-card-title">Join Our Mission</h2>
+        <p class="auth-card-subtitle">Create your verified contributor profile to submit audiobooks, articles, and learning tools.</p>
+      </div>
+
+      <!-- Alert Box -->
+      @if (!string.IsNullOrEmpty(ErrorMessage))
+      {
+        <div class="auth-alert error" role="alert">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <span>@ErrorMessage</span>
+        </div>
+      }
+
+      @if (!string.IsNullOrEmpty(SuccessMessage))
+      {
+        <div class="auth-alert success" role="alert">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>@SuccessMessage</span>
+        </div>
+      }
+
+      <!-- Main Registration Form -->
+      <EditForm Model="@RegisterModel" OnValidSubmit="HandleRegister" class="auth-form">
+        <DataAnnotationsValidator />
+
+        <div class="form-group">
+          <label for="reg-fullname" class="form-label">Full Name *</label>
+          <div class="input-with-icon">
+            <span class="input-lead-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </span>
+            <InputText id="reg-fullname" 
+                       class="form-input" 
+                       @bind-Value="RegisterModel.FullName" 
+                       placeholder="e.g. Farhana Yasmin" 
+                       required 
+                       aria-required="true" />
+          </div>
+          <ValidationMessage For="@(() => RegisterModel.FullName)" class="validation-msg" />
+        </div>
+
+        <div class="form-group">
+          <label for="reg-email" class="form-label">Email Address *</label>
+          <div class="input-with-icon">
+            <span class="input-lead-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </span>
+            <InputText id="reg-email" 
+                       type="email" 
+                       class="form-input" 
+                       @bind-Value="RegisterModel.Email" 
+                       placeholder="name@example.com" 
+                       required 
+                       aria-required="true" />
+          </div>
+          <ValidationMessage For="@(() => RegisterModel.Email)" class="validation-msg" />
+        </div>
+
+        <div class="form-group">
+          <label for="reg-specialty" class="form-label">Primary Role / Interest</label>
+          <div class="input-with-icon">
+            <span class="input-lead-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            </span>
+            <InputSelect id="reg-specialty" class="form-input" @bind-Value="RegisterModel.Specialty">
+              <option value="Voice Artist & Narrator">Voice Artist & Audio Narrator</option>
+              <option value="Inclusive Curriculum Educator">Inclusive Curriculum Educator</option>
+              <option value="Field Volunteer & Outreach">Field Volunteer & Outreach</option>
+              <option value="Illustrator & Designer">Illustrator & Visual Designer</option>
+              <option value="Accessibility Specialist">Accessibility Specialist</option>
+              <option value="General Supporter">General Supporter</option>
+            </InputSelect>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-password" class="form-label">Create Password *</label>
+          <div class="input-with-icon">
+            <span class="input-lead-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            </span>
+            <InputText id="reg-password" 
+                       type="@(ShowPassword ? "text" : "password")" 
+                       class="form-input" 
+                       @bind-Value="RegisterModel.Password" 
+                       placeholder="At least 6 characters" 
+                       required 
+                       aria-required="true" />
+            <button type="button" 
+                    class="input-trailing-btn" 
+                    @onclick="TogglePasswordVisibility" 
+                    aria-label="@(ShowPassword ? "Hide password" : "Show password")">
+              @if (ShowPassword)
+              {
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+              }
+              else
+              {
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              }
+            </button>
+          </div>
+          <ValidationMessage For="@(() => RegisterModel.Password)" class="validation-msg" />
+        </div>
+
+        <div class="form-group">
+          <label for="reg-confirm-password" class="form-label">Confirm Password *</label>
+          <div class="input-with-icon">
+            <span class="input-lead-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            </span>
+            <InputText id="reg-confirm-password" 
+                       type="@(ShowPassword ? "text" : "password")" 
+                       class="form-input" 
+                       @bind-Value="RegisterModel.ConfirmPassword" 
+                       placeholder="Re-enter your password" 
+                       required 
+                       aria-required="true" />
+          </div>
+          <ValidationMessage For="@(() => RegisterModel.ConfirmPassword)" class="validation-msg" />
+        </div>
+
+        <div class="form-row-remember">
+          <label class="custom-checkbox-label">
+            <InputCheckbox @bind-Value="RegisterModel.AgreeToTerms" class="custom-checkbox" required />
+            <span>I agree to the <NavLink href="terms" class="auth-inline-link">Terms</NavLink> and <NavLink href="privacy" class="auth-inline-link">Privacy Policy</NavLink></span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-auth-submit" disabled="@IsLoading">
+          @if (IsLoading)
+          {
+            <span class="auth-spinner" aria-hidden="true"></span>
+            <span>Creating Your Account...</span>
+          }
+          else
+          {
+            <span>Complete Registration</span>
+            <span aria-hidden="true">→</span>
+          }
+        </button>
+      </EditForm>
+
+      <div class="auth-card-footer">
+        <p>Already an active member or staff administrator?</p>
+        <NavLink href="login" class="auth-register-link">
+          <span>Sign In to Existing Account</span>
+          <span aria-hidden="true">→</span>
+        </NavLink>
+      </div>
+    </div>
+
+  </div>
+</section>

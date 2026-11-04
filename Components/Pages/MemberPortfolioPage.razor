@@ -1,0 +1,242 @@
+@page "/team/{Slug}"
+@page "/portfolio/{Slug}"
+@inject MemberPortfolioService PortfolioService
+@inject AppStateService AppState
+@inject NavigationManager Navigation
+
+<PageTitle>@(Member != null ? $"{Member.FullName} | Member Portfolio" : "Member Not Found") | Stories of Inclusion</PageTitle>
+
+@if (Member == null)
+{
+  <section class="section-pad">
+    <div class="container" style="max-width: 600px; text-align: center;">
+      <div class="auth-card" style="padding: 36px 28px;">
+        <h2>Member Portfolio Not Found</h2>
+        <p style="color: var(--text-muted); margin: 12px 0 24px;">The requested member profile could not be located or may have been relocated.</p>
+        <NavLink href="team" class="btn btn-primary" style="justify-content: center;">
+          <span>← Back to Core Team Directory</span>
+        </NavLink>
+      </div>
+    </div>
+  </section>
+}
+else
+{
+  <section class="page-hero member-hero" aria-labelledby="member-name">
+    <div class="container">
+      <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+        <ol class="breadcrumb-list">
+          <li><NavLink href="">@AppState.T("homeBreadcrumb")</NavLink></li>
+          <li class="breadcrumb-separator" aria-hidden="true">/</li>
+          <li><NavLink href="team">@AppState.T("navTeam")</NavLink></li>
+          <li class="breadcrumb-separator" aria-hidden="true">/</li>
+          <li aria-current="page">@Member.FullName</li>
+        </ol>
+      </nav>
+
+      <div class="member-hero-grid">
+        <div class="member-avatar-wrap">
+          <div class="member-avatar-large" aria-hidden="true">
+            <span>@Member.Initials</span>
+          </div>
+          @if (Member.IsVerified)
+          {
+            <div class="member-verified-badge" title="Verified Stories of Inclusion Contributor">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Verified</span>
+            </div>
+          }
+        </div>
+
+        <div class="member-hero-info">
+          <div class="member-badge-row">
+            <span class="member-role-pill @Member.SystemRole">
+              <span class="role-dot" aria-hidden="true"></span>
+              <span>@GetRoleCategoryDisplay(Member.SystemRole)</span>
+            </span>
+            <span class="member-meta-tag">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              <span>@Member.Location</span>
+            </span>
+            <span class="member-meta-tag">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              <span>Member Since @Member.JoinedYear</span>
+            </span>
+          </div>
+
+          <h1 id="member-name" class="member-hero-name">@Member.FullName</h1>
+          <p class="member-hero-title">@Member.RoleTitle</p>
+
+          <div class="member-hero-actions">
+            <a href="mailto:@Member.Email" class="btn btn-primary btn-sm">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              <span>Contact for Inclusion Work</span>
+            </a>
+
+            @if (CanEditPortfolio)
+            {
+              <NavLink href="dashboard/user" class="btn btn-secondary btn-sm" title="Edit your biographical details and works in your Member Dashboard">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                <span>Edit My Portfolio</span>
+              </NavLink>
+            }
+
+            <NavLink href="team" class="member-back-link">
+              <span>← All Team Members</span>
+            </NavLink>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad portfolio-body-section">
+    <div class="container portfolio-layout-grid">
+      
+      <!-- Left Column: Biography, Quote & Core Specialties -->
+      <div class="portfolio-left-col">
+        
+        <!-- Bilingual Biography Plaque -->
+        <div class="portfolio-card bio-card">
+          <div class="portfolio-card-head">
+            <div class="card-icon-pill" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </div>
+            <h3>Biographical Story</h3>
+            
+            <div class="bio-lang-tabs" role="tablist" aria-label="Bio Language Switcher">
+              <button type="button" 
+                      class="bio-tab-btn @(SelectedBioLang == "en" ? "active" : "")" 
+                      @onclick="@(() => SelectedBioLang = "en")"
+                      role="tab"
+                      aria-selected="@(SelectedBioLang == "en")">
+                English
+              </button>
+              <button type="button" 
+                      class="bio-tab-btn @(SelectedBioLang == "bn" ? "active" : "")" 
+                      @onclick="@(() => SelectedBioLang = "bn")"
+                      role="tab"
+                      aria-selected="@(SelectedBioLang == "bn")">
+                বাংলা
+              </button>
+            </div>
+          </div>
+
+          <div class="bio-content-area" role="tabpanel">
+            @if (SelectedBioLang == "en")
+            {
+              <p class="bio-paragraph">@Member.BioEn</p>
+            }
+            else
+            {
+              <p class="bio-paragraph font-bengali">@Member.BioBn</p>
+            }
+          </div>
+
+          @if (!string.IsNullOrEmpty(Member.Quote))
+          {
+            <div class="member-quote-box">
+              <span class="quote-mark" aria-hidden="true">“</span>
+              <p class="quote-text">@Member.Quote</p>
+            </div>
+          }
+        </div>
+
+        <!-- Specialties & Skills -->
+        <div class="portfolio-card specialties-card">
+          <div class="portfolio-card-head">
+            <div class="card-icon-pill" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            </div>
+            <h3>Key Expertise & Domains</h3>
+          </div>
+
+          <div class="specialties-pills-wrap">
+            @foreach (var spec in Member.Specialties)
+            {
+              <span class="specialty-badge">
+                <span class="badge-check" aria-hidden="true">✓</span>
+                <span>@spec</span>
+              </span>
+            }
+          </div>
+        </div>
+
+        <!-- Impact Highlights -->
+        <div class="portfolio-card impact-card">
+          <div class="portfolio-card-head">
+            <div class="card-icon-pill" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+            </div>
+            <h3>Direct Field Impact</h3>
+          </div>
+
+          <ul class="impact-list">
+            @foreach (var impact in Member.ImpactHighlights)
+            {
+              <li class="impact-item">
+                <div class="impact-icon-wrap" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </div>
+                <span>@impact</span>
+              </li>
+            }
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Contributed Works & Learning Assets -->
+      <div class="portfolio-right-col">
+        <div class="portfolio-card works-card">
+          <div class="portfolio-card-head">
+            <div class="card-icon-pill" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            </div>
+            <div>
+              <h3>Contributed Works & Learning Materials</h3>
+              <p class="card-subtitle">Verified publications, workshops, and educational assets authored or led by @Member.FullName.</p>
+            </div>
+          </div>
+
+          <div class="works-timeline">
+            @foreach (var work in Member.ContributedWorks)
+            {
+              <article class="work-timeline-item">
+                <div class="work-timeline-dot" aria-hidden="true"></div>
+                <div class="work-card">
+                  <div class="work-card-header">
+                    <span class="work-category-badge">@work.Category</span>
+                    <span class="work-year">@work.Year</span>
+                  </div>
+
+                  <h4 class="work-title">@work.Title</h4>
+                  <p class="work-summary">@work.Summary</p>
+
+                  <div class="work-footer-row">
+                    @if (!string.IsNullOrEmpty(work.ImpactMetric))
+                    {
+                      <span class="work-metric-chip">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+                        <span>@work.ImpactMetric</span>
+                      </span>
+                    }
+
+                    @if (!string.IsNullOrEmpty(work.LinkUrl))
+                    {
+                      <NavLink href="@work.LinkUrl" class="work-view-btn">
+                        <span>Explore Asset</span>
+                        <span aria-hidden="true">→</span>
+                      </NavLink>
+                    }
+                  </div>
+                </div>
+              </article>
+            }
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+}

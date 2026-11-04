@@ -105,6 +105,13 @@ namespace StoriesOfInclusion.Components.Layout
             IsActivitiesDropdownOpen = false;
         }
 
+        private void HandleLogout()
+        {
+            CloseAllMenus();
+            AppState.Logout();
+            Navigation.NavigateTo("");
+        }
+
         private async Task OpenRbacModal()
         {
             CloseMobileMenu();

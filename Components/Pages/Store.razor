@@ -348,7 +348,7 @@
         </div>
 
         <div style="display:flex; gap:10px;">
-          <button type="button" class="btn btn-outline-white" style="color:var(--color-navy-dark); border-color:var(--border-color);" @onclick="CloseQuickView">
+          <button type="button" class="btn btn-outline-primary" @onclick="CloseQuickView">
             @(AppState.CurrentLanguage == "bn" ? "বন্ধ করুন" : "Close")
           </button>
           <button type="button" class="btn btn-primary" @onclick="() => { AddToCart(SelectedProductModal); CloseQuickView(); }">

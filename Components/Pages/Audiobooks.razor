@@ -1,4 +1,4 @@
-﻿@page "/audiobooks"
+@page "/audiobooks"
 @rendermode InteractiveServer
 @inject AppStateService AppState
 
@@ -70,7 +70,7 @@
                   <span aria-hidden="true">▶</span> Play on Page
                 </button>
 
-                <button type="button" @onclick="() => ToggleTranscript(book.Id)" class="btn btn-outline-white" style="color:var(--color-navy-dark); border-color:var(--border-color); font-size:0.875rem;">
+                <button type="button" @onclick="() => ToggleTranscript(book.Id)" class="btn btn-outline-primary btn-sm">
                   @(ExpandedTranscriptBookId == book.Id ? "Hide Transcript" : "Accessible Transcript")
                 </button>
               </div>

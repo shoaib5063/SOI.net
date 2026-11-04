@@ -176,7 +176,7 @@
               ? "দৃষ্টিপ্রতিবন্ধী শিক্ষার্থীদের জন্য শিক্ষামূলক ইউটিউব অডিওবুক তৈরি ও রেকর্ডিং চলছে। শীঘ্রই প্রকাশিত হবে।" 
               : "Our inclusive audio lessons for primary school students are being mastered for direct YouTube streaming. Stay tuned!")
           </p>
-          <NavLink href="audiobooks" class="btn btn-outline-white" style="color:var(--color-navy-dark); border-color:var(--border-color); font-size:0.875rem;">
+          <NavLink href="audiobooks" class="btn btn-primary" style="font-size:0.875rem;">
             @(AppState.CurrentLanguage == "bn" ? "অডিওবুক লাইব্রেরী দেখুন →" : "View Audiobooks Library →")
           </NavLink>
         </div>
@@ -200,7 +200,7 @@
                   <span aria-hidden="true">▶</span> Play on Page
                 </button>
 
-                <button type="button" @onclick="() => ToggleTranscript(book.Id)" class="btn btn-outline-white" style="color:var(--color-navy-dark); border-color:var(--border-color); font-size:0.875rem;">
+                <button type="button" @onclick="() => ToggleTranscript(book.Id)" class="btn btn-outline-primary btn-sm">
                   @(ExpandedTranscriptBookId == book.Id ? "Hide Transcript" : "Accessible Transcript")
                 </button>
               </div>

@@ -1,4 +1,4 @@
-﻿@page "/team"
+@page "/team"
 @inject AppStateService AppState
 
 <PageTitle>Our Team | Stories of Inclusion</PageTitle>
@@ -21,18 +21,50 @@
   <div class="container">
     <div class="section-head">
       <span class="section-label">The Changemakers</span>
-      <h2 class="section-title">Meet the Core Team</h2>
+      <h2 class="section-title">Meet the Core Team & Contributors</h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 6px;">
+        Click any member to explore their individual portfolio, bilingual biographical narrative, and learning works.
+      </p>
     </div>
 
     <div class="team-grid">
       @foreach (var member in Members)
       {
         <article class="team-card">
-          <div class="team-avatar-badge" aria-hidden="true">@member.Initials</div>
+          <div class="team-card-top">
+            <div class="team-avatar-badge" aria-hidden="true">@member.Initials</div>
+            <div class="team-badge-stack">
+              <span class="member-role-pill @member.SystemRole">@member.SystemRole</span>
+              @if (member.IsVerified)
+              {
+                <span class="team-verified-tag" title="Verified Contributor">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>Verified</span>
+                </span>
+              }
+            </div>
+          </div>
+
           <div class="team-info">
-            <h4>@member.Name</h4>
-            <p>@member.Role</p>
-            <small style="color:var(--text-muted);">@member.Bio</small>
+            <h3 class="team-member-name">@member.FullName</h3>
+            <p class="team-member-role">@member.RoleTitle</p>
+            <p class="team-bio-excerpt">
+              @(AppState.CurrentLanguage == "bn" && !string.IsNullOrEmpty(member.BioBn) ? member.BioBn : member.BioEn)
+            </p>
+
+            <div class="team-specialties-row">
+              @foreach (var spec in member.Specialties.Take(2))
+              {
+                <span class="team-spec-pill">@spec</span>
+              }
+            </div>
+          </div>
+
+          <div class="team-card-action">
+            <NavLink href="@($"team/{member.Slug}")" class="btn btn-outline-primary btn-sm team-portfolio-btn" aria-label="@($"View {member.FullName}'s member portfolio")">
+              <span>View Portfolio</span>
+              <span aria-hidden="true">→</span>
+            </NavLink>
           </div>
         </article>
       }

@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using StoriesOfInclusion.Services;
 using StoriesOfInclusion.Components;
@@ -12,6 +12,7 @@ builder.Services.AddRazorComponents()
 // Add Application State & Supabase Services
 builder.Services.AddScoped<AppStateService>();
 builder.Services.AddSingleton<ISupabaseService, SupabaseService>();
+builder.Services.AddSingleton<MemberPortfolioService>();
 
 // Configure Bilingual Localization (English & Bengali)
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
