@@ -1,4 +1,4 @@
-﻿// Bilingual Dictionary for Stories of Inclusion (English & Bengali)
+// Bilingual Dictionary for Stories of Inclusion (English & Bengali)
 const translations = {
   en: {
     // Accessibility Toolbar
@@ -149,11 +149,11 @@ const translations = {
     contactHeroDesc: "Get in touch with the Stories of Inclusion team for volunteer opportunities, school partnerships, or general inquiries.",
     contactInfoTitle: "Direct Contact Information",
     contactAddressLabel: "Headquarters Address:",
-    contactAddressVal: "Middle Badda, Dhaka - 1212, Bangladesh",
+    contactAddressVal: "Dhaka, BD",
     contactPhoneLabel: "Phone / WhatsApp:",
-    contactPhoneVal: "+880 1914-015054 / 01772838474",
-    contactEmailLabel: "Email Addresses:",
-    contactEmailVal: "storiesofinclusion.bd@gmail.com, shoaibahmed.5063@gmail.com",
+    contactPhoneVal: "+880 1914-015054",
+    contactEmailLabel: "Email Address:",
+    contactEmailVal: "storiesofinclusion.bd@gmail.com",
     formTypeLabel: "I Want To:",
     formTypeJoin: "Join as Volunteer / Contributor",
     formTypeContact: "General Inquiry / School Partnership",
@@ -335,11 +335,11 @@ const translations = {
     contactHeroDesc: "স্বেচ্ছাসেবী হিসেবে যোগ দিতে, শিক্ষামূলক সহযোগিতা বা যেকোনো তথ্যের জন্য আমাদের সাথে যোগাযোগ করুন।",
     contactInfoTitle: "সরাসরি যোগাযোগের ঠিকানা",
     contactAddressLabel: "প্রধান কার্যালয়:",
-    contactAddressVal: "মধ্য বাড্ডা, ঢাকা - ১২১২, বাংলাদেশ",
+    contactAddressVal: "ঢাকা, বাংলাদেশ",
     contactPhoneLabel: "ফোন / হোয়াটসঅ্যাপ:",
-    contactPhoneVal: "+৮৮০ ১৯১৪-০১৫০৫৪ / ০১৭৭২৮৩৮৪৭৪",
+    contactPhoneVal: "+৮৮০ ১৯১৪-০১৫০৫৪",
     contactEmailLabel: "ইমেইল ঠিকানা:",
-    contactEmailVal: "storiesofinclusion.bd@gmail.com, shoaibahmed.5063@gmail.com",
+    contactEmailVal: "storiesofinclusion.bd@gmail.com",
     formTypeLabel: "আবেদনের ধরন:",
     formTypeJoin: "স্বেচ্ছাসেবী / সদস্য হিসেবে যোগ দিন",
     formTypeContact: "সাধারণ জিজ্ঞাসা / প্রাতিষ্ঠানিক অংশীদারিত্ব",

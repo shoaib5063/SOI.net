@@ -4896,15 +4896,15 @@ a.dropdown-sub-btn.active {
 }
 
 .auth-card {
-  max-width: 480px;
+  max-width: 440px;
   width: 100%;
   background: var(--skeuo-surface-grad);
   border: 1px solid var(--skeuo-surface-border);
   border-top-color: var(--skeuo-surface-border-top);
-  border-radius: 20px;
+  border-radius: 18px;
   box-shadow: 
     var(--skeuo-surface-shadow),
-    0 24px 48px -12px rgba(11, 25, 56, 0.18);
+    0 20px 40px -10px rgba(11, 25, 56, 0.16);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -4912,7 +4912,7 @@ a.dropdown-sub-btn.active {
 
 .auth-card-top-plaque {
   background: linear-gradient(180deg, #15254A 0%, #0E1A34 100%);
-  padding: 24px 28px 20px;
+  padding: 20px 28px;
   color: #FFFFFF;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -4934,10 +4934,10 @@ a.dropdown-sub-btn.active {
 }
 
 .auth-card-title {
-  font-size: 1.5rem;
+  font-size: 1.45rem;
   font-weight: 800;
   color: #FFFFFF;
-  margin: 0 0 6px 0;
+  margin: 0;
   letter-spacing: -0.01em;
 }
 
@@ -5012,6 +5012,70 @@ a.dropdown-sub-btn.active {
   height: 6px;
   border-radius: 50%;
   background: currentColor;
+}
+
+/* Social Authentication (Google & Facebook) */
+.auth-social-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 2px;
+}
+
+.btn-social-auth {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid #D6CEBE;
+  background: #FFFFFF;
+  color: var(--color-navy-dark);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.btn-social-auth:hover {
+  background: #FDFBF7;
+  border-color: var(--color-accent-teal);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+}
+
+.btn-social-auth:active {
+  transform: translateY(0);
+}
+
+.btn-social-auth:focus-visible {
+  outline: 2px solid var(--color-accent-teal);
+  outline-offset: 2px;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #8C8270;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 2px 0;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #D6CEBE;
+}
+
+.auth-divider span {
+  padding: 0 14px;
 }
 
 .auth-form {
@@ -5119,23 +5183,26 @@ a.dropdown-sub-btn.active {
 }
 
 .auth-card-footer {
-  padding: 16px 28px 24px;
+  padding: 14px 28px 20px;
   text-align: center;
   border-top: 1px solid rgba(0, 0, 0, 0.07);
-  margin-top: 8px;
-  font-size: 0.85rem;
+  margin-top: 4px;
+  font-size: 0.875rem;
   color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
 .auth-register-link {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
   color: var(--color-accent-teal);
   font-weight: 700;
-  text-decoration: none;
-  font-size: 0.9rem;
-  margin-top: 4px;
+  text-decoration: underline;
+  font-size: 0.875rem;
+  margin-top: 0;
   transition: color 0.15s ease;
 }
 
@@ -5321,6 +5388,29 @@ a.dropdown-sub-btn.active {
 [data-theme="high-contrast"] .auth-token-code,
 [data-theme="high-contrast"] .auth-recovery-heading {
   color: #FFFF00 !important;
+}
+
+[data-theme="high-contrast"] .btn-social-auth {
+  background: #000000 !important;
+  color: #FFFFFF !important;
+  border: 2px solid #FFFFFF !important;
+  box-shadow: none !important;
+}
+
+[data-theme="high-contrast"] .btn-social-auth:hover,
+[data-theme="high-contrast"] .btn-social-auth:focus-visible {
+  border-color: #00FFFF !important;
+  color: #00FFFF !important;
+  outline: 2px solid #00FFFF !important;
+}
+
+[data-theme="high-contrast"] .auth-divider {
+  color: #FFFF00 !important;
+}
+
+[data-theme="high-contrast"] .auth-divider::before,
+[data-theme="high-contrast"] .auth-divider::after {
+  border-color: #FFFFFF !important;
 }
 
 /* ==========================================================================

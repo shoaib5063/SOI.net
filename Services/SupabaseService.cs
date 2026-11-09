@@ -68,8 +68,7 @@ namespace StoriesOfInclusion.Services
             new() { Id = Guid.NewGuid(), FullName = "Masruba Mehejabin Tanha", Email = "masruba.tanha@storiesofinclusion.org", Role = "user", BioEn = "Public outreach, community engagement, and digital awareness series.", IsPortfolioApproved = true },
             new() { Id = Guid.NewGuid(), FullName = "Ehsan Al Rakib Chowdhury", Email = "ehsan.rakib@storiesofinclusion.org", Role = "user", BioEn = "School campaign execution, volunteer management, and offline logistics.", IsPortfolioApproved = true },
             new() { Id = Guid.NewGuid(), FullName = "Kazi Airin Sultana", Email = "kazi.airin@storiesofinclusion.org", Role = "user", BioEn = "Accessible branding, educational illustrations, and campaign identity.", IsPortfolioApproved = true },
-            new() { Id = Guid.NewGuid(), FullName = "Ismail Hosen Polash", Email = "ismail.polash@storiesofinclusion.org", Role = "user", BioEn = "Audiobook studio recording, audio mastering, and video production.", IsPortfolioApproved = true },
-            new() { Id = Guid.NewGuid(), FullName = "Shoaib Ahmed", Email = "shoaibahmed.5063@gmail.com", Role = "admin", BioEn = "Lead Developer & Accessibility Architect.", IsPortfolioApproved = true }
+            new() { Id = Guid.NewGuid(), FullName = "Ismail Hosen Polash", Email = "ismail.polash@storiesofinclusion.org", Role = "user", BioEn = "Audiobook studio recording, audio mastering, and video production.", IsPortfolioApproved = true }
         };
 
         public SupabaseService(IConfiguration config, ILogger<SupabaseService> logger)

@@ -29,7 +29,6 @@ namespace StoriesOfInclusion.Components.Pages.Dashboard
         {
             new() { Name = "Iffat Nusaiba", Email = "nusaibaiffaat3@gmail.com", Role = "superadmin" },
             new() { Name = "Musarrat Jahan Esha", Email = "mjesha12@gmail.com", Role = "admin" },
-            new() { Name = "Shoaib Ahmed", Email = "shoaibahmed.5063@gmail.com", Role = "admin" },
             new() { Name = "Naima Jannat Taki", Email = "naima.taki@storiesofinclusion.org", Role = "admin" },
             new() { Name = "Md. Rafieu Hossain Arnob", Email = "rafieu.arnob@storiesofinclusion.org", Role = "admin" },
             new() { Name = "Afnan Jahan Orthey", Email = "afnan.orthey@storiesofinclusion.org", Role = "admin" },
@@ -42,7 +41,7 @@ namespace StoriesOfInclusion.Components.Pages.Dashboard
 
         private List<AuditEntry> AuditLogs { get; set; } = new()
         {
-            new("2026-10-27 15:20:10", "Shoaib Ahmed (Admin)", "Approved member portfolio for Tanvir Hasan", "Normal"),
+            new("2026-10-27 15:20:10", "Musarrat Jahan Esha (Admin)", "Approved member portfolio for Tanvir Hasan", "Normal"),
             new("2026-10-27 14:42:05", "System", "Imported 9 core team member profiles into Supabase database", "System"),
             new("2026-10-27 13:25:00", "Iffat Nusaiba (SuperAdmin)", "SuperAdmin session authenticated via Supabase", "Security")
         };

@@ -30,25 +30,38 @@ namespace StoriesOfInclusion.Components.Pages
             ShowPassword = !ShowPassword;
         }
 
-        private void FillSuperAdmin()
+        private async Task LoginWithGoogle()
         {
-            LoginModel.Email = "nusaibaiffaat3@gmail.com";
-            LoginModel.Password = "SuperAdmin2026!";
+            IsLoading = true;
             ErrorMessage = null;
+            SuccessMessage = "Signing in with Google...";
+            StateHasChanged();
+
+            await Task.Delay(450);
+            AppState.Login("contributor@gmail.com", "Google Contributor", AppRole.User);
+            SuccessMessage = "Authenticated! Redirecting to Member Dashboard...";
+            StateHasChanged();
+
+            await Task.Delay(400);
+            IsLoading = false;
+            Navigation.NavigateTo("dashboard/user");
         }
 
-        private void FillStaffAdmin()
+        private async Task LoginWithFacebook()
         {
-            LoginModel.Email = "shoaibahmed.5063@gmail.com";
-            LoginModel.Password = "AdminPass2026!";
+            IsLoading = true;
             ErrorMessage = null;
-        }
+            SuccessMessage = "Signing in with Facebook...";
+            StateHasChanged();
 
-        private void FillMember()
-        {
-            LoginModel.Email = "masruba.tanha@storiesofinclusion.org";
-            LoginModel.Password = "MemberPass2026!";
-            ErrorMessage = null;
+            await Task.Delay(450);
+            AppState.Login("contributor@facebook.com", "Facebook Contributor", AppRole.User);
+            SuccessMessage = "Authenticated! Redirecting to Member Dashboard...";
+            StateHasChanged();
+
+            await Task.Delay(400);
+            IsLoading = false;
+            Navigation.NavigateTo("dashboard/user");
         }
 
         private async Task HandleLogin()
@@ -71,10 +84,10 @@ namespace StoriesOfInclusion.Components.Pages
                 fullName = "Iffat Nusaiba";
                 redirectTarget = "dashboard/superadmin";
             }
-            else if (email.Contains("shoaib") || email.Contains("admin") || email == "shoaibahmed.5063@gmail.com")
+            else if (email.Contains("admin") || email == "admin@storiesofinclusion.org" || email == "staff@storiesofinclusion.org")
             {
                 role = AppRole.Admin;
-                fullName = "Shoaib Ahmed";
+                fullName = "Staff Admin";
                 redirectTarget = "dashboard/admin";
             }
             else

@@ -43,7 +43,7 @@ namespace StoriesOfInclusion.Services
                 CurrentUser = role switch
                 {
                     AppRole.SuperAdmin => new UserSession { FullName = "Iffat Nusaiba", Email = "nusaibaiffaat3@gmail.com", Role = AppRole.SuperAdmin },
-                    AppRole.Admin => new UserSession { FullName = "Shoaib Ahmed", Email = "shoaibahmed.5063@gmail.com", Role = AppRole.Admin },
+                    AppRole.Admin => new UserSession { FullName = "Musarrat Jahan Esha", Email = "mjesha12@gmail.com", Role = AppRole.Admin },
                     AppRole.User => new UserSession { FullName = "Masruba Tanha", Email = "masruba.tanha@storiesofinclusion.org", Role = AppRole.User },
                     _ => null
                 };

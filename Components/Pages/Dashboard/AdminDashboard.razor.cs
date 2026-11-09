@@ -52,7 +52,7 @@ namespace StoriesOfInclusion.Components.Pages.Dashboard
             new() { Name = "Tanvir Hasan", Email = "tanvir.hasan@member.org", Title = "Audiobook Voice Artist", Status = "Pending" },
             new() { Name = "Salma Begum", Email = "salma.begum@teacher.org", Title = "Special Needs Educator", Status = "Pending" },
             new() { Name = "Iffat Nusaiba", Email = "nusaibaiffaat3@gmail.com", Title = "Co-Founder & Director", Status = "Approved" },
-            new() { Name = "Shoaib Ahmed", Email = "shoaibahmed.5063@gmail.com", Title = "Head of Assistive Tech", Status = "Approved" }
+            new() { Name = "Musarrat Jahan Esha", Email = "mjesha12@gmail.com", Title = "Creative Lead & Co-Founder", Status = "Approved" }
         };
 
         private List<AudiobookItem> Audiobooks { get; set; } = new();

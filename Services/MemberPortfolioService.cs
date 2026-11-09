@@ -64,7 +64,7 @@ namespace StoriesOfInclusion.Services
                 RoleTitle = "Creative Lead & Co-Founder",
                 SystemRole = "admin",
                 Email = "mjesha12@gmail.com",
-                Phone = "+880 1772-838474",
+                Phone = "+880 1914-015054",
                 Location = "Dhaka, Bangladesh",
                 JoinedYear = 2024,
                 IsVerified = true,
@@ -92,46 +92,6 @@ namespace StoriesOfInclusion.Services
                         Summary = "Universal accessible design system maintaining minimum 4.5:1 WCAG contrast across all digital and print assets.",
                         LinkUrl = "/about",
                         ImpactMetric = "Platform Design Standard"
-                    }
-                }
-            },
-            new MemberPortfolio
-            {
-                Id = Guid.Parse("00000000-0000-0000-0000-000000000003"),
-                Slug = "shoaib-ahmed",
-                FullName = "Shoaib Ahmed",
-                Initials = "SA",
-                RoleTitle = "Lead Developer & Accessibility Architect",
-                SystemRole = "admin",
-                Email = "shoaibahmed.5063@gmail.com",
-                Phone = "+880 1772-838474",
-                Location = "Middle Badda, Dhaka",
-                JoinedYear = 2024,
-                IsVerified = true,
-                Quote = "The web was built for everyone. Digital barriers can and must be engineered out of existence.",
-                BioEn = "Shoaib Ahmed is the Lead Full-Stack Developer and Digital Accessibility Architect of Stories of Inclusion. He engineered the entire platform architecture using ASP.NET Core Blazor, PostgreSQL/Supabase, and tactile skeuomorphic styling, adhering strictly to WCAG 2.1 AA criteria with real-time screen-reader live regions, dyslexia typography switches, and audio synchronization.",
-                BioBn = "শোয়েব আহমেদ 'স্টোরিজ অফ ইনক্লুশন'-এর প্রধান ডেভেলপার ও ডিজিটাল অ্যাক্সেসিবিলিটি আর্কিটেক্ট। তিনি ডব্লিউসিএজি ২.১ এএ স্ট্যান্ডার্ড অনুযায়ী পুরো ওয়েবসাইট, অডিওবুক প্লেয়ার ও আরবিএসি সিস্টেম তৈরি করেছেন।",
-                Specialties = new() { "Full-Stack Development", "WCAG 2.1 AA Engineering", "Tactile Skeuomorphic UI", "Blazor & PostgreSQL" },
-                ImpactHighlights = new() { "100% WCAG 2.1 AA Audit Pass", "Bilingual Real-Time State Engine", "Zero Emoji Clean Skeuomorphism" },
-                ContributedWorks = new()
-                {
-                    new()
-                    {
-                        Title = "Stories of Inclusion Interactive Web Platform",
-                        Category = "Software Engineering",
-                        Year = "2026",
-                        Summary = "High-performance accessible web platform featuring responsive audiobooks, accessible magazines, galleries, and admin consoles.",
-                        LinkUrl = "/",
-                        ImpactMetric = "Full Production Platform"
-                    },
-                    new()
-                    {
-                        Title = "WCAG 2.1 AA Accessible Audio Player Engine",
-                        Category = "Accessibility Tooling",
-                        Year = "2026",
-                        Summary = "Custom keyboard-controllable audio and YouTube synchronizer with downloadable Bengali and English transcripts.",
-                        LinkUrl = "/audiobooks",
-                        ImpactMetric = "Zero-barrier audio access"
                     }
                 }
             },

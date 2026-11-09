@@ -1,4 +1,4 @@
-﻿// Role-Based Access Control (RBAC) Engine
+// Role-Based Access Control (RBAC) Engine
 class RbacManager {
   constructor() {
     this.roles = ['guest', 'user', 'admin', 'superadmin'];
@@ -32,7 +32,6 @@ class RbacManager {
     const teamMembersList = [
       { id: 'usr_1', name: "Iffat Nusaiba", email: "nusaibaiffaat3@gmail.com", role: "superadmin" },
       { id: 'usr_2', name: "Musarrat Jahan Esha", email: "mjesha12@gmail.com", role: "admin" },
-      { id: 'usr_3', name: "Shoaib Ahmed", email: "shoaibahmed.5063@gmail.com", role: "admin" },
       { id: 'usr_4', name: "Naima Jannat Taki", email: "naima.taki@storiesofinclusion.org", role: "admin" },
       { id: 'usr_5', name: "Md. Rafieu Hossain Arnob", email: "rafieu.arnob@storiesofinclusion.org", role: "admin" },
       { id: 'usr_6', name: "Afnan Jahan Orthey", email: "afnan.orthey@storiesofinclusion.org", role: "admin" },

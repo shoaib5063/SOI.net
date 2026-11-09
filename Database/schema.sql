@@ -1,4 +1,4 @@
-﻿-- ==========================================================================
+-- ==========================================================================
 -- STORIES OF INCLUSION: POSTGRESQL & SUPABASE PRODUCTION SCHEMA
 -- ==========================================================================
 
@@ -67,7 +67,6 @@ CREATE POLICY "Admins can view submissions" ON public.form_submissions FOR SELEC
 INSERT INTO public.profiles (id, email, full_name, role, bio_en, is_portfolio_approved) VALUES
 ('00000000-0000-0000-0000-000000000001', 'nusaibaiffaat3@gmail.com', 'Iffat Nusaiba', 'superadmin', 'Executive leadership, project oversight, and inclusive curriculum direction.', true),
 ('00000000-0000-0000-0000-000000000002', 'mjesha12@gmail.com', 'Musarrat Jahan Esha', 'admin', 'Creative direction, visual storytelling, and accessibility design strategy.', true),
-('00000000-0000-0000-0000-000000000003', 'shoaibahmed.5063@gmail.com', 'Shoaib Ahmed', 'admin', 'Lead Full-Stack Developer & Accessibility Architect.', true),
 ('00000000-0000-0000-0000-000000000004', 'naima.taki@storiesofinclusion.org', 'Naima Jannat Taki', 'admin', 'Program design, school outreach implementation, and stakeholder relations.', true),
 ('00000000-0000-0000-0000-000000000005', 'rafieu.arnob@storiesofinclusion.org', 'Md. Rafieu Hossain Arnob', 'admin', 'Operational efficiency, resource allocation, and program scalability.', true),
 ('00000000-0000-0000-0000-000000000006', 'afnan.orthey@storiesofinclusion.org', 'Afnan Jahan Orthey', 'admin', 'Co-founding strategic direction and policy advocacy partnerships.', true),
