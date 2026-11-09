@@ -5,14 +5,31 @@
 
 <!-- Hero Section -->
 <section class="hero-section" aria-labelledby="hero-heading">
-  <div class="container hero-grid">
+  <!-- Panoramic Atmospheric Background Blend -->
+  <div class="hero-bg-blend" aria-hidden="true">
+    <img src="./assets/images/hero-team.jpg?v=2" alt="" class="hero-bg-blend-img" />
+    <div class="hero-bg-overlay"></div>
+  </div>
+
+  <div class="container hero-container-single">
     <div class="hero-content">
       <div class="sdg-badge-wrap">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
         <span>@AppState.T("heroBadge")</span>
       </div>
       
-      <h1 id="hero-heading" class="hero-title">@AppState.T("heroTitle")</h1>
+      <h1 id="hero-heading" class="hero-title">
+        @if (AppState.CurrentLanguage == "bn")
+        {
+          <span>প্রতিটি শিশুর জন্য নিশ্চিত হোক </span>
+          <span class="hero-title-offset">সমতাভিত্তিক শিক্ষা</span>
+        }
+        else
+        {
+          <span>Making Education </span>
+          <span class="hero-title-offset">Accessible for Every Child</span>
+        }
+      </h1>
       <p class="hero-subtitle">@AppState.T("heroSubtitle")</p>
 
       <div class="hero-actions">
@@ -23,22 +40,24 @@
       <div class="hero-stats">
         <div class="stat-item">
           <h3>1,700+</h3>
-          <p>Students Reached</p>
+          <p>@(AppState.CurrentLanguage == "bn" ? "শিক্ষার্থী অংশগ্রহণ" : "Students Reached")</p>
         </div>
         <div class="stat-item">
           <h3>Class 1, 2, 4</h3>
-          <p>Primary Grade Levels</p>
+          <p>@(AppState.CurrentLanguage == "bn" ? "প্রাথমিক পাঠ্যক্রম" : "Primary Grade Levels")</p>
         </div>
         <div class="stat-item">
           <h3>BRAC 2026</h3>
-          <p>National Fellowship Winner</p>
+          <p>@(AppState.CurrentLanguage == "bn" ? "জাতীয় ফেলোশিপ বিজয়ী" : "National Fellowship Winner")</p>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="hero-media-card">
-      <img src="./assets/images/hero-team.jpg?v=2" alt="Stories of Inclusion team and school students" class="hero-img" />
-    </div>
+  <!-- Ambient Photo Caption Floating on the Blended Background -->
+  <div class="hero-live-caption-tag" aria-hidden="true">
+    <span class="caption-pulse-dot"></span>
+    <span>@(AppState.CurrentLanguage == "bn" ? "সরেজমিনে অন্তর্ভুক্তিমূলক স্কুল ক্যাম্পেইন • বাংলাদেশ" : "Inclusive Field Outreach • Bangladesh")</span>
   </div>
 </section>
 

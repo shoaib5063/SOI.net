@@ -1,4 +1,4 @@
-﻿@page "/dashboard/superadmin"
+@page "/dashboard/superadmin"
 @rendermode InteractiveServer
 @inject AppStateService AppState
 
@@ -18,22 +18,32 @@
     <ul class="dash-nav">
       <li>
         <button type="button" class="dash-nav-link @(ActiveTab == "users" ? "active" : "")" @onclick="@(() => ActiveTab = "users")">
-          <span>👥</span> <span>User Roles & Access</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          <span>User Roles & Access</span>
         </button>
       </li>
       <li>
         <button type="button" class="dash-nav-link @(ActiveTab == "logs" ? "active" : "")" @onclick="@(() => ActiveTab = "logs")">
-          <span>📜</span> <span>System Audit Logs</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          <span>System Audit Logs</span>
         </button>
       </li>
       <li>
         <button type="button" class="dash-nav-link @(ActiveTab == "database" ? "active" : "")" @onclick="@(() => ActiveTab = "database")">
-          <span>🗄️</span> <span>Database & Storage</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+          <span>Database & Storage</span>
+        </button>
+      </li>
+      <li>
+        <button type="button" class="dash-nav-link @(ActiveTab == "admin-guide" ? "active" : "")" @onclick="@(() => ActiveTab = "admin-guide")">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+          <span>Short Admin Guide</span>
         </button>
       </li>
       <li style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.1); padding-top:10px;">
         <NavLink href="" class="dash-nav-link">
-          <span>🌐</span> <span>Public Website</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+          <span>Public Website</span>
         </NavLink>
       </li>
     </ul>
@@ -48,14 +58,16 @@
     <div class="dash-header-bar">
       <div>
         <h1 class="dash-title">SuperAdmin Control Console</h1>
-        <p style="color:var(--text-muted); font-size:0.95rem;">Full administrative privilege: add/delete users, manage roles, and inspect security audit logs.</p>
+        <p style="color:var(--text-muted); font-size:0.95rem;">Full administrative governance: manage user roles, inspect audit logs, and access the official Admin Guide.</p>
       </div>
       <div style="display:flex; gap:10px;">
         <button type="button" class="btn btn-primary btn-sm" @onclick="ToggleAddUserModal">
-          <span>➕ Add New User</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span>Add New User</span>
         </button>
         <button type="button" class="btn btn-outline-primary btn-sm" @onclick="PingDatabase">
-          @(IsPinging ? "Checking..." : "⚡ Ping Supabase DB")
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+          <span>@(IsPinging ? "Checking..." : "Ping Supabase DB")</span>
         </button>
       </div>
     </div>
@@ -111,7 +123,9 @@
           <h3>@Users.Count</h3>
           <p>Total Registered Users</p>
         </div>
-        <div class="dash-stat-icon">👥</div>
+        <div class="dash-stat-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        </div>
       </div>
 
       <div class="dash-stat-card">
@@ -119,7 +133,9 @@
           <h3>@AdminCount</h3>
           <p>Active Staff Admins</p>
         </div>
-        <div class="dash-stat-icon">🛡️</div>
+        <div class="dash-stat-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        </div>
       </div>
 
       <div class="dash-stat-card">
@@ -127,7 +143,9 @@
           <h3 style="color:#15803D;">Connected</h3>
           <p>Supabase Postgres</p>
         </div>
-        <div class="dash-stat-icon">🗄️</div>
+        <div class="dash-stat-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+        </div>
       </div>
 
       <div class="dash-stat-card">
@@ -135,7 +153,9 @@
           <h3>14.8 MB</h3>
           <p>Storage Used (1 GB Free)</p>
         </div>
-        <div class="dash-stat-icon">☁️</div>
+        <div class="dash-stat-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>
+        </div>
       </div>
     </div>
 
@@ -151,7 +171,7 @@
           
           <!-- Search & Filter Controls -->
           <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-            <input type="text" class="form-input" style="width:200px; padding:6px 12px; font-size:0.875rem;" placeholder="🔍 Search name/email..." @bind="SearchQuery" @bind:event="oninput" />
+            <input type="text" class="form-input" style="width:200px; padding:6px 12px; font-size:0.875rem;" placeholder="Search name/email..." @bind="SearchQuery" @bind:event="oninput" />
             
             <select class="form-input" style="width:140px; padding:6px 10px; font-size:0.875rem;" @bind="RoleFilter">
               <option value="all">All Roles</option>
@@ -200,7 +220,8 @@
                 </td>
                 <td>
                   <button type="button" class="btn btn-danger btn-sm" @onclick="() => RevokeUser(u)">
-                    <span>🗑️ Revoke / Delete</span>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                    <span>Revoke</span>
                   </button>
                 </td>
               </tr>
@@ -266,8 +287,11 @@
         
         <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:20px; margin-bottom:24px;">
           <div style="background:var(--bg-primary); padding:20px; border-radius:12px; border:1px solid var(--border-color);">
-            <h4>🗄️ PostgreSQL Tables</h4>
-            <ul style="margin-top:10px; line-height:2; color:var(--text-muted);">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+              <h4 style="margin:0;">PostgreSQL Tables</h4>
+            </div>
+            <ul style="margin:0; padding-left:20px; line-height:2; color:var(--text-muted);">
               <li><strong>public.profiles:</strong> @Users.Count rows</li>
               <li><strong>public.form_submissions:</strong> 6 rows</li>
               <li><strong>public.audiobooks:</strong> 4 rows</li>
@@ -275,8 +299,11 @@
           </div>
 
           <div style="background:var(--bg-primary); padding:20px; border-radius:12px; border:1px solid var(--border-color);">
-            <h4>☁️ Storage Buckets</h4>
-            <ul style="margin-top:10px; line-height:2; color:var(--text-muted);">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>
+              <h4 style="margin:0;">Storage Buckets</h4>
+            </div>
+            <ul style="margin:0; padding-left:20px; line-height:2; color:var(--text-muted);">
               <li><strong>audiobooks:</strong> 3 MP3 files (14.2 MB)</li>
               <li><strong>covers:</strong> 4 JPG images (620 KB)</li>
               <li><strong>Available Free Quota:</strong> 985.2 MB remaining</li>
@@ -288,6 +315,74 @@
       </section>
     }
 
+    <!-- TAB 4: SHORT ADMIN GUIDE (DELIVERABLE #14) -->
+    @if (ActiveTab == "admin-guide")
+    {
+      <section class="dash-card admin-guide-card">
+        <div class="dash-card-header" style="border-bottom: 2px solid var(--border-color); padding-bottom: 18px; margin-bottom: 24px;">
+          <div>
+            <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(124,58,237,0.12); color:#7C3AED; padding:3px 10px; border-radius:9999px; font-size:0.75rem; font-weight:800; margin-bottom:8px;">
+              <span>Executive Manual</span> • <span>Deliverable #14</span>
+            </div>
+            <h2 style="font-size:1.6rem; font-weight:800; margin:0 0 6px 0; color:var(--color-navy-dark);">SuperAdmin & Executive Director Governance Guide</h2>
+            <p style="color:var(--text-muted); font-size:0.925rem; margin:0; line-height:1.6;">
+              Strategic platform governance guide for Executive Director <strong>Iffat Nusaiba</strong> and developer <strong>Shoaib Ahmed</strong> under Section 3 & 5.5 of the Agreement.
+            </p>
+          </div>
+          <button type="button" class="btn btn-outline-primary btn-sm" onclick="window.print()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+            <span>Print Guide (PDF)</span>
+          </button>
+        </div>
+
+        <div class="admin-guide-chapters">
+          
+          <article class="guide-chapter-box">
+            <div class="guide-chapter-badge">Chapter 1</div>
+            <h3 class="guide-chapter-title">Role-Based Access Control (RBAC) Governance</h3>
+            <p class="guide-chapter-desc">
+              The platform enforces 3 security tiers: <code>user</code> (Member), <code>admin</code> (Staff Coordinator), and <code>superadmin</code> (Executive Director).
+            </p>
+            <ol class="guide-steps-list">
+              <li><strong>Promoting Coordinators:</strong> Go to the <em>User Roles & Access</em> tab, search by email, and choose <strong>Staff Admin</strong> from the dropdown.</li>
+              <li><strong>Revoking Access:</strong> If a volunteer leaves, click <strong>Revoke</strong> to safely decommission their credentials.</li>
+              <li><strong>Audit Trail:</strong> Every elevation or role switch is logged chronologically in the <em>System Audit Logs</em> tab.</li>
+            </ol>
+          </article>
+
+          <article class="guide-chapter-box">
+            <div class="guide-chapter-badge">Chapter 2</div>
+            <h3 class="guide-chapter-title">Platform Maintenance & Database Health</h3>
+            <p class="guide-chapter-desc">
+              All records, portfolios, and submissions are stored in Supabase PostgreSQL with Row Level Security (RLS).
+            </p>
+            <ol class="guide-steps-list">
+              <li><strong>Health Checks:</strong> Use <strong>Ping Supabase DB</strong> to verify connection latency and pool status.</li>
+              <li><strong>Quota Management:</strong> Audiobooks use YouTube streaming to maintain virtually 0 MB server storage load, preserving the 1 GB database free tier indefinitely.</li>
+            </ol>
+          </article>
+
+          <article class="guide-chapter-box" style="border-left-color: #22C55E;">
+            <div class="guide-chapter-badge" style="background: rgba(34,197,94,0.15); color: #15803D;">Chapter 3</div>
+            <h3 class="guide-chapter-title">WCAG 2.1 Level AA Platform Conformance Guarantee</h3>
+            <p class="guide-chapter-desc">
+              In accordance with Section 15 of the Agreement, maintain 100% WCAG 2.1 Level AA compliance before announcing public launches or campaigns.
+            </p>
+            <div class="guide-checklist-grid">
+              <div class="guide-check-card">
+                <div class="guide-check-icon">✓</div>
+                <div><strong>4.5:1 Text Contrast</strong> across light, dark, and high-contrast modes.</div>
+              </div>
+              <div class="guide-check-card">
+                <div class="guide-check-icon">✓</div>
+                <div><strong>Full Keyboard & Screen Reader Access</strong> via skip links, ARIA live regions, and semantic landmarks.</div>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </section>
+    }
+
   </main>
 </div>
-

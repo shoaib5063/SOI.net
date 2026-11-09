@@ -10,9 +10,9 @@
         <button type="button" id="btn-font-inc" @onclick="AppState.IncreaseFont" class="a11y-btn" aria-label="Increase text size">A+</button>
       </div>
       
-      <button type="button" id="btn-contrast-toggle" @onclick="AppState.CycleTheme" class="a11y-btn" aria-label="Toggle high contrast or dark mode">
+      <button type="button" id="btn-contrast-toggle" @onclick="AppState.ToggleContrast" class="a11y-btn @(AppState.Theme == "high-contrast" ? "active" : "")" aria-pressed="@(AppState.Theme == "high-contrast" ? "true" : "false")" aria-label="Toggle High Contrast Mode">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 0 0 0 20z" fill="currentColor"></path></svg>
-        <span class="a11y-btn-text">@AppState.T("contrastHigh")</span>
+        <span class="a11y-btn-text">@(AppState.Theme == "high-contrast" ? (AppState.CurrentLanguage == "bn" ? "স্বাভাবিক মোড" : "Normal Mode") : AppState.T("contrastHigh"))</span>
       </button>
 
       <button type="button" id="btn-dyslexia-toggle" @onclick="AppState.ToggleDyslexicFont" class="a11y-btn" aria-label="Toggle dyslexia-friendly font">

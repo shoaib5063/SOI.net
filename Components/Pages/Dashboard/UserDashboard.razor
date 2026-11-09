@@ -1,4 +1,4 @@
-﻿@page "/dashboard/user"
+@page "/dashboard/user"
 @rendermode InteractiveServer
 @inject AppStateService AppState
 @inject NavigationManager Navigation
@@ -19,22 +19,26 @@
     <ul class="dash-nav">
       <li>
         <button type="button" class="dash-nav-link @(ActiveTab == "profile" ? "active" : "")" @onclick="@(() => ActiveTab = "profile")">
-          <span>👤</span> <span>My Profile & Bio</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          <span>My Profile & Bio</span>
         </button>
       </li>
       <li>
         <button type="button" class="dash-nav-link @(ActiveTab == "showcase" ? "active" : "")" @onclick="@(() => ActiveTab = "showcase")">
-          <span>🎨</span> <span>My Works (@ContributedWorks.Count)</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          <span>My Works (@ContributedWorks.Count)</span>
         </button>
       </li>
       <li>
         <button type="button" class="dash-nav-link @(ActiveTab == "submit" ? "active" : "")" @onclick="@(() => ActiveTab = "submit")">
-          <span>➕</span> <span>Submit Contribution</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span>Submit Contribution</span>
         </button>
       </li>
       <li style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.1); padding-top:10px;">
         <NavLink href="" class="dash-nav-link">
-          <span>🌐</span> <span>Public Website</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+          <span>Public Website</span>
         </NavLink>
       </li>
     </ul>
@@ -70,7 +74,9 @@
           <h3>@(ProfileModel.IsPortfolioApproved ? "Approved" : "Pending")</h3>
           <p>Portfolio Status</p>
         </div>
-        <div class="dash-stat-icon">✅</div>
+        <div class="dash-stat-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
       </div>
 
       <div class="dash-stat-card">
@@ -78,7 +84,9 @@
           <h3>@ContributedWorks.Count</h3>
           <p>Active Works Contributed</p>
         </div>
-        <div class="dash-stat-icon">📚</div>
+        <div class="dash-stat-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
       </div>
 
       <div class="dash-stat-card">
@@ -86,7 +94,9 @@
           <h3>1,700+</h3>
           <p>Students Impacted</p>
         </div>
-        <div class="dash-stat-icon">🌟</div>
+        <div class="dash-stat-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
       </div>
     </div>
 
@@ -140,7 +150,8 @@
             <p style="color:var(--text-muted); font-size:0.875rem; margin:0;">Educational resources and empathy programs you have contributed to.</p>
           </div>
           <button type="button" class="btn btn-primary btn-sm" @onclick="@(() => ActiveTab = "submit")">
-            ➕ Add New Project
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <span>Add New Project</span>
           </button>
         </div>
 

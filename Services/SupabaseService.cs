@@ -1,4 +1,4 @@
-﻿using StoriesOfInclusion.Models;
+using StoriesOfInclusion.Models;
 
 namespace StoriesOfInclusion.Services
 {
@@ -7,6 +7,8 @@ namespace StoriesOfInclusion.Services
         Task<List<Audiobook>> GetAudiobooksAsync();
         Task<bool> SubmitFormAsync(FormSubmission submission);
         Task<List<FormSubmission>> GetSubmissionsAsync();
+        Task<bool> UpdateSubmissionStatusAsync(int id, string status);
+        Task<bool> DeleteSubmissionAsync(int id);
         Task<Profile?> GetProfileAsync(Guid userId);
         Task<bool> UpdateProfileAsync(Profile profile);
         Task<List<Profile>> GetAllUsersAsync();
@@ -17,6 +19,44 @@ namespace StoriesOfInclusion.Services
     {
         private readonly IConfiguration _config;
         private readonly ILogger<SupabaseService> _logger;
+
+        private static int _nextSubmissionId = 4;
+        private static readonly List<FormSubmission> _formSubmissions = new()
+        {
+            new()
+            {
+                Id = 1,
+                SubmissionType = "Join Us",
+                FullName = "Tanvir Ahmed",
+                Email = "tanvir.audio@volunteer.org",
+                Phone = "+880 1711-223344",
+                Message = "Interested in volunteering for primary audiobook voice recording in Bengali. I have prior audio storytelling experience.",
+                Status = "New",
+                CreatedAt = DateTime.UtcNow.AddHours(-3)
+            },
+            new()
+            {
+                Id = 2,
+                SubmissionType = "Contact Inquiry",
+                FullName = "Rahima Khatun",
+                Email = "rahima@gazipur-primary.edu.bd",
+                Phone = "+880 1819-988776",
+                Message = "We would love to implement the inclusive audiobook program in our primary school in Gazipur accommodating 12 visually impaired children.",
+                Status = "Under Review",
+                CreatedAt = DateTime.UtcNow.AddDays(-1)
+            },
+            new()
+            {
+                Id = 3,
+                SubmissionType = "Join Us",
+                FullName = "Naimur Rahman",
+                Email = "naimur.design@inclusion.bd",
+                Phone = "+880 1912-345678",
+                Message = "Accessible graphic designer and illustrator ready to assist with high-contrast tactile storybook characters.",
+                Status = "Contacted",
+                CreatedAt = DateTime.UtcNow.AddDays(-2)
+            }
+        };
 
         private static readonly List<Profile> TeamProfiles = new()
         {
@@ -48,13 +88,56 @@ namespace StoriesOfInclusion.Services
         {
             _logger.LogInformation("Saved new form submission from: {Email}", submission.Email);
             await Task.Delay(10);
+            lock (_formSubmissions)
+            {
+                submission.Id = _nextSubmissionId++;
+                submission.CreatedAt = DateTime.UtcNow;
+                if (string.IsNullOrWhiteSpace(submission.Status))
+                {
+                    submission.Status = "New";
+                }
+                _formSubmissions.Insert(0, submission);
+            }
             return true;
         }
 
         public async Task<List<FormSubmission>> GetSubmissionsAsync()
         {
             await Task.Delay(10);
-            return new List<FormSubmission>();
+            lock (_formSubmissions)
+            {
+                return _formSubmissions.OrderByDescending(s => s.CreatedAt).ToList();
+            }
+        }
+
+        public async Task<bool> UpdateSubmissionStatusAsync(int id, string status)
+        {
+            await Task.Delay(10);
+            lock (_formSubmissions)
+            {
+                var item = _formSubmissions.FirstOrDefault(s => s.Id == id);
+                if (item != null)
+                {
+                    item.Status = status;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public async Task<bool> DeleteSubmissionAsync(int id)
+        {
+            await Task.Delay(10);
+            lock (_formSubmissions)
+            {
+                var item = _formSubmissions.FirstOrDefault(s => s.Id == id);
+                if (item != null)
+                {
+                    _formSubmissions.Remove(item);
+                    return true;
+                }
+            }
+            return false;
         }
 
         public async Task<Profile?> GetProfileAsync(Guid userId)

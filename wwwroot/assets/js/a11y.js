@@ -1,4 +1,4 @@
-﻿// Accessibility Engine (WCAG 2.1 Level AA Compliance)
+// Accessibility Engine (WCAG 2.1 Level AA Compliance)
 class AccessibilityManager {
   constructor() {
     this.fontScales = [90, 100, 115, 130];
@@ -17,8 +17,13 @@ class AccessibilityManager {
       }
 
       const savedTheme = localStorage.getItem('soi_contrast_theme');
-      if (savedTheme) {
-        document.documentElement.setAttribute('data-theme', savedTheme);
+      if (savedTheme === 'high-contrast') {
+        this.isHighContrast = true;
+        document.documentElement.setAttribute('data-theme', 'high-contrast');
+      } else {
+        this.isHighContrast = false;
+        document.documentElement.removeAttribute('data-theme');
+        try { localStorage.removeItem('soi_contrast_theme'); } catch(e){}
       }
 
       const savedDyslexia = localStorage.getItem('soi_dyslexic_font');
@@ -55,16 +60,23 @@ class AccessibilityManager {
     this.announce(`Text size set to ${scale} percent`);
   }
 
-  cycleContrast() {
-    const currentTheme = document.documentElement.getAttribute('data-theme') || 'default';
-    let nextTheme = 'default';
-    if (currentTheme === 'default') nextTheme = 'high-contrast';
-    else if (currentTheme === 'high-contrast') nextTheme = 'dark';
-    else nextTheme = 'default';
+  toggleContrast() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    if (currentTheme === 'high-contrast') {
+      document.documentElement.removeAttribute('data-theme');
+      this.isHighContrast = false;
+      try { localStorage.removeItem('soi_contrast_theme'); } catch(e){}
+      this.announce("Standard visual mode enabled");
+    } else {
+      document.documentElement.setAttribute('data-theme', 'high-contrast');
+      this.isHighContrast = true;
+      try { localStorage.setItem('soi_contrast_theme', 'high-contrast'); } catch(e){}
+      this.announce("High contrast mode enabled");
+    }
+  }
 
-    document.documentElement.setAttribute('data-theme', nextTheme);
-    try { localStorage.setItem('soi_contrast_theme', nextTheme); } catch(e){}
-    this.announce(`Visual contrast theme set to ${nextTheme}`);
+  cycleContrast() {
+    this.toggleContrast();
   }
 
   toggleDyslexicFont() {
@@ -98,9 +110,13 @@ window.soiApp = {
   currentUtterance: null,
 
   applyTheme: function(theme) {
-    if (!theme) theme = 'default';
-    document.documentElement.setAttribute('data-theme', theme);
-    try { localStorage.setItem('soi_contrast_theme', theme); } catch(e){}
+    if (theme === 'high-contrast') {
+      document.documentElement.setAttribute('data-theme', 'high-contrast');
+      try { localStorage.setItem('soi_contrast_theme', 'high-contrast'); } catch(e){}
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      try { localStorage.removeItem('soi_contrast_theme'); } catch(e){}
+    }
   },
 
   setFontScale: function(percent) {

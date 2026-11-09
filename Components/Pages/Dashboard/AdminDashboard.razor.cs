@@ -1,20 +1,12 @@
-﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components;
+using StoriesOfInclusion.Models;
 using StoriesOfInclusion.Services;
 
 namespace StoriesOfInclusion.Components.Pages.Dashboard
 {
     public partial class AdminDashboard : ComponentBase, IDisposable
     {
-        public class AdminSubmissionItem
-        {
-            public int Id { get; set; }
-            public string SubmissionType { get; set; } = "Join Us";
-            public string FullName { get; set; } = string.Empty;
-            public string Email { get; set; } = string.Empty;
-            public string Phone { get; set; } = string.Empty;
-            public string Message { get; set; } = string.Empty;
-            public string Status { get; set; } = "New";
-        }
+        [Inject] private ISupabaseService SupabaseService { get; set; } = default!;
 
         public class MemberPortfolioItem
         {
@@ -33,7 +25,7 @@ namespace StoriesOfInclusion.Components.Pages.Dashboard
             public string YouTubeUrl { get; set; } = "https://www.youtube.com/watch?v=0bT-30FkF6E";
         }
 
-        private string ActiveTab { get; set; } = "inquiries"; // "inquiries", "portfolios", "audiobooks"
+        private string ActiveTab { get; set; } = "inquiries"; // "inquiries", "portfolios", "audiobooks", "admin-guide"
         private string SubmissionFilter { get; set; } = "all";
 
         private bool IsAddMemberOpen { get; set; } = false;
@@ -53,12 +45,7 @@ namespace StoriesOfInclusion.Components.Pages.Dashboard
         private bool ShowAlert { get; set; } = false;
         private string AlertMessage { get; set; } = "";
 
-        private List<AdminSubmissionItem> Submissions { get; set; } = new()
-        {
-            new() { Id = 1, SubmissionType = "Join Us", FullName = "Tanvir Ahmed", Email = "tanvir@example.com", Phone = "+8801711223344", Message = "Interested in volunteering for audiobook voice recording in Bangla.", Status = "New" },
-            new() { Id = 2, SubmissionType = "School Partner", FullName = "Rahima Khatun", Email = "rahima@school.edu.bd", Phone = "+8801819988776", Message = "We want to implement the inclusive audiobook program in our primary school in Gazipur.", Status = "New" },
-            new() { Id = 3, SubmissionType = "Join Us", FullName = "Naimur Rahman", Email = "naimur.rahman@volunteer.org", Phone = "+8801912345678", Message = "Graphic designer ready to help with accessible illustrated worksheets.", Status = "Contacted" }
-        };
+        private List<FormSubmission> Submissions { get; set; } = new();
 
         private List<MemberPortfolioItem> Portfolios { get; set; } = new()
         {
@@ -70,20 +57,28 @@ namespace StoriesOfInclusion.Components.Pages.Dashboard
 
         private List<AudiobookItem> Audiobooks { get; set; } = new();
 
-        private List<AdminSubmissionItem> FilteredSubmissions
+        private List<FormSubmission> FilteredSubmissions
         {
             get
             {
                 if (SubmissionFilter == "all") return Submissions;
-                return Submissions.Where(s => s.SubmissionType == SubmissionFilter).ToList();
+                if (SubmissionFilter == "Contacted" || SubmissionFilter == "New" || SubmissionFilter == "Under Review")
+                    return Submissions.Where(s => s.Status == SubmissionFilter).ToList();
+                return Submissions.Where(s => s.SubmissionType.Contains(SubmissionFilter, StringComparison.OrdinalIgnoreCase)).ToList();
             }
         }
 
         private int PendingPortfoliosCount => Portfolios.Count(p => p.Status == "Pending");
 
-        protected override void OnInitialized()
+        protected override async Task OnInitializedAsync()
         {
             AppState.OnChange += StateHasChanged;
+            await LoadSubmissionsAsync();
+        }
+
+        private async Task LoadSubmissionsAsync()
+        {
+            Submissions = await SupabaseService.GetSubmissionsAsync();
         }
 
         private async void TriggerAlert(string msg)
@@ -109,26 +104,40 @@ namespace StoriesOfInclusion.Components.Pages.Dashboard
             ActivePlayingAudiobook = null;
         }
 
-        private void MarkContacted(AdminSubmissionItem s)
+        private async Task MarkContacted(FormSubmission s)
         {
-            s.Status = "Contacted";
+            await SupabaseService.UpdateSubmissionStatusAsync(s.Id, "Contacted");
+            await LoadSubmissionsAsync();
             TriggerAlert($"✓ Marked inquiry from {s.FullName} as Contacted.");
         }
 
-        private void DeleteSubmission(int id)
+        private async Task MarkUnderReview(FormSubmission s)
+        {
+            await SupabaseService.UpdateSubmissionStatusAsync(s.Id, "Under Review");
+            await LoadSubmissionsAsync();
+            TriggerAlert($"✓ Marked inquiry from {s.FullName} as Under Review.");
+        }
+
+        private async Task DeleteSubmission(int id)
         {
             var item = Submissions.FirstOrDefault(s => s.Id == id);
+            await SupabaseService.DeleteSubmissionAsync(id);
+            await LoadSubmissionsAsync();
             if (item != null)
             {
-                Submissions.Remove(item);
                 TriggerAlert($"✓ Removed submission from {item.FullName}.");
             }
         }
 
-        private void ClearContactedSubmissions()
+        private async Task ClearContactedSubmissions()
         {
-            int removed = Submissions.RemoveAll(s => s.Status == "Contacted");
-            TriggerAlert($"✓ Cleared {removed} contacted inquiries from inbox.");
+            var contacted = Submissions.Where(s => s.Status == "Contacted").ToList();
+            foreach (var c in contacted)
+            {
+                await SupabaseService.DeleteSubmissionAsync(c.Id);
+            }
+            await LoadSubmissionsAsync();
+            TriggerAlert($"✓ Cleared {contacted.Count} contacted inquiries from inbox.");
         }
 
         private void ApprovePortfolio(MemberPortfolioItem item)
@@ -213,4 +222,3 @@ namespace StoriesOfInclusion.Components.Pages.Dashboard
         }
     }
 }
-

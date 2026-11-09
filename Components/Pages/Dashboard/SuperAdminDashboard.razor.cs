@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components;
 
 namespace StoriesOfInclusion.Components.Pages.Dashboard
 {
@@ -13,7 +13,7 @@ namespace StoriesOfInclusion.Components.Pages.Dashboard
 
         public record AuditEntry(string Timestamp, string Actor, string Event, string Severity);
 
-        private string ActiveTab { get; set; } = "users"; // "users", "logs", "database"
+        private string ActiveTab { get; set; } = "users"; // "users", "logs", "database", "admin-guide"
         private string SearchQuery { get; set; } = "";
         private string RoleFilter { get; set; } = "all";
 

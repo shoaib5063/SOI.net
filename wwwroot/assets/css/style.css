@@ -159,6 +159,9 @@
   --text-muted: #94A3B8;
   --text-on-dark: #FFFFFF;
   --border-color: #1E293B;
+  --color-navy-dark: #FFFFFF;
+  --color-navy-mid: #93C5FD;
+  --color-navy-light: #BFDBFE;
 
   --skeuo-surface-grad: linear-gradient(180deg, #1A284A 0%, #131E38 55%, #0D162B 100%);
   --skeuo-surface-border: #23345E;
@@ -1016,23 +1019,60 @@ textarea:focus-visible,
 }
 
 /* ==========================================================================
-   3. HERO SECTION (ATMOSPHERIC DEPTH & MACHINED INSTRUMENTS)
+   3. HERO SECTION (ATMOSPHERIC DEPTH & SEAMLESS IMAGE BLEND)
    ========================================================================== */
 .hero-section {
-  background: radial-gradient(circle at 75% 20%, #1A3160 0%, #0F1E3D 50%, #070F20 100%);
+  background: radial-gradient(circle at 80% 25%, #162B54 0%, #0E1A36 45%, #070F20 100%);
   color: var(--color-white);
-  padding: 30px 0 36px;
+  padding: 56px 0 60px;
   position: relative;
   overflow: hidden;
   border-bottom: 3px solid #D4AF37;
-  box-shadow: 0 10px 24px rgba(7, 15, 32, 0.35);
+  box-shadow: 0 12px 30px rgba(5, 11, 24, 0.45);
 }
 
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  align-items: center;
-  gap: 28px;
+/* Panoramic background image blend across the right and center */
+.hero-bg-blend {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 76%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.hero-bg-blend-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 25%;
+  opacity: 0.96;
+  filter: brightness(1.05) contrast(1.06) saturate(1.12);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.12) 10%, rgba(0, 0, 0, 0.6) 24%, rgba(0, 0, 0, 0.95) 38%, #000000 50%, #000000 100%);
+  mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.12) 10%, rgba(0, 0, 0, 0.6) 24%, rgba(0, 0, 0, 0.95) 38%, #000000 50%, #000000 100%);
+}
+
+.hero-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: 
+    linear-gradient(90deg, #070F20 0%, #070F20 30%, rgba(7, 15, 32, 0.85) 44%, rgba(7, 15, 32, 0.15) 58%, transparent 72%),
+    linear-gradient(180deg, rgba(7, 15, 32, 0.4) 0%, transparent 18%, transparent 85%, rgba(7, 15, 32, 0.3) 100%);
+  pointer-events: none;
+}
+
+.hero-container-single {
+  position: relative;
+  z-index: 3;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.hero-content {
+  max-width: 580px;
 }
 
 .sdg-badge-wrap {
@@ -1044,39 +1084,49 @@ textarea:focus-visible,
   box-shadow: 
     inset 0 1px 0 rgba(255, 255, 255, 0.35),
     0 2px 6px rgba(0, 0, 0, 0.25);
-  padding: 4px 12px;
+  padding: 5px 14px;
   border-radius: 9999px;
-  font-size: 0.75rem;
+  font-size: 0.775rem;
   font-weight: 800;
   color: #2DD4BF;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
 .hero-title {
-  font-size: 2.15rem;
+  font-size: 2.65rem;
   font-weight: 800;
-  line-height: 1.18;
-  margin-bottom: 10px;
+  line-height: 1.15;
+  margin-bottom: 14px;
   letter-spacing: -0.025em;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+  color: #FFFFFF;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+.hero-title-offset {
+  background: linear-gradient(135deg, #2DD4BF 0%, #38BDF8 50%, #5EEAD4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline;
+  filter: drop-shadow(0 2px 8px rgba(45, 212, 191, 0.35));
+  font-weight: 800;
 }
 
 .hero-subtitle {
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   color: #CBD5E1;
-  margin-bottom: 20px;
-  line-height: 1.55;
-  max-width: 520px;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  margin-bottom: 24px;
+  line-height: 1.6;
+  max-width: 580px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .hero-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   flex-wrap: wrap;
-  margin-bottom: 20px;
+  margin-bottom: 26px;
 }
 
 .btn {
@@ -1150,20 +1200,21 @@ textarea:focus-visible,
 .hero-stats {
   display: flex;
   gap: 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  padding-top: 16px;
   flex-wrap: wrap;
 }
 
 .stat-item {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-top-color: rgba(255, 255, 255, 0.32);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-top-color: rgba(255, 255, 255, 0.35);
   border-radius: 10px;
   padding: 8px 14px;
   box-shadow: 
     inset 0 1px 0 rgba(255, 255, 255, 0.18),
-    0 3px 8px rgba(0, 0, 0, 0.2);
+    0 3px 8px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8px);
 }
 
 .stat-item h3 {
@@ -1178,34 +1229,45 @@ textarea:focus-visible,
   font-size: 0.725rem;
   color: #94A3B8;
   font-weight: 600;
-  margin-top: 1px;
+  margin-top: 2px;
 }
 
-.hero-media-card {
-  position: relative;
-  background: #FFFFFF;
-  padding: 6px;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 
-    0 4px 10px rgba(0, 0, 0, 0.15),
-    0 16px 32px rgba(0, 0, 0, 0.35),
-    inset 0 0 3px rgba(0, 0, 0, 0.06);
-  transform: rotate(-0.5deg);
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+/* Ambient Floating Caption Tag on Background Blend */
+.hero-live-caption-tag {
+  position: absolute;
+  bottom: 18px;
+  right: 28px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(7, 15, 32, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 9999px;
+  backdrop-filter: blur(8px);
+  color: #E2E8F0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
 }
 
-.hero-media-card:hover {
-  transform: rotate(0deg) scale(1.02);
+.caption-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #2DD4BF;
+  box-shadow: 0 0 8px #2DD4BF;
+  animation: captionPulse 2s infinite ease-in-out;
 }
 
-.hero-img {
-  width: 100%;
-  height: 100%;
-  max-height: 290px;
-  object-fit: cover;
-  display: block;
-  border-radius: 8px;
+@keyframes captionPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.85); }
+}
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.85); }
 }
 
 /* ==========================================================================
@@ -1892,6 +1954,91 @@ textarea:focus-visible,
 .role-card p {
   font-size: 0.8125rem;
   color: var(--text-muted);
+}
+
+/* Modal & Role Card Theme Adaptations */
+[data-theme="high-contrast"] .modal-dialog {
+  background: #000000 !important;
+  border: 3px solid #FFFFFF !important;
+  box-shadow: none !important;
+}
+
+[data-theme="high-contrast"] .modal-title {
+  color: #FFFFFF !important;
+  text-shadow: none !important;
+}
+
+[data-theme="high-contrast"] .modal-close-btn {
+  background: #000000 !important;
+  color: #FFFF00 !important;
+  border: 2px solid #FFFF00 !important;
+  box-shadow: none !important;
+}
+
+[data-theme="high-contrast"] .role-card {
+  background: #000000 !important;
+  border: 2px solid #FFFFFF !important;
+  box-shadow: none !important;
+}
+
+[data-theme="high-contrast"] .role-card h4 {
+  color: #FFFF00 !important;
+  text-shadow: none !important;
+}
+
+[data-theme="high-contrast"] .role-card p {
+  color: #FFFFFF !important;
+  text-shadow: none !important;
+}
+
+[data-theme="high-contrast"] .role-card:hover,
+[data-theme="high-contrast"] .role-card.selected {
+  background: #000000 !important;
+  border: 2px solid #00FFFF !important;
+  box-shadow: 0 0 10px #00FFFF !important;
+}
+
+[data-theme="high-contrast"] .role-card.selected h4 {
+  color: #00FFFF !important;
+}
+
+[data-theme="dark"] .modal-dialog {
+  background: #0E1A33 !important;
+  border: 2px solid #23345E !important;
+}
+
+[data-theme="dark"] .modal-title {
+  color: #FFFFFF !important;
+  text-shadow: none !important;
+}
+
+[data-theme="dark"] .modal-close-btn {
+  background: #1A284A !important;
+  color: #FFFFFF !important;
+  border: 1px solid #334A7E !important;
+}
+
+[data-theme="dark"] .role-card {
+  background: #14213D !important;
+  border: 1px solid #23345E !important;
+}
+
+[data-theme="dark"] .role-card h4 {
+  color: #F8FAFC !important;
+  text-shadow: none !important;
+}
+
+[data-theme="dark"] .role-card p {
+  color: #94A3B8 !important;
+}
+
+[data-theme="dark"] .role-card.selected {
+  background: #0D2833 !important;
+  border-color: #2DD4BF !important;
+}
+
+[data-theme="dark"] .role-card.selected h4 {
+  color: #2DD4BF !important;
 }
 
 .dashboard-panel {
@@ -2695,37 +2842,36 @@ textarea:focus-visible,
 
 @media (max-width: 900px) {
   .hero-section {
-    padding: 44px 0 56px;
+    padding: 40px 0 48px;
   }
 
-  .hero-grid {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-
-  .hero-media-card {
-    order: -1;
-    max-height: 280px;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-  }
-
-  .hero-img {
-    max-height: 280px;
+  .hero-bg-blend {
     width: 100%;
-    object-fit: cover;
+    opacity: 0.22;
+  }
+
+  .hero-content {
+    max-width: 100%;
   }
 
   .hero-title {
-    font-size: 2.15rem;
-    line-height: 1.25;
-    margin-bottom: 16px;
+    font-size: 1.95rem;
+    line-height: 1.2;
+    margin-bottom: 12px;
   }
 
   .hero-subtitle {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     line-height: 1.6;
-    margin-bottom: 24px;
+    margin-bottom: 22px;
+  }
+
+  .hero-live-caption-tag {
+    position: static;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
   }
 
   .hero-actions {
@@ -5897,9 +6043,14 @@ a.dropdown-sub-btn.active {
   color: #FFFFFF !important;
 }
 
-[data-theme="high-contrast"] .hero-media-card {
+[data-theme="high-contrast"] .hero-bg-blend {
+  display: none !important;
+}
+
+[data-theme="high-contrast"] .hero-live-caption-tag {
   background: #000000 !important;
-  border: 2px solid #FFFFFF !important;
+  border: 2px solid #FFFF00 !important;
+  color: #FFFF00 !important;
   box-shadow: none !important;
 }
 
@@ -6247,4 +6398,227 @@ a.dropdown-sub-btn.active {
 [data-theme="high-contrast"] .site-footer a:focus {
   color: #FFFF00 !important;
   text-decoration: underline !important;
+}
+
+
+/* ==========================================================================
+   SHORT ADMIN GUIDE STYLING (DELIVERABLE #14 & SECTION 5.5)
+   ========================================================================== */
+.admin-guide-card {
+  padding: 32px 28px !important;
+}
+
+.admin-guide-chapters {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.guide-chapter-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-left: 5px solid var(--color-accent-teal);
+  border-radius: var(--radius-md);
+  padding: 22px 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  position: relative;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.guide-chapter-box:hover {
+  box-shadow: 0 4px 14px rgba(13, 148, 136, 0.08);
+}
+
+.guide-chapter-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(13, 148, 136, 0.1);
+  color: var(--color-accent-teal);
+  font-size: 0.725rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 9px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.guide-chapter-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--color-navy-dark);
+  margin: 0 0 10px 0;
+  line-height: 1.35;
+}
+
+.guide-chapter-title svg {
+  color: var(--color-accent-teal);
+  flex-shrink: 0;
+}
+
+.guide-chapter-desc {
+  font-size: 0.925rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.guide-steps-list {
+  padding-left: 20px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-main);
+}
+
+.guide-steps-list li strong {
+  color: var(--color-navy-dark);
+}
+
+.guide-steps-list code {
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--color-accent-teal);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.825rem;
+  font-weight: 700;
+}
+
+.guide-checklist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.guide-check-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.guide-check-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(34, 197, 94, 0.15);
+  color: #16A34A;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.guide-check-card strong {
+  display: block;
+  color: var(--color-navy-dark);
+  margin-bottom: 2px;
+}
+
+.guide-check-card p {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+/* High Contrast Adaptations for Admin Guide */
+[data-theme="high-contrast"] .guide-chapter-box {
+  background: #000000 !important;
+  border: 2px solid #FFFFFF !important;
+  border-left: 6px solid #FFFF00 !important;
+  box-shadow: none !important;
+}
+
+[data-theme="high-contrast"] .guide-chapter-badge {
+  background: #000000 !important;
+  color: #FFFF00 !important;
+  border: 1px solid #FFFF00 !important;
+}
+
+[data-theme="high-contrast"] .guide-chapter-title {
+  color: #FFFFFF !important;
+  text-shadow: none !important;
+}
+
+[data-theme="high-contrast"] .guide-chapter-title svg {
+  color: #FFFF00 !important;
+}
+
+[data-theme="high-contrast"] .guide-chapter-desc,
+[data-theme="high-contrast"] .guide-steps-list {
+  color: #FFFFFF !important;
+  text-shadow: none !important;
+}
+
+[data-theme="high-contrast"] .guide-steps-list li strong {
+  color: #FFFF00 !important;
+}
+
+[data-theme="high-contrast"] .guide-steps-list code {
+  background: #111111 !important;
+  color: #FFFF00 !important;
+  border: 1px solid #FFFF00 !important;
+}
+
+[data-theme="high-contrast"] .guide-check-card {
+  background: #000000 !important;
+  border: 1px solid #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+[data-theme="high-contrast"] .guide-check-card strong {
+  color: #FFFF00 !important;
+}
+
+[data-theme="high-contrast"] .guide-check-icon {
+  background: #000000 !important;
+  border: 1px solid #00FF00 !important;
+  color: #00FF00 !important;
+}
+
+/* Print Styles for Staff Admin Guide */
+@media print {
+  .dash-sidebar,
+  .site-header,
+  .site-footer,
+  .a11y-bar,
+  .btn,
+  .breadcrumb-nav {
+    display: none !important;
+  }
+
+  .dash-container,
+  .dash-main {
+    display: block !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .admin-guide-card {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+
+  .guide-chapter-box {
+    page-break-inside: avoid;
+    border: 1px solid #ccc !important;
+    margin-bottom: 20px;
+  }
 }

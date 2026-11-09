@@ -83,14 +83,17 @@ namespace StoriesOfInclusion.Services
             }
         }
 
-        public void CycleTheme()
+        public void ToggleContrast()
         {
-            Theme = Theme switch
-            {
-                "default" => "high-contrast",
-                "high-contrast" => "dark",
-                _ => "default"
-            };
+            Theme = (Theme == "high-contrast") ? "default" : "high-contrast";
+            NotifyStateChanged();
+        }
+
+        public void CycleTheme() => ToggleContrast();
+
+        public void SetTheme(string theme)
+        {
+            Theme = (theme == "high-contrast") ? "high-contrast" : "default";
             NotifyStateChanged();
         }
 

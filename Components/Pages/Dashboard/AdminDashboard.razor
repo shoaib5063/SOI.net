@@ -1,4 +1,4 @@
-﻿@page "/dashboard/admin"
+@page "/dashboard/admin"
 @rendermode InteractiveServer
 @inject AppStateService AppState
 
@@ -18,22 +18,32 @@
     <ul class="dash-nav">
       <li>
         <button type="button" class="dash-nav-link @(ActiveTab == "inquiries" ? "active" : "")" @onclick="@(() => ActiveTab = "inquiries")">
-          <span>📥</span> <span>Form Submissions (@Submissions.Count)</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+          <span>Form Submissions (@Submissions.Count)</span>
         </button>
       </li>
       <li>
         <button type="button" class="dash-nav-link @(ActiveTab == "portfolios" ? "active" : "")" @onclick="@(() => ActiveTab = "portfolios")">
-          <span>👥</span> <span>Member Approvals (@PendingPortfoliosCount)</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          <span>Member Approvals (@PendingPortfoliosCount)</span>
         </button>
       </li>
       <li>
         <button type="button" class="dash-nav-link @(ActiveTab == "audiobooks" ? "active" : "")" @onclick="@(() => ActiveTab = "audiobooks")">
-          <span>🎧</span> <span>Publish Audiobooks (@Audiobooks.Count)</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg>
+          <span>Publish Audiobooks (@Audiobooks.Count)</span>
+        </button>
+      </li>
+      <li>
+        <button type="button" class="dash-nav-link @(ActiveTab == "admin-guide" ? "active" : "")" @onclick="@(() => ActiveTab = "admin-guide")">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+          <span>Short Admin Guide</span>
         </button>
       </li>
       <li style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.1); padding-top:10px;">
         <NavLink href="" class="dash-nav-link">
-          <span>🌐</span> <span>Public Website</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+          <span>Public Website</span>
         </NavLink>
       </li>
     </ul>
@@ -48,25 +58,35 @@
     <div class="dash-header-bar">
       <div>
         <h1 class="dash-title">Staff Admin Console</h1>
-        <p style="color:var(--text-muted); font-size:0.95rem;">Review submissions, verify member applications, and publish YouTube-based accessible audiobooks.</p>
+        <p style="color:var(--text-muted); font-size:0.95rem;">Review submissions, verify member applications, publish YouTube-based audiobooks, and access the official Admin Guide.</p>
       </div>
       <div>
         @if (ActiveTab == "inquiries")
         {
           <button type="button" class="btn btn-outline-primary btn-sm" @onclick="ClearContactedSubmissions">
-            🧹 Clear Contacted
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+            <span>Clear Contacted</span>
           </button>
         }
         else if (ActiveTab == "portfolios")
         {
           <button type="button" class="btn btn-primary btn-sm" @onclick="ToggleAddMemberModal">
-            ➕ Add Member Portfolio
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <span>Add Member Portfolio</span>
           </button>
         }
         else if (ActiveTab == "audiobooks")
         {
           <button type="button" class="btn btn-primary btn-sm" @onclick="ToggleAddAudiobookModal">
-            🎧 Publish New Audiobook
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg>
+            <span>Publish New Audiobook</span>
+          </button>
+        }
+        else if (ActiveTab == "admin-guide")
+        {
+          <button type="button" class="btn btn-outline-primary btn-sm" onclick="window.print()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+            <span>Print / Save Guide (PDF)</span>
           </button>
         }
       </div>
@@ -153,14 +173,16 @@
       </div>
     }
 
-    <!-- Stats -->
+    <!-- Stats Bar -->
     <div class="dash-stats-grid">
       <div class="dash-stat-card">
         <div class="dash-stat-info">
           <h3>@Submissions.Count</h3>
           <p>Inbox Inquiries</p>
         </div>
-        <div class="dash-stat-icon">📩</div>
+        <div class="dash-stat-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+        </div>
       </div>
 
       <div class="dash-stat-card">
@@ -168,7 +190,9 @@
           <h3>@PendingPortfoliosCount</h3>
           <p>Pending Verifications</p>
         </div>
-        <div class="dash-stat-icon">⏳</div>
+        <div class="dash-stat-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        </div>
       </div>
 
       <div class="dash-stat-card">
@@ -176,7 +200,9 @@
           <h3>@Audiobooks.Count</h3>
           <p>Published Audiobooks</p>
         </div>
-        <div class="dash-stat-icon">🎧</div>
+        <div class="dash-stat-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg>
+        </div>
       </div>
 
       <div class="dash-stat-card">
@@ -184,7 +210,9 @@
           <h3>1,700+</h3>
           <p>Students Reached</p>
         </div>
-        <div class="dash-stat-icon">📊</div>
+        <div class="dash-stat-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        </div>
       </div>
     </div>
 
@@ -195,15 +223,17 @@
         <div class="dash-card-header" style="flex-wrap:wrap; gap:14px;">
           <div>
             <h3>Inbox: Join Us & Contact Submissions</h3>
-            <p style="color:var(--text-muted); font-size:0.875rem; margin:0;">Review messages received from visitors, prospective volunteers, and partner schools.</p>
+            <p style="color:var(--text-muted); font-size:0.875rem; margin:0;">Real-time queue of inquiries received from prospective volunteers, educators, and partner schools.</p>
           </div>
 
           <div style="display:flex; gap:10px;">
             <select class="form-input" style="width:160px; padding:6px 10px; font-size:0.875rem;" @bind="SubmissionFilter">
               <option value="all">All Types</option>
               <option value="Join Us">Join Us</option>
-              <option value="School Partner">School Partner</option>
-              <option value="Inquiry">General Inquiry</option>
+              <option value="Contact Inquiry">General Inquiry</option>
+              <option value="New">Status: New</option>
+              <option value="Under Review">Status: Under Review</option>
+              <option value="Contacted">Status: Contacted</option>
             </select>
           </div>
         </div>
@@ -216,6 +246,7 @@
               <th>Contact Details</th>
               <th>Message</th>
               <th>Status</th>
+              <th>Received</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -223,25 +254,35 @@
             @if (FilteredSubmissions.Count == 0)
             {
               <tr>
-                <td colspan="6" style="text-align:center; padding:24px; color:var(--text-muted);">
-                  No submissions in inbox.
+                <td colspan="7" style="text-align:center; padding:24px; color:var(--text-muted);">
+                  No submissions match the current filter.
                 </td>
               </tr>
             }
             @foreach (var s in FilteredSubmissions)
             {
               <tr>
-                <td><span class="badge-status @(s.SubmissionType == "Join Us" ? "new" : "approved")">@s.SubmissionType</span></td>
+                <td><span class="badge-status @(s.SubmissionType.Contains("Join") ? "new" : "approved")">@s.SubmissionType</span></td>
                 <td><strong>@s.FullName</strong></td>
-                <td>@s.Email<br><small style="color:var(--text-muted);">@s.Phone</small></td>
-                <td>@s.Message</td>
                 <td>
-                  <span class="badge-status @(s.Status == "Contacted" ? "approved" : "pending")">@s.Status</span>
+                  <a href="mailto:@s.Email" style="color:inherit; text-decoration:underline;">@s.Email</a><br>
+                  <small style="color:var(--text-muted);">@s.Phone</small>
+                </td>
+                <td style="max-width:280px; font-size:0.875rem; line-height:1.45;">@s.Message</td>
+                <td>
+                  <span class="badge-status @(s.Status == "Contacted" ? "approved" : s.Status == "Under Review" ? "pending" : "new")">@s.Status</span>
+                </td>
+                <td style="font-size:0.8rem; color:var(--text-muted); white-space:nowrap;">
+                  @s.CreatedAt.ToString("dd MMM yyyy")
                 </td>
                 <td style="white-space:nowrap;">
+                  @if (s.Status == "New")
+                  {
+                    <button type="button" class="btn btn-sm btn-outline-primary" style="margin-right:6px;" @onclick="() => MarkUnderReview(s)">Review</button>
+                  }
                   @if (s.Status != "Contacted")
                   {
-                    <button type="button" class="btn btn-sm btn-outline-primary" style="margin-right:6px;" @onclick="() => MarkContacted(s)">✓ Contact</button>
+                    <button type="button" class="btn btn-sm btn-success" style="margin-right:6px;" @onclick="() => MarkContacted(s)">✓ Contacted</button>
                   }
                   <button type="button" class="btn btn-danger btn-sm" @onclick="() => DeleteSubmission(s.Id)">Delete</button>
                 </td>
@@ -259,7 +300,7 @@
         <div class="dash-card-header">
           <div>
             <h3>Member Portfolios: Verification & Approval</h3>
-            <p style="color:var(--text-muted); font-size:0.875rem; margin:0;">Approve or reject member portfolios before they appear on the public Our Team page.</p>
+            <p style="color:var(--text-muted); font-size:0.875rem; margin:0;">Approve or reject member portfolios before they appear on the public Our Team directory.</p>
           </div>
         </div>
 
@@ -300,7 +341,7 @@
                   {
                     <button type="button" class="btn btn-danger btn-sm" style="margin-right:6px;" @onclick="() => RejectPortfolio(p)">✕ Reject</button>
                   }
-                  <button type="button" class="btn btn-sm" style="background:#E2E8F0;" @onclick="() => DeletePortfolio(p)">Delete</button>
+                  <button type="button" class="btn btn-sm btn-outline-primary" @onclick="() => DeletePortfolio(p)">Delete</button>
                 </td>
               </tr>
             }
@@ -316,9 +357,12 @@
         <div class="dash-card-header">
           <div>
             <h3>Manage & Publish Primary Audiobooks (YouTube Streamed)</h3>
-            <p style="color:var(--text-muted); font-size:0.875rem; margin:0;">All audiobooks play directly via YouTube without file storage or redirection.</p>
+            <p style="color:var(--text-muted); font-size:0.875rem; margin:0;">All audiobooks play directly via YouTube inside the accessible player without any redirection.</p>
           </div>
-          <button type="button" class="btn btn-primary btn-sm" @onclick="ToggleAddAudiobookModal">➕ Add New Audiobook</button>
+          <button type="button" class="btn btn-primary btn-sm" @onclick="ToggleAddAudiobookModal">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <span>Add New Audiobook</span>
+          </button>
         </div>
 
         <div class="table-responsive"><table class="dash-table">
@@ -338,7 +382,7 @@
               <tr>
                 <td colspan="6" style="text-align:center; padding:36px 16px; color:var(--text-muted);">
                   <p style="font-size:1.05rem; font-weight:600; margin-bottom:6px; color:var(--text-main);">No audiobooks published yet.</p>
-                  <p style="margin:0; font-size:0.875rem;">Click the <strong>➕ Add New Audiobook</strong> button above to publish your first YouTube audiobook.</p>
+                  <p style="margin:0; font-size:0.875rem;">Click the <strong>Add New Audiobook</strong> button above to publish your first YouTube audiobook.</p>
                 </td>
               </tr>
             }
@@ -365,6 +409,169 @@
             }
           </tbody>
         </table></div>
+      </section>
+    }
+
+    <!-- TAB 4: SHORT ADMIN GUIDE (DELIVERABLE #14 & SECTION 5.5) -->
+    @if (ActiveTab == "admin-guide")
+    {
+      <section class="dash-card admin-guide-card">
+        <div class="dash-card-header" style="border-bottom: 2px solid var(--border-color); padding-bottom: 18px; margin-bottom: 24px;">
+          <div>
+            <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(13,148,136,0.12); color:var(--color-accent-teal); padding:3px 10px; border-radius:9999px; font-size:0.75rem; font-weight:800; margin-bottom:8px;">
+              <span>Official Reference Manual</span> • <span>Deliverable #14</span>
+            </div>
+            <h2 style="font-size:1.6rem; font-weight:800; margin:0 0 6px 0; color:var(--color-navy-dark);">Short Admin Guide for Stories of Inclusion</h2>
+            <p style="color:var(--text-muted); font-size:0.925rem; margin:0; line-height:1.6;">
+              Prepared for Executive Director <strong>Iffat Nusaiba</strong>, Creative Lead <strong>Musarrat Jahan Esha</strong>, and the operations team in accordance with Sections 3, 5.5, and 15 of the Website Requirements Agreement.
+            </p>
+          </div>
+        </div>
+
+        <div class="admin-guide-chapters">
+          
+          <!-- Chapter 1 -->
+          <article class="guide-chapter-box">
+            <div class="guide-chapter-badge">Chapter 1</div>
+            <h3 class="guide-chapter-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+              <span>Managing Contact Inquiries & Volunteer Applications</span>
+            </h3>
+            <p class="guide-chapter-desc">
+              When a visitor or prospective volunteer fills out the application on the public <strong>/contact</strong> page, their submission lands instantly in the <em>Form Submissions</em> tab of this dashboard.
+            </p>
+            <ol class="guide-steps-list">
+              <li>
+                <strong>Review Status:</strong> Submissions arrive marked as <code>New</code>. Review their phone number, email, and statement of interest.
+              </li>
+              <li>
+                <strong>Triage & Review:</strong> Click <strong>Review</strong> to change status to <code>Under Review</code> while coordinating with the volunteer coordinator.
+              </li>
+              <li>
+                <strong>Contact & Resolve:</strong> Once outreach is made via WhatsApp or email, click <strong>✓ Contacted</strong>.
+              </li>
+              <li>
+                <strong>Archive:</strong> Use the <strong>Clear Contacted</strong> action button to keep the inbox clean. Records are preserved in the Supabase audit history.
+              </li>
+            </ol>
+          </article>
+
+          <!-- Chapter 2 -->
+          <article class="guide-chapter-box">
+            <div class="guide-chapter-badge">Chapter 2</div>
+            <h3 class="guide-chapter-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><polyline points="16 11 18 13 22 9"></polyline></svg>
+              <span>Member Verification & Individual Portfolios</span>
+            </h3>
+            <p class="guide-chapter-desc">
+              All 10 core changemakers and accredited educators possess individual portfolio URLs (<code>/team/{slug}</code> and <code>/portfolio/{slug}</code>).
+            </p>
+            <ol class="guide-steps-list">
+              <li>
+                <strong>Approving New Members:</strong> Check the <em>Member Approvals</em> tab. Click <strong>✓ Approve</strong> to make their portfolio publicly discoverable.
+              </li>
+              <li>
+                <strong>Editing Bio & Works:</strong> Logged-in members can navigate to their <strong>Member Dashboard (/dashboard/user)</strong> at any time to edit their bilingual biographical narrative and add contributed works.
+              </li>
+              <li>
+                <strong>Verified Badge:</strong> Only verified members carry the green <em>Verified Contributor</em> badge on the public team directory.
+              </li>
+            </ol>
+          </article>
+
+          <!-- Chapter 3 -->
+          <article class="guide-chapter-box">
+            <div class="guide-chapter-badge">Chapter 3</div>
+            <h3 class="guide-chapter-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg>
+              <span>Publishing YouTube Audiobooks & Accessible Transcripts</span>
+            </h3>
+            <p class="guide-chapter-desc">
+              Audiobooks stream with zero bandwidth server overhead by embedding YouTube master tracks directly inside our accessible player.
+            </p>
+            <ol class="guide-steps-list">
+              <li>
+                <strong>Step 1:</strong> Upload your mastered voice track to the official YouTube channel (<code>@@stories_of_inclusion</code>). Set visibility to <em>Public</em> or <em>Unlisted</em>.
+              </li>
+              <li>
+                <strong>Step 2:</strong> Copy the standard YouTube watch link (e.g. <code>https://www.youtube.com/watch?v=...</code>).
+              </li>
+              <li>
+                <strong>Step 3:</strong> Click <strong>Publish New Audiobook</strong> in this dashboard, select the target class grade (Class 1, 2, 3, 4, 5) and primary language (Bangla or English).
+              </li>
+              <li>
+                <strong>Transcripts Requirement:</strong> Always supply a clear text transcript in both English and Bengali so deaf and hard-of-hearing learners can read along.
+              </li>
+            </ol>
+          </article>
+
+          <!-- Chapter 4 -->
+          <article class="guide-chapter-box">
+            <div class="guide-chapter-badge">Chapter 4</div>
+            <h3 class="guide-chapter-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+              <span>Stories of Inclusion Magazine & Field Gallery</span>
+            </h3>
+            <p class="guide-chapter-desc">
+              Maintain the <em>Stories of Inclusion Magazine</em> (Volumes 1 & 2) and school workshop photo gallery under the <strong>Activities</strong> dropdown menu.
+            </p>
+            <ol class="guide-steps-list">
+              <li>
+                <strong>Magazine Releases:</strong> Each volume groups editorial essays, field research with educators, and downloadable PDF editions.
+              </li>
+              <li>
+                <strong>Accessible Alt Text Rule:</strong> Whenever uploading photos to the field gallery, <em>never</em> leave the alt text blank. Provide an accurate, objective description (e.g. "Primary school students with visual impairments participating in tactile geometry workshop in Dhaka").
+              </li>
+            </ol>
+          </article>
+
+          <!-- Chapter 5 -->
+          <article class="guide-chapter-box" style="border-left-color: #22C55E;">
+            <div class="guide-chapter-badge" style="background: rgba(34,197,94,0.15); color: #15803D;">Chapter 5</div>
+            <h3 class="guide-chapter-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+              <span>WCAG 2.1 Level AA Mandatory Compliance Checklist</span>
+            </h3>
+            <p class="guide-chapter-desc">
+              To preserve the platform's 100% WCAG 2.1 AA audit rating, administrative staff must observe these five non-negotiable standards before publishing new content:
+            </p>
+            
+            <div class="guide-checklist-grid">
+              <div class="guide-check-card">
+                <div class="guide-check-icon">✓</div>
+                <div>
+                  <strong>Color Contrast:</strong>
+                  <p>Maintain minimum 4.5:1 text contrast for body copy and 3:1 for large headers against backgrounds.</p>
+                </div>
+              </div>
+
+              <div class="guide-check-card">
+                <div class="guide-check-icon">✓</div>
+                <div>
+                  <strong>Descriptive Media Alt Text:</strong>
+                  <p>All photographs, tactile book illustrations, and diagrams must carry clear descriptive alt attributes.</p>
+                </div>
+              </div>
+
+              <div class="guide-check-card">
+                <div class="guide-check-icon">✓</div>
+                <div>
+                  <strong>Keyboard Operability:</strong>
+                  <p>Every button, dropdown menu, and media player must remain fully navigable via <kbd>Tab</kbd>, <kbd>Enter</kbd>, and <kbd>Esc</kbd>.</p>
+                </div>
+              </div>
+
+              <div class="guide-check-card">
+                <div class="guide-check-icon">✓</div>
+                <div>
+                  <strong>No Emojis in Official UI Buttons:</strong>
+                  <p>Use clean, professional SVG icons instead of AI-style emojis to ensure screen-reader and visual elegance.</p>
+                </div>
+              </div>
+            </div>
+          </article>
+
+        </div>
       </section>
     }
 
@@ -400,5 +607,3 @@
 
   </main>
 </div>
-
-
