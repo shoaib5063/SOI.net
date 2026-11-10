@@ -2901,6 +2901,56 @@ textarea:focus-visible,
   .stat-item h3 {
     font-size: 1.5rem;
   }
+
+  /* Grid Adaptations for Tablet */
+  .mission-vision-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .activity-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .audiobook-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .award-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .award-img-wrap {
+    text-align: center;
+  }
+
+  .award-img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .team-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .pillars-grid-6 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .recognition-impact-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
 }
 
 .section-pad {
@@ -3078,6 +3128,94 @@ textarea:focus-visible,
   .modal-title {
     font-size: 1.15rem;
   }
+
+  /* Mobile 1-Column Responsive Stacking for ALL Homepage & Core Site Boxes */
+  .mission-vision-grid {
+    grid-template-columns: 1fr !important;
+    gap: 18px;
+  }
+
+  .mv-card {
+    padding: 24px 20px !important;
+  }
+
+  .activity-grid {
+    grid-template-columns: 1fr !important;
+    gap: 18px;
+  }
+
+  .activity-card {
+    padding: 24px 20px !important;
+  }
+
+  .audiobook-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px;
+  }
+
+  .audiobook-card {
+    padding: 0 !important;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .audiobook-header {
+    padding: 18px 18px !important;
+  }
+
+  .audiobook-header h3 {
+    font-size: 1.15rem;
+    line-height: 1.45;
+    word-break: break-word;
+  }
+
+  .audiobook-body {
+    padding: 16px 18px !important;
+  }
+
+  .award-grid {
+    grid-template-columns: 1fr !important;
+    gap: 24px;
+  }
+
+  .award-card-featured {
+    padding: 28px 20px !important;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 28px;
+  }
+
+  .team-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px;
+  }
+
+  .pillars-grid-6 {
+    grid-template-columns: 1fr !important;
+    gap: 14px;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr !important;
+    gap: 24px;
+  }
+
+  .store-highlights-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px;
+  }
+
+  .store-impact-calc-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px;
+  }
+
+  .auth-social-buttons {
+    grid-template-columns: 1fr !important;
+    gap: 10px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -3086,8 +3224,8 @@ textarea:focus-visible,
   }
 
   .hero-stats {
-    grid-template-columns: 1fr;
-    gap: 12px;
+    grid-template-columns: 1fr !important;
+    gap: 10px;
   }
 
   .hero-stats .stat-item:last-child {
@@ -3099,7 +3237,7 @@ textarea:focus-visible,
   }
 
   .recognition-impact-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
     gap: 12px;
   }
 
@@ -3108,7 +3246,20 @@ textarea:focus-visible,
   }
 
   .audiobook-card {
-    padding: 18px 14px;
+    padding: 0 !important;
+  }
+
+  .audiobook-header {
+    padding: 16px 14px !important;
+  }
+
+  .audiobook-body {
+    padding: 14px 14px !important;
+  }
+
+  .mv-card,
+  .activity-card {
+    padding: 20px 14px !important;
   }
 
   .a11y-btn-text {
