@@ -1,5 +1,6 @@
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.HttpOverrides;
 using StoriesOfInclusion.Services;
 using StoriesOfInclusion.Components;
 
@@ -40,6 +41,11 @@ var localizationOptions = new RequestLocalizationOptions
 localizationOptions.RequestCultureProviders.Insert(0, new QueryStringRequestCultureProvider());
 localizationOptions.RequestCultureProviders.Insert(1, new CookieRequestCultureProvider());
 app.UseRequestLocalization(localizationOptions);
+
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
 
 app.UseStaticFiles();
 app.UseAntiforgery();
