@@ -9,7 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-// Add Application State & Supabase Services
+// Add HttpContextAccessor, Application State & Supabase Services
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<AppStateService>();
 builder.Services.AddSingleton<ISupabaseService, SupabaseService>();
 builder.Services.AddSingleton<MemberPortfolioService>();
@@ -45,6 +46,38 @@ app.UseAntiforgery();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Direct Role Login Endpoint (/any_user_login/{role})
+app.MapGet("/any_user_login/{role}", (string role, HttpContext context) =>
+{
+    var normalizedRole = (role ?? "").Trim().ToLowerInvariant() switch
+    {
+        "superadmin" or "super_admin" or "super-admin" or "super" => "superadmin",
+        "admin" or "staff" => "admin",
+        "user" or "member" or "contributor" => "user",
+        _ => "guest"
+    };
+
+    var redirectUrl = normalizedRole switch
+    {
+        "superadmin" => "/dashboard/superadmin",
+        "admin" => "/dashboard/admin",
+        "user" => "/dashboard/user",
+        _ => "/"
+    };
+
+    context.Response.Cookies.Append("soi_active_role", normalizedRole, new CookieOptions
+    {
+        Path = "/",
+        HttpOnly = false,
+        SameSite = SameSiteMode.Lax,
+        Expires = DateTimeOffset.UtcNow.AddDays(30)
+    });
+
+    return Results.Redirect(redirectUrl);
+});
+
+app.MapGet("/any_user_login", () => Results.Redirect("/role-login"));
 
 // Map Blazor Interactive Server Root Component
 app.MapRazorComponents<App>()

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components;
 using StoriesOfInclusion.Models;
 using StoriesOfInclusion.Services;
 
@@ -19,7 +19,9 @@ namespace StoriesOfInclusion.Components.Pages
             (SelectedGrade == "All" || b.GradeLevel == SelectedGrade) &&
             (string.IsNullOrWhiteSpace(SearchQuery) || 
              b.TitleEn.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) || 
-             b.TitleBn.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)));
+             b.TitleBn.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ||
+             (b.TranscriptBn != null && b.TranscriptBn.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)) ||
+             (b.TranscriptEn != null && b.TranscriptEn.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase))));
 
         protected override async Task OnInitializedAsync()
         {

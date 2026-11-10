@@ -2,7 +2,7 @@
 @inject AppStateService AppState
 @inject NavigationManager Navigation
 
-<PageTitle>@AppState.T("registerHeroTitle") | Stories of Inclusion</PageTitle>
+<PageTitle>@(AppState.CurrentLanguage == "bn" ? "নিবন্ধন করুন | স্টোরিজ অফ ইনক্লুশন" : "Register | Stories of Inclusion")</PageTitle>
 
 <section class="section-pad auth-section">
   <div class="container auth-container">

@@ -109,18 +109,7 @@ namespace StoriesOfInclusion.Components.Layout
         {
             CloseAllMenus();
             AppState.Logout();
-            Navigation.NavigateTo("");
-        }
-
-        private async Task OpenRbacModal()
-        {
-            CloseMobileMenu();
-            AppState.OpenRbacModal();
-            try
-            {
-                await JSRuntime.InvokeVoidAsync("soiApp.openRbacModal");
-            }
-            catch {}
+            Navigation.NavigateTo("/any_user_login/visitor", forceLoad: true);
         }
 
         private string GetDashboardUrl()
@@ -131,17 +120,6 @@ namespace StoriesOfInclusion.Components.Layout
                 AppRole.Admin => "dashboard/admin",
                 AppRole.SuperAdmin => "dashboard/superadmin",
                 _ => ""
-            };
-        }
-
-        private string GetRoleStatusClass()
-        {
-            return AppState.CurrentRole switch
-            {
-                AppRole.SuperAdmin => "superadmin",
-                AppRole.Admin => "admin",
-                AppRole.User => "user",
-                _ => "guest"
             };
         }
 

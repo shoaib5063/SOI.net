@@ -12,8 +12,14 @@
         <li aria-current="page">@AppState.T("navActivities")</li>
       </ol>
     </nav>
-    <h1 id="page-title" class="page-hero-title">@AppState.T("activitiesHeroTitle")</h1>
-    <p class="page-hero-desc">@AppState.T("activitiesHeroDesc")</p>
+    <h1 id="page-title" class="page-hero-title">
+      @(AppState.CurrentLanguage == "bn" ? "আমাদের বহুমুখী কার্যক্রম ও উদ্যোগ" : "Our Activities & Initiatives")
+    </h1>
+    <p class="page-hero-desc">
+      @(AppState.CurrentLanguage == "bn"
+        ? "আমাদের অনলাইন প্রচারণা, বিদ্যালয়ভিত্তিক সচেতনতা সেশন, অডিওবুক তৈরি এবং নীতিনির্ধারণী কার্যক্রম সম্পর্কে জানুন।"
+        : "Explore our ongoing online campaigns, primary school outreach sessions, accessible audiobook production, and institutional advocacy programs across Bangladesh.")
+    </p>
 
     <!-- Quick Navigation Hub -->
     <div style="margin-top:24px; display:flex; flex-wrap:wrap; gap:12px;">

@@ -30,7 +30,12 @@ namespace StoriesOfInclusion.Components.Pages
         protected override async Task OnInitializedAsync()
         {
             AppState.OnChange += StateHasChanged;
-            FeaturedAudiobooks = await SupabaseService.GetAudiobooksAsync();
+            var books = await SupabaseService.GetAudiobooksAsync();
+            FeaturedAudiobooks = books
+                .GroupBy(b => b.GradeLevel)
+                .SelectMany(g => g.Take(2))
+                .Take(6)
+                .ToList();
         }
 
         private void PlayAudiobook(Audiobook book)

@@ -12,8 +12,14 @@
         <li aria-current="page">@AppState.T("navJoin")</li>
       </ol>
     </nav>
-    <h1 id="page-title" class="page-hero-title">@AppState.T("contactHeroTitle")</h1>
-    <p class="page-hero-desc">@AppState.T("contactHeroDesc")</p>
+    <h1 id="page-title" class="page-hero-title">
+      @(AppState.CurrentLanguage == "bn" ? "যোগাযোগ ও সম্পৃক্ত হোন" : "Contact Us & Join the Movement")
+    </h1>
+    <p class="page-hero-desc">
+      @(AppState.CurrentLanguage == "bn"
+        ? "স্বেচ্ছাসেবী হিসেবে যোগ দিতে, প্রাতিষ্ঠানিক অংশীদারিত্ব গড়তে বা যেকোনো তথ্যের জন্য স্টোরিজ অফ ইনক্লুশন টিমের সাথে যোগাযোগ করুন।"
+        : "Get in touch with the Stories of Inclusion team for volunteer opportunities, school partnerships, accessible curriculum collaboration, or general inquiries.")
+    </p>
   </div>
 </section>
 
@@ -23,21 +29,26 @@
       
       <!-- Contact Info Card -->
       <div class="contact-info-card">
-        <h2 style="font-size:1.6rem; color:var(--color-navy-dark); margin-bottom:20px;">@AppState.T("contactInfoTitle")</h2>
+        <h2 style="font-size:1.6rem; color:var(--color-navy-dark); margin-bottom:20px;">
+          @(AppState.CurrentLanguage == "bn" ? "সরাসরি যোগাযোগের ঠিকানা" : "Direct Contact Information")
+        </h2>
         
         <div style="margin-bottom:20px;">
           <strong style="display:block; color:var(--color-accent-teal); font-size:0.875rem;">Headquarters Address:</strong>
-          <p style="font-size:1.05rem;">@(AppState.CurrentLanguage == "bn" ? "ঢাকা, বাংলাদেশ" : "Dhaka, BD")</p>
+          <p style="font-size:1.05rem; margin-bottom:4px;">@AppState.T("contactAddressVal")</p>
+          <a href="https://www.google.com/maps/search/Demra,+Dhaka-1361" target="_blank" rel="noopener noreferrer" style="color:var(--color-accent-teal); font-size:0.85rem; font-weight:700; text-decoration:underline;">
+            @(AppState.CurrentLanguage == "bn" ? "গুগল ম্যাপে অবস্থান দেখুন ↗" : "View on Google Maps ↗")
+          </a>
         </div>
 
         <div style="margin-bottom:20px;">
           <strong style="display:block; color:var(--color-accent-teal); font-size:0.875rem;">Phone / WhatsApp:</strong>
-          <p style="font-size:1.05rem;">+880 1914-015054</p>
+          <p style="font-size:1.05rem;"><a href="tel:+8801914015054" style="color:inherit; text-decoration:none;">+880 1914-015054</a></p>
         </div>
 
         <div style="margin-bottom:24px;">
           <strong style="display:block; color:var(--color-accent-teal); font-size:0.875rem;">Email Address:</strong>
-          <p style="font-size:1.05rem;">storiesofinclusion.bd@gmail.com</p>
+          <p style="font-size:1.05rem;"><a href="mailto:storiesofinclusion.bd@gmail.com" style="color:inherit; text-decoration:none;">storiesofinclusion.bd@gmail.com</a></p>
         </div>
 
         <div style="border-top:1px solid var(--border-color); padding-top:20px;">

@@ -12,8 +12,14 @@
         <li aria-current="page">@AppState.T("navAbout")</li>
       </ol>
     </nav>
-    <h1 id="page-title" class="page-hero-title">@AppState.T("aboutHeroTitle")</h1>
-    <p class="page-hero-desc">@AppState.T("aboutHeroDesc")</p>
+    <h1 id="page-title" class="page-hero-title">
+      @(AppState.CurrentLanguage == "bn" ? "স্টোরিজ অফ ইনক্লুশন সম্পর্কে জানুন" : "About Stories of Inclusion")
+    </h1>
+    <p class="page-hero-desc">
+      @(AppState.CurrentLanguage == "bn"
+        ? "আমাদের প্রতিষ্ঠার গল্প, মূল আদর্শ এবং বাংলাদেশে শিক্ষায় বৈষম্য দূরীকরণে আমাদের অঙ্গীকার সম্পর্কে জানুন।"
+        : "Discover our origin story, core values, and relentless mission to eliminate educational disparities and build barrier-free classrooms across Bangladesh.")
+    </p>
   </div>
 </section>
 

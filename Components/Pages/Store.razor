@@ -17,8 +17,14 @@
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
       <span>@(AppState.CurrentLanguage == "bn" ? "সামাজিক উদ্যোগ • ১০০% অলাভজনক" : "Social Enterprise • 100% Non-Profit")</span>
     </div>
-    <h1 id="store-hero-title" class="page-hero-title">@AppState.T("storeHeroTitle")</h1>
-    <p class="page-hero-desc">@AppState.T("storeHeroDesc")</p>
+    <h1 id="store-hero-title" class="page-hero-title">
+      @(AppState.CurrentLanguage == "bn" ? "ইনক্লুসিভ এডুকেশন স্টোর" : "Stories of Inclusion Store")
+    </h1>
+    <p class="page-hero-desc">
+      @(AppState.CurrentLanguage == "bn"
+        ? "বই, স্পর্শমূলক শিক্ষণ কিট ও সচেতনতামূলক সামগ্রী। প্রতিটি ক্রয়ের ১০০% অর্থ সরাসরি ব্যয় হয় সুবিধাবঞ্চিত ও প্রতিবন্ধী শিশুদের বিনামূল্যে অডিওবুক ও শিক্ষণ সহায়তায়।"
+        : "Tactile books, sensory learning kits, and awareness merchandise. 100% of proceeds directly fund free audiobooks and school inclusion kits across Bangladesh.")
+    </p>
   </div>
 </section>
 

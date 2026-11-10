@@ -12,8 +12,14 @@
         <li aria-current="page">@AppState.T("navTeam")</li>
       </ol>
     </nav>
-    <h1 id="page-title" class="page-hero-title">@AppState.T("teamHeroTitle")</h1>
-    <p class="page-hero-desc">@AppState.T("teamHeroDesc")</p>
+    <h1 id="page-title" class="page-hero-title">
+      @(AppState.CurrentLanguage == "bn" ? "আমাদের নিবেদিত টিম ও সংগঠকবৃন্দ" : "Our Dedicated Team & Changemakers")
+    </h1>
+    <p class="page-hero-desc">
+      @(AppState.CurrentLanguage == "bn"
+        ? "প্রতিটি শিশুর জন্য অন্তর্ভুক্তিমূলক ও সমতাভিত্তিক শিক্ষা নিশ্চিতকরণে নিবেদিত আমাদের সহ-প্রতিষ্ঠাতা, সমন্বয়কারী এবং স্বেচ্ছাসেবকদের সাথে পরিচিত হোন।"
+        : "Meet the passionate co-founders, leads, coordinators, and volunteers dedicated to making education accessible and inclusive for every child.")
+    </p>
   </div>
 </section>
 

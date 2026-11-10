@@ -12,8 +12,14 @@
         <li aria-current="page">@AppState.T("navAwards")</li>
       </ol>
     </nav>
-    <h1 id="page-title" class="page-hero-title">@AppState.T("recognitionHeroTitle")</h1>
-    <p class="page-hero-desc">@AppState.T("recognitionHeroDesc")</p>
+    <h1 id="page-title" class="page-hero-title">
+      @(AppState.CurrentLanguage == "bn" ? "সম্মাননা ও জাতীয় স্বীকৃতি" : "Honors & National Recognition")
+    </h1>
+    <p class="page-hero-desc">
+      @(AppState.CurrentLanguage == "bn"
+        ? "বাংলাদেশে অন্তর্ভুক্তিমূলক শিক্ষায় বিশেষ অবদান ও পথিকৃৎ ভূমিকার জন্য স্টোরিজ অফ ইনক্লুশনের অর্জিত স্বীকৃতি ও মাইলফলক।"
+        : "Celebrating the national impact, milestones, and awards earned by Stories of Inclusion for pioneering accessible education in Bangladesh.")
+    </p>
   </div>
 </section>
 
